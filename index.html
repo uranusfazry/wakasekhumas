@@ -2,7 +2,7 @@
 <html lang="id" class="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Arsip Digital | WAKASEK HUMAS</title>
     
     <!-- Fonts -->
@@ -43,7 +43,7 @@
                             '100%': { opacity: '1' },
                         },
                         slideUp: {
-                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '0%': { opacity: '0', transform: 'translateY(24px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
                         },
                         blob: {
@@ -54,7 +54,7 @@
                         },
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-15px)' },
+                            '50%': { transform: 'translateY(-12px)' },
                         }
                     }
                 }
@@ -74,13 +74,22 @@
 
     <style>
         /* Enterprise Modern Styles */
-        body { background-color: #F8FAFC; color: #0F172A; }
+        body { background-color: #F8FAFC; color: #0F172A; overscroll-behavior: none; }
         
+        /* Layout Wrappers untuk SPA Scroll */
+        .app-view {
+            position: absolute;
+            inset: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
         .glass-panel {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
         }
 
         .enterprise-card {
@@ -107,27 +116,22 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        .hidden-view { display: none !important; }
+        .hidden-view { display: none !important; z-index: -10; opacity: 0; pointer-events: none; }
         
-        /* Safe area for mobile */
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 16px); }
+        /* Safe area constraints (Notch / Home Indicator support) */
         .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+        .pl-safe { padding-left: env(safe-area-inset-left, 0px); }
+        .pr-safe { padding-right: env(safe-area-inset-right, 0px); }
 
-        /* Smooth resizing constraints for mobile illustration */
-        @media (max-height: 750px) {
-            .mobile-illus-container { max-height: 22vh; margin-top: 0; margin-bottom: 0.5rem; transform: scale(0.9); }
-            .mobile-title { font-size: 28px !important; margin-bottom: 0.25rem !important; }
-            .mobile-desc { font-size: 14px !important; margin-bottom: 1rem !important; }
-        }
-        @media (max-height: 650px) {
-            .mobile-illus-container { display: none; } /* Hide on very small screens to fit text/buttons */
-        }
+        /* Button pressed state */
+        .btn-active:active { transform: scale(0.97); transition: transform 0.1s; }
     </style>
 </head>
-<body class="antialiased h-screen overflow-hidden font-sans flex flex-col relative selection:bg-primary selection:text-white">
+<body class="antialiased h-[100dvh] w-full overflow-hidden font-sans selection:bg-primary selection:text-white relative bg-[#F8FAFC]">
 
     <!-- ==================== BACKGROUND ELEMENTS ==================== -->
-    <div id="global-bg" class="fixed inset-0 z-[-1] bg-[#F8FAFC] overflow-hidden hidden-view transition-opacity duration-1000">
+    <div id="global-bg" class="absolute inset-0 z-0 bg-[#F8FAFC] overflow-hidden transition-opacity duration-1000 pointer-events-none">
         <!-- Elegant Grid Pattern -->
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]"></div>
         
@@ -138,19 +142,18 @@
     </div>
 
     <!-- ==================== 1. LANDING PAGE VIEW ==================== -->
-    <!-- Structure: Navbar -> Main Content (Flex/Grid) -> Footer. Min height strictly 100dvh for mobile. -->
-    <div id="view-landing" class="min-h-[100dvh] h-[100dvh] w-full flex flex-col relative hidden-view z-10 animate-fade-in overflow-hidden pt-safe pb-safe">
+    <div id="view-landing" class="app-view flex flex-col z-10 animate-fade-in pl-safe pr-safe pt-safe">
         
         <!-- Enterprise Navbar -->
-        <nav class="w-full h-16 md:h-20 flex-none flex items-center justify-between px-5 md:px-8 lg:px-12 backdrop-blur-2xl bg-white/40 border-b border-white/60 z-50">
+        <nav class="sticky top-0 z-50 w-full h-[64px] lg:h-[72px] flex-none flex items-center justify-between px-5 md:px-8 lg:px-12 backdrop-blur-2xl bg-white/60 border-b border-white shadow-sm transition-all">
             <!-- Left: Logo -->
-            <div class="flex items-center gap-3 md:gap-4">
-                <div class="w-9 h-9 md:w-11 md:h-11 rounded-xl md:rounded-2xl bg-gradient-to-br from-primary to-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20 text-sm md:text-base transition-transform hover:scale-105">
+            <div class="flex items-center gap-3">
+                <div class="w-[48px] h-[48px] rounded-xl lg:rounded-2xl bg-gradient-to-br from-primary to-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20 text-lg transition-transform hover:scale-105">
                     <i class="fa-solid fa-layer-group"></i>
                 </div>
                 <div class="flex flex-col justify-center">
-                    <span class="font-display font-extrabold text-sm md:text-base lg:text-lg text-slate-900 leading-none tracking-tight">WAKASEK HUMAS</span>
-                    <span class="text-[10px] md:text-xs text-slate-500 font-semibold tracking-wide mt-0.5 md:mt-1 uppercase">Arsip Digital</span>
+                    <span class="font-display font-extrabold text-[18px] text-slate-900 leading-none tracking-tight">WAKASEK HUMAS</span>
+                    <span class="text-[13px] text-slate-500 font-semibold tracking-wide mt-0.5 uppercase">Arsip Digital</span>
                 </div>
             </div>
             
@@ -158,43 +161,39 @@
             <div class="flex items-center gap-6 lg:gap-10 text-sm font-semibold text-slate-600">
                 <a href="#" class="hidden lg:block hover:text-primary transition-colors">Tentang</a>
                 <a href="#" class="hidden lg:block hover:text-primary transition-colors">Dokumentasi</a>
-                <button onclick="app.router.navigate('login')" class="px-4 py-2 md:px-5 md:py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg md:rounded-xl transition-all shadow-md hover:shadow-xl text-xs md:text-sm font-medium flex items-center gap-2">
-                    <i class="fa-solid fa-arrow-right-to-bracket hidden sm:inline-block"></i> Login
+                <button onclick="app.router.navigate('login')" class="h-10 px-4 md:px-5 bg-slate-900 hover:bg-slate-800 text-white rounded-lg lg:rounded-xl transition-all shadow-md hover:shadow-xl text-xs md:text-sm font-semibold flex items-center justify-center gap-2 btn-active">
+                    Login
                 </button>
             </div>
         </nav>
 
         <!-- Main Content Area -->
-        <!-- Mobile: Column, Desktop: Grid 2 columns -->
-        <main class="flex-1 w-full max-w-[1280px] mx-auto flex flex-col lg:flex-row items-center justify-center lg:justify-between px-5 md:px-8 lg:px-12 gap-5 md:gap-8 lg:gap-12 relative z-10 overflow-hidden">
+        <main class="flex-1 w-full max-w-[1280px] mx-auto flex flex-col lg:flex-row items-center justify-start lg:justify-between px-5 md:px-8 lg:px-12 py-8 lg:py-16 gap-6 lg:gap-12 relative z-10">
             
-            <!-- 1. ILLUSTRATION (Mobile Version - Shows above text, hidden on Desktop) -->
-            <!-- Wrapped in a scaling container to prevent pushing content down on short screens -->
-            <div class="lg:hidden w-full max-w-[260px] mx-auto mt-4 mb-2 flex-none mobile-illus-container flex items-center justify-center">
+            <!-- 1. ILLUSTRATION (Mobile Version) -->
+            <div class="lg:hidden w-full max-w-[220px] mx-auto flex-none flex items-center justify-center relative">
                 <div class="relative w-full aspect-square animate-float flex items-center justify-center">
-                    <div class="absolute inset-0 bg-blue-500/10 blur-[40px] rounded-full"></div>
-                    <!-- Mock Glass Folder -->
+                    <div class="absolute inset-0 bg-blue-500/15 blur-[35px] rounded-full"></div>
                     <div class="w-[85%] h-[75%] glass-panel rounded-2xl border border-white p-3 flex flex-col shadow-xl">
                         <div class="flex gap-1.5 pb-2 border-b border-slate-200/50">
                             <div class="w-2 h-2 rounded-full bg-red-400"></div><div class="w-2 h-2 rounded-full bg-amber-400"></div><div class="w-2 h-2 rounded-full bg-emerald-400"></div>
                         </div>
                         <div class="flex-1 flex items-center justify-center">
-                            <i class="fa-solid fa-folder-open text-blue-500 text-5xl opacity-80"></i>
+                            <i class="fa-solid fa-folder-open text-blue-500 text-5xl opacity-80 drop-shadow-md"></i>
                         </div>
                     </div>
-                    <!-- Shield Badge -->
                     <div class="absolute -right-2 top-4 w-12 h-12 bg-white/90 backdrop-blur-md rounded-xl border border-white shadow-lg flex items-center justify-center animate-float-delayed">
                         <i class="fa-solid fa-shield-check text-emerald-500 text-xl"></i>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. TEXT SECTION (Left on Desktop, Bottom on Mobile) -->
+            <!-- 2. TEXT SECTION -->
             <div class="w-full lg:max-w-[520px] flex flex-col items-center lg:items-start text-center lg:text-left flex-none animate-slide-up">
                 
                 <!-- Badge -->
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-white/60 backdrop-blur-md border border-blue-100 shadow-sm text-blue-700 text-[11px] md:text-sm font-bold tracking-wide mb-4 lg:mb-8">
-                    <span class="relative flex h-2 w-2 md:h-2.5 md:w-2.5">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-md border border-blue-100 shadow-sm text-blue-700 text-xs md:text-sm font-bold tracking-wide mb-4 lg:mb-6">
+                    <span class="relative flex h-2 w-2">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-full w-full bg-blue-500"></span>
                     </span>
@@ -202,45 +201,42 @@
                 </div>
 
                 <!-- Title -->
-                <h1 class="mobile-title text-[36px] lg:text-[56px] font-display font-extrabold text-slate-900 leading-[1.1] tracking-tight mb-2 lg:mb-4">
+                <h1 class="text-[34px] lg:text-[56px] font-display font-extrabold text-slate-900 leading-[1.2] lg:leading-[1.1] tracking-tight mb-2 lg:mb-4">
                     Pusat Arsip <br class="hidden lg:block">
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-indigo-500">Digital Modern</span>
                 </h1>
                 
                 <!-- Subtitle -->
-                <h2 class="text-[20px] lg:text-[24px] font-display font-semibold text-slate-700 mb-2 lg:mb-5">
+                <h2 class="text-[20px] lg:text-[24px] font-display font-semibold text-slate-700 mb-3 lg:mb-5">
                     Bu Hamimah, S.Pd., M.Pd.
                 </h2>
                 
                 <!-- Description -->
-                <p class="mobile-desc text-[16px] lg:text-[18px] text-slate-500 font-medium leading-relaxed mb-6 lg:mb-10 max-w-[480px]">
+                <p class="text-[16px] text-slate-500 font-medium leading-[1.6] mb-8 lg:mb-10 max-w-[480px]">
                     Sistem pengelolaan arsip digital untuk memudahkan penyimpanan, pencarian, serta distribusi dokumen sekolah secara cepat, aman, dan terstruktur.
                 </p>
 
                 <!-- Buttons -->
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start w-full sm:w-auto gap-3 lg:gap-4 w-full">
-                    <button onclick="app.router.navigate('login')" class="w-full sm:w-auto px-6 lg:px-8 py-3.5 lg:py-4 bg-gradient-to-r from-primary to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-xl lg:rounded-2xl font-semibold transition-all shadow-[0_8px_20px_-6px_rgba(37,99,235,0.5)] hover:shadow-[0_12px_25px_-6px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 flex items-center justify-center gap-3 text-[15px] lg:text-base">
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start w-full sm:w-auto gap-4 w-full px-1 lg:px-0">
+                    <button onclick="app.router.navigate('login')" class="w-full sm:w-auto h-[56px] px-8 bg-gradient-to-r from-primary to-blue-600 text-white rounded-[18px] font-semibold transition-all shadow-[0_8px_20px_-6px_rgba(37,99,235,0.4)] hover:shadow-[0_12px_25px_-6px_rgba(37,99,235,0.6)] flex items-center justify-center gap-3 text-[15px] btn-active">
                         <i class="fa-solid fa-shield-halved text-blue-200 text-lg"></i>
                         Login Admin
                     </button>
-                    <button onclick="app.router.navigate('publik')" class="w-full sm:w-auto px-6 lg:px-8 py-3.5 lg:py-4 bg-white/60 backdrop-blur-md hover:bg-white text-slate-700 border border-slate-200/80 hover:border-slate-300 rounded-xl lg:rounded-2xl font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 flex items-center justify-center gap-3 text-[15px] lg:text-base">
+                    <button onclick="app.router.navigate('publik')" class="w-full sm:w-auto h-[56px] px-8 bg-white/70 backdrop-blur-md text-slate-700 border border-slate-200 hover:bg-white hover:border-slate-300 rounded-[18px] font-semibold transition-all shadow-sm hover:shadow-md flex items-center justify-center gap-3 text-[15px] btn-active">
                         <i class="fa-solid fa-users-viewfinder text-slate-400 text-lg"></i>
-                        Masuk Sebagai Publik
+                        Masuk Publik
                     </button>
                 </div>
             </div>
 
-            <!-- 3. ILLUSTRATION (Desktop Version - Right side) -->
-            <div class="hidden lg:flex w-full max-w-[520px] items-center justify-center relative flex-none">
+            <!-- 3. ILLUSTRATION (Desktop Version) -->
+            <div class="hidden lg:flex w-full max-w-[480px] items-center justify-center relative flex-none">
                 <div class="relative w-full aspect-square flex items-center justify-center">
-                    
                     <!-- Glow Base -->
                     <div class="absolute inset-0 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 blur-[80px] rounded-full mix-blend-multiply"></div>
                     
                     <!-- Main Dashboard Glass Window -->
                     <div class="relative w-[85%] h-[75%] glass-panel rounded-3xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] p-5 flex flex-col gap-4 transform -rotate-2 hover:rotate-0 transition-transform duration-700 ease-out animate-float">
-                        
-                        <!-- Window Header -->
                         <div class="w-full flex items-center justify-between pb-3 border-b border-slate-200/50">
                             <div class="flex gap-2">
                                 <div class="w-3 h-3 rounded-full bg-red-400 shadow-sm"></div>
@@ -250,66 +246,66 @@
                             <div class="w-24 h-2 rounded-full bg-slate-200/60"></div>
                         </div>
                         
-                        <!-- Mock Files -->
-                        <div class="flex gap-4 items-center bg-white/40 p-3 rounded-xl border border-white/50">
-                            <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-500 text-xl shadow-sm"><i class="fa-solid fa-folder"></i></div>
+                        <div class="flex gap-4 items-center bg-white/50 p-3 rounded-xl border border-white shadow-sm">
+                            <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-500 text-xl"><i class="fa-solid fa-folder"></i></div>
                             <div class="flex-1 space-y-2.5">
-                                <div class="h-2.5 bg-slate-400/30 rounded w-3/4"></div>
-                                <div class="h-2 bg-slate-300/30 rounded w-1/2"></div>
+                                <div class="h-2.5 bg-slate-400/40 rounded w-3/4"></div>
+                                <div class="h-2 bg-slate-300/40 rounded w-1/2"></div>
                             </div>
                         </div>
-                        <div class="flex gap-4 items-center bg-white/40 p-3 rounded-xl border border-white/50">
-                            <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-500 text-xl shadow-sm"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div class="flex gap-4 items-center bg-white/50 p-3 rounded-xl border border-white shadow-sm">
+                            <div class="w-12 h-12 rounded-xl bg-red-100 flex items-center justify-center text-red-500 text-xl"><i class="fa-solid fa-file-pdf"></i></div>
                             <div class="flex-1 space-y-2.5">
-                                <div class="h-2.5 bg-slate-400/30 rounded w-full"></div>
-                                <div class="h-2 bg-slate-300/30 rounded w-2/3"></div>
+                                <div class="h-2.5 bg-slate-400/40 rounded w-full"></div>
+                                <div class="h-2 bg-slate-300/40 rounded w-2/3"></div>
                             </div>
                         </div>
-                        <div class="flex gap-4 items-center bg-white/40 p-3 rounded-xl border border-white/50 opacity-60">
-                            <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-500 text-xl shadow-sm"><i class="fa-solid fa-file-excel"></i></div>
+                        <div class="flex gap-4 items-center bg-white/50 p-3 rounded-xl border border-white shadow-sm opacity-70">
+                            <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-500 text-xl"><i class="fa-solid fa-file-excel"></i></div>
                             <div class="flex-1 space-y-2.5">
-                                <div class="h-2.5 bg-slate-400/30 rounded w-5/6"></div>
-                                <div class="h-2 bg-slate-300/30 rounded w-1/3"></div>
+                                <div class="h-2.5 bg-slate-400/40 rounded w-5/6"></div>
+                                <div class="h-2 bg-slate-300/40 rounded w-1/3"></div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Floating Elements (3D Effect) -->
                     <!-- Security Shield -->
-                    <div class="absolute -right-6 top-1/4 w-24 h-24 bg-white/90 backdrop-blur-xl rounded-2xl border border-white shadow-[0_15px_35px_-5px_rgba(0,0,0,0.15)] flex items-center justify-center transform rotate-6 animate-float-delayed">
-                        <div class="w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-400 to-emerald-500 flex items-center justify-center text-white shadow-inner text-2xl">
+                    <div class="absolute -right-4 top-1/4 w-20 h-20 bg-white/90 backdrop-blur-xl rounded-2xl border border-white shadow-[0_15px_35px_-5px_rgba(0,0,0,0.12)] flex items-center justify-center transform rotate-6 animate-float-delayed">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-400 to-emerald-500 flex items-center justify-center text-white shadow-inner text-xl">
                             <i class="fa-solid fa-shield-check"></i>
                         </div>
                     </div>
 
                     <!-- Cloud Sync -->
-                    <div class="absolute -left-8 bottom-1/4 w-24 h-24 bg-white/90 backdrop-blur-xl rounded-2xl border border-white shadow-[0_15px_35px_-5px_rgba(0,0,0,0.15)] flex flex-col items-center justify-center transform -rotate-6 animate-float-slow">
-                        <i class="fa-solid fa-cloud-arrow-up text-blue-500 text-4xl mb-2 drop-shadow-sm"></i>
-                        <div class="h-1.5 w-10 bg-blue-100 rounded-full"></div>
+                    <div class="absolute -left-6 bottom-1/4 w-20 h-20 bg-white/90 backdrop-blur-xl rounded-2xl border border-white shadow-[0_15px_35px_-5px_rgba(0,0,0,0.12)] flex flex-col items-center justify-center transform -rotate-6 animate-float-slow">
+                        <i class="fa-solid fa-cloud-arrow-up text-blue-500 text-3xl mb-1.5 drop-shadow-sm"></i>
+                        <div class="h-1.5 w-8 bg-blue-100 rounded-full"></div>
                     </div>
-
                 </div>
             </div>
-
         </main>
 
         <!-- Enterprise Footer -->
-        <footer class="flex-none w-full text-center py-4 lg:py-6 text-[11px] lg:text-xs text-slate-400 font-semibold tracking-wide relative z-10 bg-white/10 backdrop-blur-sm border-t border-slate-200/50 mt-auto">
-            © 2026 WAKASEK HUMAS • POWERED BY VERCEL + GOOGLE APPS SCRIPT
+        <footer class="flex-none w-full text-center py-6 mt-[40px] opacity-70 font-medium px-5 pb-safe">
+            <p class="text-[11px] lg:text-xs text-slate-500 tracking-wide leading-relaxed">
+                © 2026 WAKASEK HUMAS <br class="md:hidden">
+                <span class="hidden md:inline"> • </span>
+                Developed by <span class="text-slate-700 font-semibold">Fazry Irawan</span> - Alumni SMAN 1 Sangkapura
+            </p>
         </footer>
     </div>
 
     <!-- ==================== 2. LOGIN ADMIN VIEW ==================== -->
-    <div id="view-login" class="h-full flex items-center justify-center relative hidden-view z-10 w-full animate-fade-in px-4">
+    <div id="view-login" class="app-view flex items-center justify-center z-10 w-full animate-fade-in px-5 pb-safe pt-safe hidden-view">
         
         <!-- Back Button -->
-        <button onclick="app.router.navigate('landing')" class="absolute top-8 left-8 text-slate-500 hover:text-slate-800 transition flex items-center gap-2 bg-white/50 backdrop-blur-md px-4 py-2 rounded-lg border border-slate-200 shadow-sm font-medium text-sm">
+        <button onclick="app.router.navigate('landing')" class="absolute top-6 left-6 lg:top-8 lg:left-8 text-slate-500 hover:text-slate-800 transition flex items-center gap-2 bg-white/60 backdrop-blur-md px-4 py-2.5 rounded-[12px] border border-white shadow-sm font-semibold text-sm btn-active z-50">
             <i class="fa-solid fa-arrow-left"></i> Kembali
         </button>
 
-        <div class="enterprise-card w-full max-w-[400px] p-8 sm:p-10 relative z-10 mx-4 animate-slide-up glass-panel">
+        <div class="enterprise-card w-full max-w-[400px] p-8 sm:p-10 relative z-10 mx-auto animate-slide-up glass-panel mt-16 md:mt-0">
             <div class="text-center mb-8">
-                <div class="w-14 h-14 bg-slate-900 text-white rounded-xl flex items-center justify-center text-2xl shadow-md mx-auto mb-5">
+                <div class="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center text-2xl shadow-md mx-auto mb-5">
                     <i class="fa-solid fa-lock"></i>
                 </div>
                 <h2 class="font-display font-bold text-2xl text-slate-900 tracking-tight">Akses Admin</h2>
@@ -319,18 +315,18 @@
             <form id="login-form" onsubmit="app.auth.handleLogin(event)">
                 <div class="space-y-5">
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1.5">Username</label>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Username</label>
                         <div class="relative">
-                            <i class="fa-solid fa-user absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-                            <input type="text" id="login-username" required class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition bg-white/70 text-sm text-slate-800 font-medium">
+                            <i class="fa-solid fa-user absolute left-4 top-3.5 text-slate-400 text-sm"></i>
+                            <input type="text" id="login-username" required class="w-full pl-11 pr-4 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition bg-white/70 text-sm text-slate-800 font-semibold shadow-sm">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-1.5">Password</label>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Password</label>
                         <div class="relative">
-                            <i class="fa-solid fa-key absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-                            <input type="password" id="login-password" required class="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition bg-white/70 text-sm text-slate-800 font-medium">
-                            <button type="button" onclick="app.auth.togglePassword()" class="absolute right-3.5 top-3 text-slate-400 hover:text-slate-600 transition">
+                            <i class="fa-solid fa-key absolute left-4 top-3.5 text-slate-400 text-sm"></i>
+                            <input type="password" id="login-password" required class="w-full pl-11 pr-11 py-3 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition bg-white/70 text-sm text-slate-800 font-semibold shadow-sm">
+                            <button type="button" onclick="app.auth.togglePassword()" class="absolute right-4 top-3.5 text-slate-400 hover:text-slate-600 transition">
                                 <i class="fa-solid fa-eye" id="eye-icon"></i>
                             </button>
                         </div>
@@ -338,12 +334,12 @@
                     <div class="flex items-center justify-between mt-2">
                         <label class="flex items-center gap-2 cursor-pointer group">
                             <input type="checkbox" id="login-remember" class="rounded text-primary focus:ring-primary border-slate-300 h-4 w-4">
-                            <span class="text-sm text-slate-600 group-hover:text-slate-800 transition font-medium">Ingat saya</span>
+                            <span class="text-sm text-slate-600 group-hover:text-slate-800 transition font-semibold">Ingat saya</span>
                         </label>
                     </div>
                     
-                    <button type="submit" id="btn-login" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl transition shadow-md flex justify-center items-center gap-2 mt-6">
-                        <span>Masuk ke Dashboard</span>
+                    <button type="submit" id="btn-login" class="w-full h-[56px] bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-[18px] transition-all shadow-md flex justify-center items-center gap-2 mt-8 btn-active text-[15px]">
+                        <span>Masuk Dashboard</span>
                     </button>
                 </div>
             </form>
@@ -351,25 +347,25 @@
     </div>
 
     <!-- ==================== 3. PUBLIC VIEWER ==================== -->
-    <div id="view-public" class="h-full flex flex-col bg-slate-50 w-full animate-fade-in hidden-view">
+    <div id="view-public" class="app-view flex flex-col bg-slate-50 w-full animate-fade-in hidden-view pb-safe pt-safe pl-safe pr-safe">
         
         <!-- Public Navbar -->
-        <nav class="bg-white border-b border-slate-200 sticky top-0 z-40 px-6 py-3 flex justify-between items-center shadow-sm">
-            <div class="flex items-center gap-4 cursor-pointer" onclick="app.router.navigate('landing')">
-                <div class="w-9 h-9 bg-primary text-white rounded-lg flex items-center justify-center text-lg shadow-sm">
+        <nav class="bg-white border-b border-slate-200 sticky top-0 z-40 px-5 lg:px-8 py-3 lg:py-4 flex justify-between items-center shadow-sm">
+            <div class="flex items-center gap-3 cursor-pointer btn-active" onclick="app.router.navigate('landing')">
+                <div class="w-10 h-10 bg-primary text-white rounded-xl flex items-center justify-center text-lg shadow-sm">
                     <i class="fa-solid fa-folder-open"></i>
                 </div>
                 <div>
-                    <h1 class="font-display font-bold text-base leading-tight text-slate-800">Arsip Digital Publik</h1>
-                    <p class="text-[11px] text-slate-500 font-medium uppercase tracking-wider">WAKASEK HUMAS</p>
+                    <h1 class="font-display font-bold text-sm lg:text-base leading-none text-slate-800">Arsip Publik</h1>
+                    <p class="text-[10px] lg:text-[11px] text-slate-500 font-bold uppercase tracking-wider mt-1">WAKASEK HUMAS</p>
                 </div>
             </div>
             <div class="flex items-center gap-4">
-                <div class="relative hidden sm:block w-72">
+                <div class="relative hidden md:block w-72">
                     <i class="fa-solid fa-search absolute left-3 top-2.5 text-slate-400 text-sm"></i>
-                    <input type="text" id="public-search" placeholder="Cari dokumen..." class="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white text-sm transition-all font-medium">
+                    <input type="text" id="public-search" placeholder="Cari dokumen..." class="w-full pl-9 pr-4 py-2 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary focus:bg-white text-sm transition-all font-semibold">
                 </div>
-                <button onclick="app.router.navigate('login')" class="text-sm font-medium text-slate-600 hover:text-primary transition flex items-center gap-2 border border-slate-200 px-4 py-2 rounded-lg hover:bg-slate-50">
+                <button onclick="app.router.navigate('login')" class="text-sm font-bold text-slate-600 hover:text-primary transition flex items-center gap-2 border border-slate-200 px-4 py-2.5 rounded-xl hover:bg-slate-50 shadow-sm btn-active bg-white">
                     Admin <i class="fa-solid fa-arrow-right text-xs"></i>
                 </button>
             </div>
@@ -378,180 +374,185 @@
         <div class="flex-1 flex overflow-hidden">
             <!-- Sidebar Folders (Public) -->
             <aside class="w-64 bg-white border-r border-slate-200 overflow-y-auto hidden md:flex flex-col">
-                <div class="p-4 border-b border-slate-100 bg-slate-50/50">
+                <div class="p-5 border-b border-slate-100 bg-slate-50/50">
                     <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Navigasi Direktori</h3>
                 </div>
                 <div class="p-3">
-                    <ul id="public-folder-tree" class="space-y-1 text-sm font-medium">
+                    <ul id="public-folder-tree" class="space-y-1 text-sm font-semibold">
                         <!-- Rendered via JS -->
                     </ul>
                 </div>
             </aside>
             
             <!-- File Grid (Public) -->
-            <main class="flex-1 p-6 overflow-y-auto relative bg-slate-50/50">
+            <main class="flex-1 p-5 md:p-8 overflow-y-auto relative bg-slate-50/50">
                 <!-- Toolbar -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 pb-4 border-b border-slate-200">
-                    <div>
-                        <div class="text-xs font-medium text-slate-400 mb-1">Direktori Saat Ini</div>
-                        <h2 class="text-2xl font-display font-semibold text-slate-800 flex items-center gap-3" id="public-current-folder-title">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 lg:mb-8 pb-4 lg:pb-6 border-b border-slate-200">
+                    <div class="w-full md:w-auto">
+                        <div class="text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Direktori Saat Ini</div>
+                        <h2 class="text-xl lg:text-2xl font-display font-bold text-slate-800 flex items-center gap-3 truncate w-full" id="public-current-folder-title">
                             <i class="fa-solid fa-folder text-amber-400"></i> / Root
                         </h2>
                     </div>
-                    <div class="flex gap-3 w-full sm:w-auto">
-                        <select id="public-sort" class="flex-1 sm:flex-none text-sm border border-slate-200 rounded-lg px-3 py-2 bg-white text-slate-700 outline-none hover:border-slate-300 shadow-sm font-medium" onchange="app.public.renderFiles()">
+                    <div class="flex flex-row gap-3 w-full sm:w-auto mt-2 sm:mt-0">
+                        <select id="public-sort" class="flex-1 sm:flex-none text-sm border border-slate-200 rounded-xl px-4 py-2.5 bg-white text-slate-700 outline-none hover:border-slate-300 shadow-sm font-semibold" onchange="app.public.renderFiles()">
                             <option value="date-desc">Terbaru</option>
                             <option value="date-asc">Terlama</option>
-                            <option value="name-asc">Nama (A-Z)</option>
+                            <option value="name-asc">A-Z</option>
                         </select>
-                        <button onclick="app.utils.downloadAllAsZip()" class="flex-1 sm:flex-none bg-slate-900 hover:bg-slate-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition shadow-sm flex items-center justify-center gap-2">
+                        <button onclick="app.utils.downloadAllAsZip()" class="flex-1 sm:flex-none bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition shadow-md flex items-center justify-center gap-2 btn-active">
                             <i class="fa-solid fa-file-zipper text-slate-300"></i> Unduh ZIP
                         </button>
                     </div>
                 </div>
 
                 <!-- Grid -->
-                <div id="public-file-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <div id="public-file-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6">
                     <!-- Files Rendered Here -->
                 </div>
                 
                 <!-- Empty State -->
                 <div id="public-empty-state" class="hidden flex flex-col items-center justify-center h-64 text-slate-400 mt-10">
-                    <div class="w-20 h-20 bg-slate-100 rounded-full flex justify-center items-center mb-4">
+                    <div class="w-20 h-20 bg-slate-100 rounded-2xl flex justify-center items-center mb-5 shadow-inner">
                         <i class="fa-regular fa-folder-open text-3xl text-slate-300"></i>
                     </div>
-                    <p class="font-semibold text-slate-500">Direktori ini kosong.</p>
-                    <p class="text-sm mt-1">Tidak ada dokumen yang ditemukan.</p>
+                    <p class="font-bold text-slate-500 text-lg">Direktori ini kosong.</p>
+                    <p class="text-sm mt-1.5 font-medium">Tidak ada dokumen yang ditemukan.</p>
                 </div>
             </main>
         </div>
     </div>
 
     <!-- ==================== 4. ADMIN DASHBOARD VIEW ==================== -->
-    <div id="view-admin" class="h-full flex bg-slate-50 w-full animate-fade-in hidden-view">
+    <div id="view-admin" class="app-view flex bg-slate-50 w-full animate-fade-in hidden-view pb-safe pt-safe pl-safe pr-safe">
         
-        <!-- Admin Sidebar (Shadcn Style) -->
-        <aside class="w-64 bg-white border-r border-slate-200 flex flex-col z-20">
-            <div class="h-16 border-b border-slate-200 flex items-center px-6 gap-3 cursor-pointer" onclick="app.router.navigate('landing')">
-                <div class="w-8 h-8 bg-slate-900 text-white rounded-lg flex items-center justify-center shadow-sm">
+        <!-- Admin Sidebar -->
+        <aside class="w-64 bg-white border-r border-slate-200 flex-none flex-col z-20 hidden md:flex h-full sticky top-0 overflow-hidden">
+            <div class="h-[72px] border-b border-slate-200 flex items-center px-6 gap-3 cursor-pointer btn-active" onclick="app.router.navigate('landing')">
+                <div class="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center shadow-sm">
                     <i class="fa-solid fa-shield text-sm"></i>
                 </div>
                 <div>
                     <h2 class="font-display font-bold text-sm leading-tight text-slate-800">Workspace</h2>
-                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Admin Panel</p>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">Admin Panel</p>
                 </div>
             </div>
             
-            <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
-                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 mt-2">Menu Utama</div>
+            <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3 px-3">Menu Utama</div>
                 
-                <a href="javascript:void(0)" onclick="app.admin.setTab('dashboard')" class="admin-nav-item active group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition" data-tab="dashboard">
-                    <div class="flex items-center gap-3"><i class="fa-solid fa-chart-pie w-4 text-slate-400 group-[.active]:text-primary"></i> Dashboard</div>
+                <a href="javascript:void(0)" onclick="app.admin.setTab('dashboard')" class="admin-nav-item active group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all" data-tab="dashboard">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-chart-pie w-5 text-center text-slate-400 group-[.active]:text-primary transition-colors"></i> Dashboard</div>
                 </a>
-                <a href="javascript:void(0)" onclick="app.admin.setTab('files')" class="admin-nav-item group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition text-slate-600 hover:bg-slate-50" data-tab="files">
-                    <div class="flex items-center gap-3"><i class="fa-solid fa-folder-tree w-4 text-slate-400 group-[.active]:text-primary"></i> File Manager</div>
+                <a href="javascript:void(0)" onclick="app.admin.setTab('files')" class="admin-nav-item group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all text-slate-600 hover:bg-slate-50" data-tab="files">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-folder-tree w-5 text-center text-slate-400 group-[.active]:text-primary transition-colors"></i> File Manager</div>
                 </a>
-                <a href="javascript:void(0)" onclick="app.admin.setTab('upload')" class="admin-nav-item group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition text-slate-600 hover:bg-slate-50" data-tab="upload">
-                    <div class="flex items-center gap-3"><i class="fa-solid fa-cloud-arrow-up w-4 text-slate-400 group-[.active]:text-primary"></i> Upload Arsip</div>
+                <a href="javascript:void(0)" onclick="app.admin.setTab('upload')" class="admin-nav-item group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all text-slate-600 hover:bg-slate-50" data-tab="upload">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-cloud-arrow-up w-5 text-center text-slate-400 group-[.active]:text-primary transition-colors"></i> Upload Arsip</div>
                 </a>
                 
-                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2 px-3 mt-6">Sistem</div>
+                <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3 px-3 mt-8">Sistem</div>
                 
-                <a href="javascript:void(0)" onclick="app.admin.setTab('history')" class="admin-nav-item group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition text-slate-600 hover:bg-slate-50" data-tab="history">
-                    <div class="flex items-center gap-3"><i class="fa-solid fa-clock-rotate-left w-4 text-slate-400 group-[.active]:text-primary"></i> Riwayat</div>
+                <a href="javascript:void(0)" onclick="app.admin.setTab('history')" class="admin-nav-item group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all text-slate-600 hover:bg-slate-50" data-tab="history">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-clock-rotate-left w-5 text-center text-slate-400 group-[.active]:text-primary transition-colors"></i> Riwayat</div>
                 </a>
-                <a href="javascript:void(0)" onclick="app.admin.setTab('backup')" class="admin-nav-item group flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-semibold transition text-slate-600 hover:bg-slate-50" data-tab="backup">
-                    <div class="flex items-center gap-3"><i class="fa-solid fa-server w-4 text-slate-400 group-[.active]:text-primary"></i> Backup & Data</div>
+                <a href="javascript:void(0)" onclick="app.admin.setTab('backup')" class="admin-nav-item group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all text-slate-600 hover:bg-slate-50" data-tab="backup">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-server w-5 text-center text-slate-400 group-[.active]:text-primary transition-colors"></i> Backup & Data</div>
                 </a>
             </nav>
             
-            <div class="p-4 border-t border-slate-200 bg-slate-50/50">
-                <div class="flex items-center gap-3 mb-4 px-2">
-                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold text-sm">H</div>
+            <div class="p-5 border-t border-slate-200 bg-slate-50/50">
+                <div class="flex items-center gap-3 mb-5 px-1">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-primary font-bold shadow-sm">H</div>
                     <div class="flex-1 overflow-hidden">
-                        <p class="text-sm font-bold text-slate-700 truncate">Bu Hamimah</p>
-                        <p class="text-xs text-slate-500 font-medium truncate">Administrator</p>
+                        <p class="text-sm font-bold text-slate-700 truncate leading-tight">Bu Hamimah</p>
+                        <p class="text-[11px] text-slate-500 font-semibold truncate mt-0.5">Administrator</p>
                     </div>
                 </div>
-                <button onclick="app.auth.logout()" class="w-full flex items-center justify-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-600 hover:bg-slate-100 hover:text-red-600 transition shadow-sm">
+                <button onclick="app.auth.logout()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 hover:text-red-600 transition shadow-sm btn-active">
                     <i class="fa-solid fa-right-from-bracket w-4"></i> Logout
                 </button>
             </div>
         </aside>
 
         <!-- Admin Main Content -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden relative bg-[#F8FAFC]">
+        <main class="flex-1 flex flex-col min-h-[100dvh] overflow-x-hidden relative bg-[#F8FAFC]">
             
             <!-- Admin Topbar -->
-            <header class="h-16 px-8 flex items-center justify-between z-10 bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0">
-                <h2 id="admin-page-title" class="font-display font-bold text-lg text-slate-800">Dashboard Overview</h2>
+            <header class="h-[64px] lg:h-[72px] px-5 lg:px-8 flex items-center justify-between z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0">
                 <div class="flex items-center gap-3">
-                    <button class="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition relative">
+                    <button class="md:hidden w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-600 btn-active" onclick="Toastify({text:'Menu mobile akan diimplementasikan', backgroundColor:'#f59e0b'}).showToast()">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h2 id="admin-page-title" class="font-display font-bold text-base lg:text-lg text-slate-800">Dashboard Overview</h2>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 transition relative btn-active">
                         <i class="fa-regular fa-bell"></i>
-                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
+                        <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full border border-white"></span>
                     </button>
                 </div>
             </header>
 
             <!-- Admin Scrollable Area -->
-            <div class="flex-1 overflow-y-auto p-4 md:p-8 relative">
+            <div class="flex-1 overflow-y-auto p-5 md:p-8 relative">
                 
                 <!-- TAB: DASHBOARD -->
                 <div id="tab-dashboard" class="admin-tab animate-fade-in">
                     <!-- Stats Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-                        <div class="enterprise-card p-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 mb-8 lg:mb-10">
+                        <div class="enterprise-card p-6">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <p class="text-slate-500 text-sm font-semibold">Total Dokumen</p>
-                                    <h3 class="text-3xl font-display font-extrabold text-slate-800 mt-1 tracking-tight" id="stat-total-files">0</h3>
+                                    <p class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Total Dokumen</p>
+                                    <h3 class="text-3xl font-display font-extrabold text-slate-800 tracking-tight" id="stat-total-files">0</h3>
                                 </div>
-                                <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center text-primary"><i class="fa-regular fa-file-pdf text-lg"></i></div>
+                                <div class="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-primary shadow-inner"><i class="fa-regular fa-file-pdf text-xl"></i></div>
                             </div>
                         </div>
-                        <div class="enterprise-card p-5">
+                        <div class="enterprise-card p-6">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <p class="text-slate-500 text-sm font-semibold">Total Folder</p>
-                                    <h3 class="text-3xl font-display font-extrabold text-slate-800 mt-1 tracking-tight" id="stat-total-folders">0</h3>
+                                    <p class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Total Folder</p>
+                                    <h3 class="text-3xl font-display font-extrabold text-slate-800 tracking-tight" id="stat-total-folders">0</h3>
                                 </div>
-                                <div class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center text-amber-500"><i class="fa-regular fa-folder-open text-lg"></i></div>
+                                <div class="w-12 h-12 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-500 shadow-inner"><i class="fa-regular fa-folder-open text-xl"></i></div>
                             </div>
                         </div>
-                        <div class="enterprise-card p-5">
+                        <div class="enterprise-card p-6">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <p class="text-slate-500 text-sm font-semibold">Upload Bulan Ini</p>
-                                    <h3 class="text-3xl font-display font-extrabold text-slate-800 mt-1 tracking-tight" id="stat-monthly">0</h3>
+                                    <p class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Bulan Ini</p>
+                                    <h3 class="text-3xl font-display font-extrabold text-slate-800 tracking-tight" id="stat-monthly">0</h3>
                                 </div>
-                                <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-500"><i class="fa-solid fa-arrow-trend-up text-lg"></i></div>
+                                <div class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-500 shadow-inner"><i class="fa-solid fa-arrow-trend-up text-xl"></i></div>
                             </div>
                         </div>
-                        <div class="enterprise-card p-5">
+                        <div class="enterprise-card p-6">
                             <div class="flex justify-between items-start">
                                 <div>
-                                    <p class="text-slate-500 text-sm font-semibold">Penggunaan Kapasitas</p>
-                                    <h3 class="text-3xl font-display font-extrabold text-slate-800 mt-1 tracking-tight" id="stat-size">0 MB</h3>
+                                    <p class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Kapasitas</p>
+                                    <h3 class="text-3xl font-display font-extrabold text-slate-800 tracking-tight" id="stat-size">0 MB</h3>
                                 </div>
-                                <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center text-purple-500"><i class="fa-solid fa-hard-drive text-lg"></i></div>
+                                <div class="w-12 h-12 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-500 shadow-inner"><i class="fa-solid fa-hard-drive text-xl"></i></div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                         <!-- Recent Uploads -->
                         <div class="lg:col-span-2 enterprise-card overflow-hidden">
                             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-white">
                                 <h3 class="font-bold text-slate-800">Aktivitas Upload Terbaru</h3>
-                                <button onclick="app.admin.setTab('files')" class="text-primary text-sm font-semibold hover:underline">Kelola Arsip &rarr;</button>
+                                <button onclick="app.admin.setTab('files')" class="text-primary text-sm font-bold hover:underline">Kelola &rarr;</button>
                             </div>
                             <div class="p-0 overflow-x-auto">
                                 <table class="w-full text-sm text-left">
-                                    <thead class="bg-slate-50 text-slate-500 font-semibold">
+                                    <thead class="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
                                         <tr>
-                                            <th class="px-6 py-3.5">Nama Arsip</th>
-                                            <th class="px-6 py-3.5">Kategori</th>
-                                            <th class="px-6 py-3.5">Waktu</th>
+                                            <th class="px-6 py-4">Nama Arsip</th>
+                                            <th class="px-6 py-4">Kategori</th>
+                                            <th class="px-6 py-4 text-right">Waktu</th>
                                         </tr>
                                     </thead>
                                     <tbody id="recent-uploads-table" class="divide-y divide-slate-100 bg-white">
@@ -565,17 +566,17 @@
                         <div class="enterprise-card p-6">
                             <h3 class="font-bold text-slate-800 mb-5">Tindakan Cepat</h3>
                             <div class="space-y-3">
-                                <button onclick="app.admin.setTab('upload')" class="w-full flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white p-3.5 rounded-xl font-semibold transition shadow-md">
-                                    <div class="w-8 h-8 rounded-md bg-white/20 flex items-center justify-center"><i class="fa-solid fa-cloud-arrow-up"></i></div> 
+                                <button onclick="app.admin.setTab('upload')" class="w-full flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white p-4 rounded-xl font-bold transition-all shadow-md btn-active">
+                                    <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center"><i class="fa-solid fa-cloud-arrow-up text-lg"></i></div> 
                                     Upload PDF Baru
                                 </button>
-                                <button onclick="app.admin.createFolderDialog()" class="w-full flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-700 p-3.5 rounded-xl font-semibold transition border border-slate-200 shadow-sm">
-                                    <div class="w-8 h-8 rounded-md bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-folder-plus text-slate-500"></i></div>
-                                    Buat Folder Direktori
+                                <button onclick="app.admin.createFolderDialog()" class="w-full flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-700 p-4 rounded-xl font-bold transition-all border border-slate-200 shadow-sm btn-active">
+                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-folder-plus text-slate-500 text-lg"></i></div>
+                                    Buat Folder Baru
                                 </button>
-                                <button onclick="app.utils.downloadAllAsZip()" class="w-full flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-700 p-3.5 rounded-xl font-semibold transition border border-slate-200 shadow-sm">
-                                    <div class="w-8 h-8 rounded-md bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-download text-slate-500"></i></div>
-                                    Backup Seluruh Arsip
+                                <button onclick="app.utils.downloadAllAsZip()" class="w-full flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-700 p-4 rounded-xl font-bold transition-all border border-slate-200 shadow-sm btn-active">
+                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-download text-slate-500 text-lg"></i></div>
+                                    Backup Arsip (ZIP)
                                 </button>
                             </div>
                         </div>
@@ -583,21 +584,21 @@
                 </div>
 
                 <!-- TAB: FILE MANAGER -->
-                <div id="tab-files" class="admin-tab animate-fade-in hidden-view flex flex-col h-[calc(100vh-140px)]">
-                    <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 mb-5">
-                        <div class="flex items-center gap-2 bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-200 text-sm font-semibold text-slate-700 w-full md:w-auto" id="admin-breadcrumb">
+                <div id="tab-files" class="admin-tab animate-fade-in hidden-view flex flex-col flex-1 h-full min-h-[500px]">
+                    <div class="flex flex-col xl:flex-row xl:justify-between items-start xl:items-center gap-4 mb-5">
+                        <div class="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl shadow-sm border border-slate-200 text-sm font-bold text-slate-700 w-full xl:w-auto truncate" id="admin-breadcrumb">
                             <i class="fa-solid fa-hard-drive text-primary"></i> / Root
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                        <div class="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
                             <div class="relative w-full sm:w-auto">
-                                <i class="fa-solid fa-search absolute left-3 top-2.5 text-slate-400 text-sm"></i>
-                                <input type="text" id="admin-search" placeholder="Cari di folder ini..." class="w-full sm:w-64 pl-9 pr-4 py-2 text-sm rounded-xl border border-slate-200 outline-none focus:border-primary shadow-sm font-medium">
+                                <i class="fa-solid fa-search absolute left-4 top-3 text-slate-400 text-sm"></i>
+                                <input type="text" id="admin-search" placeholder="Cari di folder ini..." class="w-full sm:w-72 pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-200 outline-none focus:border-primary shadow-sm font-semibold">
                             </div>
                             <div class="flex gap-2 w-full sm:w-auto">
-                                <button onclick="app.admin.createFolderDialog()" class="flex-1 sm:flex-none bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-slate-50 transition flex items-center justify-center gap-2 shadow-sm">
+                                <button onclick="app.admin.createFolderDialog()" class="flex-1 sm:flex-none bg-white border border-slate-200 text-slate-700 px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-50 transition flex items-center justify-center gap-2 shadow-sm btn-active">
                                     <i class="fa-solid fa-folder-plus text-amber-500"></i> Folder
                                 </button>
-                                <button onclick="app.admin.setTab('upload')" class="flex-1 sm:flex-none bg-primary hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-semibold transition shadow-sm flex items-center justify-center gap-2">
+                                <button onclick="app.admin.setTab('upload')" class="flex-1 sm:flex-none bg-primary hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-sm flex items-center justify-center gap-2 btn-active">
                                     <i class="fa-solid fa-upload"></i> Upload
                                 </button>
                             </div>
@@ -605,12 +606,12 @@
                     </div>
 
                     <!-- Data Table -->
-                    <div class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col relative">
-                        <div class="overflow-y-auto overflow-x-auto flex-1">
+                    <div class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col relative min-h-[400px]">
+                        <div class="overflow-y-auto overflow-x-auto flex-1 absolute inset-0">
                             <table class="w-full text-sm text-left whitespace-nowrap">
-                                <thead class="bg-slate-50 text-slate-500 font-semibold sticky top-0 z-10 shadow-sm border-b border-slate-200">
+                                <thead class="bg-slate-50 text-slate-500 font-bold text-[11px] uppercase tracking-wider sticky top-0 z-10 shadow-sm border-b border-slate-200">
                                     <tr>
-                                        <th class="px-6 py-4 w-10"></th>
+                                        <th class="px-6 py-4 w-12"></th>
                                         <th class="px-6 py-4">Nama Dokumen</th>
                                         <th class="px-6 py-4">Kategori</th>
                                         <th class="px-6 py-4">Ukuran</th>
@@ -628,32 +629,32 @@
 
                 <!-- TAB: UPLOAD -->
                 <div id="tab-upload" class="admin-tab animate-fade-in hidden-view">
-                    <div class="max-w-3xl mx-auto enterprise-card p-5 md:p-8">
-                        <div class="mb-8 border-b border-slate-100 pb-4">
-                            <h3 class="text-xl font-display font-bold text-slate-800">Formulir Upload Arsip</h3>
-                            <p class="text-sm text-slate-500 mt-1 font-medium">Lengkapi metadata dan unggah file PDF dokumen Anda.</p>
+                    <div class="max-w-3xl mx-auto enterprise-card p-6 md:p-8">
+                        <div class="mb-8 border-b border-slate-100 pb-5">
+                            <h3 class="text-xl font-display font-extrabold text-slate-800">Formulir Upload Arsip</h3>
+                            <p class="text-sm text-slate-500 mt-1.5 font-medium">Lengkapi metadata dan unggah file PDF dokumen Anda.</p>
                         </div>
                         
                         <form id="upload-form" onsubmit="app.admin.handleUpload(event)">
                             <!-- Drag & Drop Area -->
-                            <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-2xl p-8 md:p-10 text-center bg-slate-50 hover:bg-blue-50 hover:border-primary/50 transition cursor-pointer mb-8 relative group">
+                            <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-2xl p-8 md:p-12 text-center bg-slate-50/50 hover:bg-blue-50/50 hover:border-primary/50 transition cursor-pointer mb-8 relative group">
                                 <input type="file" id="file-input" accept=".pdf" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="app.admin.handleFileSelect(event)">
-                                <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-sm mx-auto mb-4 group-hover:scale-110 transition-transform">
-                                    <i class="fa-regular fa-file-pdf text-3xl text-red-500"></i>
+                                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mx-auto mb-5 group-hover:scale-110 transition-transform">
+                                    <i class="fa-regular fa-file-pdf text-4xl text-red-500"></i>
                                 </div>
-                                <h4 class="font-bold text-slate-700 text-lg">Klik atau Drag & Drop file PDF</h4>
+                                <h4 class="font-extrabold text-slate-800 text-lg">Ketuk atau Drag & Drop PDF</h4>
                                 <p class="text-sm text-slate-500 mt-2 font-medium">Ukuran maksimal file: 50MB</p>
-                                <div id="selected-file-name" class="mt-4 inline-block px-4 py-2 bg-white rounded-lg border border-slate-200 font-bold text-primary text-sm shadow-sm hidden"></div>
+                                <div id="selected-file-name" class="mt-5 inline-block px-4 py-2 bg-white rounded-xl border border-slate-200 font-bold text-primary text-sm shadow-sm hidden"></div>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
                                     <label class="block text-sm font-bold text-slate-700 mb-2">Judul Arsip <span class="text-red-500">*</span></label>
-                                    <input type="text" id="up-judul" required placeholder="Contoh: SK Mengajar 2026" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm">
+                                    <input type="text" id="up-judul" required placeholder="Contoh: SK Mengajar 2026" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm bg-white">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold text-slate-700 mb-2">Kategori <span class="text-red-500">*</span></label>
-                                    <select id="up-kategori" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm bg-white">
+                                    <select id="up-kategori" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm bg-white">
                                         <option value="Surat Masuk">Surat Masuk</option>
                                         <option value="Surat Keluar">Surat Keluar</option>
                                         <option value="SK">SK (Surat Keputusan)</option>
@@ -664,36 +665,36 @@
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold text-slate-700 mb-2">Direktori Tujuan <span class="text-red-500">*</span></label>
-                                    <select id="up-folder" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm bg-white">
+                                    <select id="up-folder" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm bg-white">
                                         <option value="/">/ (Root)</option>
                                         <!-- Injected by JS -->
                                     </select>
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-bold text-slate-700 mb-2">Tanggal Terbit Dokumen <span class="text-red-500">*</span></label>
-                                    <input type="date" id="up-tanggal" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm">
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Tanggal Dokumen <span class="text-red-500">*</span></label>
+                                    <input type="date" id="up-tanggal" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm bg-white">
                                 </div>
                             </div>
 
                             <div class="mb-8">
                                 <label class="block text-sm font-bold text-slate-700 mb-2">Deskripsi Singkat (Opsional)</label>
-                                <textarea id="up-deskripsi" rows="3" placeholder="Tambahkan catatan singkat mengenai arsip ini..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm resize-none"></textarea>
+                                <textarea id="up-deskripsi" rows="3" placeholder="Tambahkan catatan singkat mengenai arsip ini..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm resize-none bg-white"></textarea>
                             </div>
 
                             <!-- Progress Bar -->
-                            <div id="upload-progress-container" class="hidden mb-8 p-4 bg-slate-50 rounded-xl border border-slate-200">
-                                <div class="flex justify-between text-xs mb-2 font-bold text-slate-700">
+                            <div id="upload-progress-container" class="hidden mb-8 p-5 bg-slate-50 rounded-2xl border border-slate-200 shadow-inner">
+                                <div class="flex justify-between text-xs mb-3 font-bold text-slate-700">
                                     <span id="upload-status-text" class="flex items-center gap-2"><i class="fa-solid fa-spinner fa-spin text-primary"></i> Memproses unggahan...</span>
                                     <span id="upload-percent">0%</span>
                                 </div>
-                                <div class="w-full bg-slate-200 rounded-full h-2.5 overflow-hidden">
-                                    <div id="upload-bar" class="bg-primary h-full rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+                                <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
+                                    <div id="upload-bar" class="bg-primary h-full rounded-full transition-all duration-300 ease-out shadow-sm" style="width: 0%"></div>
                                 </div>
                             </div>
 
-                            <div class="flex flex-col sm:flex-row justify-end gap-3 pt-4 border-t border-slate-100">
-                                <button type="button" onclick="app.admin.setTab('files')" class="w-full sm:w-auto px-6 py-2.5 text-slate-600 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 font-semibold transition text-sm">Batal</button>
-                                <button type="submit" id="btn-submit-upload" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-semibold py-2.5 px-8 rounded-xl transition shadow-md flex justify-center items-center gap-2 text-sm">
+                            <div class="flex flex-col sm:flex-row justify-end gap-3 pt-6 border-t border-slate-100">
+                                <button type="button" onclick="app.admin.setTab('files')" class="w-full sm:w-auto px-8 h-[56px] text-slate-600 bg-white border border-slate-200 rounded-[18px] hover:bg-slate-50 font-bold transition text-[15px] btn-active">Batal</button>
+                                <button type="submit" id="btn-submit-upload" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold h-[56px] px-8 rounded-[18px] transition shadow-md flex justify-center items-center gap-2 text-[15px] btn-active">
                                     <i class="fa-solid fa-cloud-arrow-up"></i> Simpan Arsip
                                 </button>
                             </div>
@@ -704,15 +705,15 @@
                 <!-- TAB: HISTORY -->
                 <div id="tab-history" class="admin-tab animate-fade-in hidden-view">
                     <div class="max-w-4xl mx-auto enterprise-card overflow-hidden">
-                        <div class="px-6 py-5 border-b border-slate-100 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-3 bg-white">
+                        <div class="px-6 py-5 border-b border-slate-100 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-4 bg-white">
                             <div>
-                                <h3 class="font-bold text-slate-800">Log Sistem & Riwayat Aktivitas</h3>
-                                <p class="text-xs text-slate-500 mt-0.5 font-medium">Merekam jejak manipulasi data oleh Admin.</p>
+                                <h3 class="font-extrabold text-slate-800 text-lg">Log Sistem & Riwayat Aktivitas</h3>
+                                <p class="text-xs text-slate-500 mt-1 font-medium">Merekam jejak manipulasi data oleh Admin.</p>
                             </div>
-                            <button onclick="app.admin.clearHistory()" class="text-sm font-semibold text-red-500 hover:bg-red-50 px-4 py-2 rounded-lg transition border border-red-100">Bersihkan Log</button>
+                            <button onclick="app.admin.clearHistory()" class="w-full sm:w-auto text-sm font-bold text-red-500 hover:bg-red-50 px-5 py-2.5 rounded-xl transition border border-red-100 btn-active">Bersihkan Log</button>
                         </div>
-                        <div class="p-6">
-                            <ul id="history-list" class="space-y-4 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
+                        <div class="p-6 md:p-8">
+                            <ul id="history-list" class="space-y-5 relative before:absolute before:inset-0 before:ml-[11px] md:before:mx-auto md:before:translate-x-0 before:h-full before:w-[2px] before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
                                 <!-- Injected by JS -->
                             </ul>
                         </div>
@@ -721,65 +722,65 @@
                 
                 <!-- TAB: BACKUP -->
                 <div id="tab-backup" class="admin-tab animate-fade-in hidden-view">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-                        <div class="enterprise-card p-6">
-                            <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-primary text-xl mb-4">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                        <div class="enterprise-card p-6 md:p-8">
+                            <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary text-2xl mb-5 shadow-inner">
                                 <i class="fa-solid fa-download"></i>
                             </div>
-                            <h3 class="font-display font-bold text-lg text-slate-800 mb-1">Export Data (Backup)</h3>
-                            <p class="text-sm text-slate-500 font-medium mb-6 leading-relaxed">Unduh seluruh berkas PDF beserta struktur foldernya, atau unduh hanya metadata database untuk keperluan pemulihan.</p>
+                            <h3 class="font-display font-extrabold text-xl text-slate-800 mb-2">Export Data (Backup)</h3>
+                            <p class="text-[15px] text-slate-500 font-medium mb-8 leading-relaxed">Unduh seluruh berkas PDF beserta struktur foldernya, atau unduh metadata database untuk keperluan pemulihan.</p>
                             
-                            <div class="space-y-3">
-                                <button onclick="app.utils.downloadAllAsZip()" class="w-full flex items-center gap-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-xl font-semibold transition shadow-sm group">
-                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition">
-                                        <i class="fa-solid fa-file-zipper text-lg"></i>
+                            <div class="space-y-4">
+                                <button onclick="app.utils.downloadAllAsZip()" class="w-full flex items-center gap-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-2xl font-bold transition shadow-sm group btn-active">
+                                    <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition shadow-sm">
+                                        <i class="fa-solid fa-file-zipper text-xl"></i>
                                     </div>
                                     <div class="text-left flex-1">
-                                        <div class="block text-slate-800 group-hover:text-primary transition">Download Semua (ZIP)</div>
-                                        <div class="text-[11px] text-slate-500 font-medium mt-0.5">Termasuk PDF dan struktur folder utuh</div>
+                                        <div class="block text-slate-800 group-hover:text-primary transition text-[15px]">Download Semua (ZIP)</div>
+                                        <div class="text-xs text-slate-500 font-semibold mt-1">Termasuk PDF & direktori utuh</div>
                                     </div>
-                                    <i class="fa-solid fa-chevron-right text-slate-300"></i>
+                                    <i class="fa-solid fa-chevron-right text-slate-300 pr-2"></i>
                                 </button>
-                                <button onclick="app.admin.exportJSON()" class="w-full flex items-center gap-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-xl font-semibold transition shadow-sm group">
-                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition">
-                                        <i class="fa-solid fa-file-code text-lg"></i>
+                                <button onclick="app.admin.exportJSON()" class="w-full flex items-center gap-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-2xl font-bold transition shadow-sm group btn-active">
+                                    <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition shadow-sm">
+                                        <i class="fa-solid fa-file-code text-xl"></i>
                                     </div>
                                     <div class="text-left flex-1">
-                                        <div class="block text-slate-800 group-hover:text-amber-600 transition">Export Database (JSON)</div>
-                                        <div class="text-[11px] text-slate-500 font-medium mt-0.5">Hanya mengekspor metadata tabel database</div>
+                                        <div class="block text-slate-800 group-hover:text-amber-600 transition text-[15px]">Export Database (JSON)</div>
+                                        <div class="text-xs text-slate-500 font-semibold mt-1">Ekspor khusus tabel metadata</div>
                                     </div>
-                                    <i class="fa-solid fa-chevron-right text-slate-300"></i>
+                                    <i class="fa-solid fa-chevron-right text-slate-300 pr-2"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <div class="enterprise-card p-6">
-                            <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center text-slate-700 text-xl mb-4">
+                        <div class="enterprise-card p-6 md:p-8">
+                            <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-700 text-2xl mb-5 shadow-inner">
                                 <i class="fa-solid fa-circle-info"></i>
                             </div>
-                            <h3 class="font-display font-bold text-lg text-slate-800 mb-1">Informasi Sistem</h3>
-                            <p class="text-sm text-slate-500 font-medium mb-6">Detail konfigurasi infrastruktur aplikasi.</p>
+                            <h3 class="font-display font-extrabold text-xl text-slate-800 mb-2">Informasi Sistem</h3>
+                            <p class="text-[15px] text-slate-500 font-medium mb-8">Detail spesifikasi infrastruktur aplikasi.</p>
                             
-                            <ul class="space-y-4 text-sm mt-4 text-slate-600 bg-slate-50 rounded-xl p-4 border border-slate-100 font-medium">
-                                <li class="flex justify-between items-center border-b border-slate-200 pb-3">
+                            <ul class="space-y-0 text-[15px] text-slate-600 bg-slate-50/80 rounded-2xl p-5 border border-slate-100 font-medium">
+                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
                                     <span class="text-slate-500">Versi Aplikasi</span> 
-                                    <span class="font-bold text-slate-800 bg-white px-2 py-1 rounded border border-slate-200 text-xs">v2.0 Enterprise</span>
+                                    <span class="font-extrabold text-slate-800 bg-white px-3 py-1 rounded-md border border-slate-200 text-[11px] uppercase tracking-wider shadow-sm">v2.0 Enterprise</span>
                                 </li>
-                                <li class="flex justify-between items-center border-b border-slate-200 pb-3">
+                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
                                     <span class="text-slate-500">Arsitektur</span> 
-                                    <span class="font-bold text-slate-800">SPA (Single Page App)</span>
+                                    <span class="font-bold text-slate-800">SPA (App-like)</span>
                                 </li>
-                                <li class="flex justify-between items-center border-b border-slate-200 pb-3">
+                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
                                     <span class="text-slate-500">Database Core</span> 
                                     <span class="font-bold text-slate-800">Google Apps Script</span>
                                 </li>
-                                <li class="flex justify-between items-center border-b border-slate-200 pb-3">
+                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
                                     <span class="text-slate-500">Storage Unit</span> 
                                     <span class="font-bold text-slate-800">Catbox API</span>
                                 </li>
                                 <li class="flex justify-between items-center pt-1">
                                     <span class="text-slate-500">Status API</span> 
-                                    <span class="text-emerald-600 font-bold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Terhubung</span>
+                                    <span class="text-emerald-600 font-bold flex items-center gap-2 bg-emerald-50 px-3 py-1 rounded-md text-[13px]"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Terhubung</span>
                                 </li>
                             </ul>
                         </div>
@@ -793,74 +794,72 @@
     <!-- ==================== MODALS & OVERLAYS ==================== -->
     
     <!-- PDF Preview Modal -->
-    <div id="pdf-modal" class="fixed inset-0 bg-slate-900/95 z-50 hidden flex flex-col backdrop-blur-md transition-opacity duration-300">
-        <div class="h-16 bg-slate-900/80 border-b border-slate-800 flex justify-between items-center px-4 md:px-6 text-white shadow-sm">
-            <div class="flex items-center gap-3 md:gap-4">
-                <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center text-red-500 flex-none">
+    <div id="pdf-modal" class="fixed inset-0 bg-slate-900/95 z-[100] hidden flex flex-col backdrop-blur-md transition-opacity duration-300 pb-safe pt-safe">
+        <div class="h-[64px] lg:h-[72px] bg-slate-900/80 border-b border-slate-800 flex justify-between items-center px-4 md:px-6 text-white shadow-sm flex-none">
+            <div class="flex items-center gap-3 md:gap-4 flex-1 overflow-hidden">
+                <div class="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center text-red-500 flex-none">
                     <i class="fa-regular fa-file-pdf text-xl"></i>
                 </div>
-                <div class="overflow-hidden">
-                    <h3 id="pdf-modal-title" class="font-semibold truncate max-w-[150px] sm:max-w-md text-sm md:text-base">Dokumen.pdf</h3>
-                    <p class="text-[10px] md:text-[11px] text-slate-400 font-medium truncate">Mode Pratinjau Terenkripsi</p>
+                <div class="overflow-hidden pr-4">
+                    <h3 id="pdf-modal-title" class="font-bold truncate text-sm md:text-base">Dokumen.pdf</h3>
+                    <p class="text-[10px] md:text-[11px] text-slate-400 font-semibold truncate uppercase tracking-wider mt-0.5">Mode Pratinjau Terenkripsi</p>
                 </div>
             </div>
             <div class="flex items-center gap-2 md:gap-3 flex-none">
-                <button onclick="app.utils.downloadCurrentPreview()" class="px-3 md:px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition flex justify-center items-center gap-2 text-xs md:text-sm font-semibold border border-white/10" title="Download Asli">
+                <button onclick="app.utils.downloadCurrentPreview()" class="px-3 md:px-4 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition flex justify-center items-center gap-2 text-xs md:text-sm font-bold border border-white/10 btn-active" title="Download Asli">
                     <i class="fa-solid fa-download"></i> <span class="hidden md:inline">Unduh PDF</span>
                 </button>
-                <div class="w-px h-6 bg-slate-700 mx-0.5 md:mx-1"></div>
-                <button onclick="app.utils.closePreview()" class="w-10 h-10 bg-red-500/10 hover:bg-red-500 hover:text-white text-red-400 rounded-lg transition flex justify-center items-center border border-red-500/20" title="Tutup">
+                <div class="w-px h-6 bg-slate-700 mx-1 md:mx-2"></div>
+                <button onclick="app.utils.closePreview()" class="w-10 h-10 bg-red-500/10 hover:bg-red-500 hover:text-white text-red-400 rounded-xl transition flex justify-center items-center border border-red-500/20 btn-active" title="Tutup">
                     <i class="fa-solid fa-xmark text-lg"></i>
                 </button>
             </div>
         </div>
-        <!-- Iframe or Canvas Container for PDF -->
+        
         <div class="flex-1 overflow-auto flex justify-center items-center relative p-4 md:p-6 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')]">
             <div id="pdf-loading" class="absolute inset-0 flex flex-col items-center justify-center text-white/70 bg-slate-900/50 backdrop-blur-sm z-10">
                 <div class="loader mb-4 border-t-white"></div>
-                <p class="font-semibold text-sm">Memuat dan mendekode dokumen...</p>
+                <p class="font-bold text-sm tracking-wide">Memuat dokumen...</p>
             </div>
-            <!-- Canvas for PDF.js -->
-            <canvas id="pdf-canvas" class="shadow-2xl max-w-full hidden bg-white rounded-sm"></canvas>
+            <canvas id="pdf-canvas" class="shadow-2xl max-w-full hidden bg-white rounded-lg"></canvas>
             
-            <!-- Fallback if CORS fails -->
-            <div id="pdf-error" class="hidden flex-col items-center justify-center text-slate-300 text-center max-w-md bg-slate-800/80 p-6 md:p-8 rounded-2xl border border-slate-700 mx-4">
-                <div class="w-16 h-16 bg-amber-500/20 text-amber-500 rounded-full flex items-center justify-center text-3xl mb-5 mx-auto">
+            <div id="pdf-error" class="hidden flex-col items-center justify-center text-slate-300 text-center max-w-md bg-slate-800/80 p-6 md:p-8 rounded-3xl border border-slate-700 mx-5 shadow-2xl">
+                <div class="w-16 h-16 bg-amber-500/20 text-amber-500 rounded-2xl flex items-center justify-center text-3xl mb-5 mx-auto">
                     <i class="fa-solid fa-shield-cat"></i>
                 </div>
-                <h4 class="text-lg font-bold text-white mb-2">Pratinjau Dibatasi CORS</h4>
-                <p class="mb-6 text-sm leading-relaxed font-medium">Sistem browser mencegah pratinjau langsung karena kebijakan keamanan (CORS) server eksternal penyimpanan.</p>
-                <button onclick="app.utils.downloadCurrentPreview()" class="w-full bg-primary hover:bg-blue-600 px-4 py-3 rounded-xl text-sm font-semibold text-white transition flex justify-center items-center gap-2">
+                <h4 class="text-xl font-extrabold text-white mb-2">Pratinjau Dibatasi</h4>
+                <p class="mb-8 text-sm leading-relaxed font-medium">Sistem browser mencegah pratinjau langsung karena kebijakan keamanan (CORS) server eksternal penyimpanan.</p>
+                <button onclick="app.utils.downloadCurrentPreview()" class="w-full h-[56px] bg-primary hover:bg-blue-600 rounded-[18px] text-[15px] font-bold text-white transition flex justify-center items-center gap-3 btn-active shadow-lg">
                     <i class="fa-solid fa-download"></i> Unduh File Secara Aman
                 </button>
             </div>
         </div>
-        <!-- Control Bar Bottom -->
-        <div class="h-14 bg-slate-900/90 border-t border-slate-800 flex justify-center items-center px-2 md:px-4 text-slate-300 gap-2 md:gap-6 backdrop-blur-md shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] pb-safe" id="pdf-controls">
-            <div class="flex items-center gap-1 bg-slate-800 px-1 md:px-2 py-1 rounded-lg border border-slate-700">
-                <button onclick="app.utils.pdfPrevPage()" class="w-8 h-8 rounded hover:bg-slate-700 hover:text-white transition flex justify-center items-center"><i class="fa-solid fa-chevron-left"></i></button>
-                <span class="text-xs md:text-sm font-semibold w-16 md:w-24 text-center">Hal <span id="pdf-page-num" class="text-white">1</span> / <span id="pdf-page-count">?</span></span>
-                <button onclick="app.utils.pdfNextPage()" class="w-8 h-8 rounded hover:bg-slate-700 hover:text-white transition flex justify-center items-center"><i class="fa-solid fa-chevron-right"></i></button>
+        
+        <div class="h-[64px] bg-slate-900/90 border-t border-slate-800 flex justify-center items-center px-4 text-slate-300 gap-3 md:gap-6 backdrop-blur-md shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] flex-none" id="pdf-controls">
+            <div class="flex items-center gap-1 bg-slate-800 p-1.5 rounded-xl border border-slate-700">
+                <button onclick="app.utils.pdfPrevPage()" class="w-9 h-9 rounded-lg hover:bg-slate-700 hover:text-white transition flex justify-center items-center btn-active"><i class="fa-solid fa-chevron-left"></i></button>
+                <span class="text-xs md:text-sm font-bold w-16 md:w-24 text-center">Hal <span id="pdf-page-num" class="text-white">1</span> / <span id="pdf-page-count">?</span></span>
+                <button onclick="app.utils.pdfNextPage()" class="w-9 h-9 rounded-lg hover:bg-slate-700 hover:text-white transition flex justify-center items-center btn-active"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
             
-            <div class="flex items-center gap-1 bg-slate-800 px-1 md:px-2 py-1 rounded-lg border border-slate-700">
-                <button onclick="app.utils.pdfZoomOut()" class="w-8 h-8 rounded hover:bg-slate-700 hover:text-white transition flex justify-center items-center"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-                <span class="text-xs md:text-sm font-semibold w-12 md:w-16 text-center text-white" id="pdf-zoom-val">100%</span>
-                <button onclick="app.utils.pdfZoomIn()" class="w-8 h-8 rounded hover:bg-slate-700 hover:text-white transition flex justify-center items-center"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            <div class="flex items-center gap-1 bg-slate-800 p-1.5 rounded-xl border border-slate-700">
+                <button onclick="app.utils.pdfZoomOut()" class="w-9 h-9 rounded-lg hover:bg-slate-700 hover:text-white transition flex justify-center items-center btn-active"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+                <span class="text-xs md:text-sm font-bold w-12 md:w-16 text-center text-white" id="pdf-zoom-val">100%</span>
+                <button onclick="app.utils.pdfZoomIn()" class="w-9 h-9 rounded-lg hover:bg-slate-700 hover:text-white transition flex justify-center items-center btn-active"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
             </div>
         </div>
     </div>
 
     <!-- Context Menu -->
-    <div id="context-menu" class="fixed z-50 bg-white rounded-xl shadow-[0_10px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)] border border-slate-200 py-1.5 w-52 text-sm hidden-view opacity-0" style="left:0; top:0; transform: scale(0.95); transition: opacity 0.15s, transform 0.15s;">
-        <button id="ctx-preview" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3 text-slate-700 font-semibold transition-colors"><i class="fa-solid fa-eye text-slate-400 w-4"></i> Pratinjau</button>
-        <button id="ctx-download" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3 text-slate-700 font-semibold transition-colors"><i class="fa-solid fa-download text-slate-400 w-4"></i> Download PDF</button>
-        <button id="ctx-share" class="w-full text-left px-4 py-2.5 hover:bg-slate-50 flex items-center gap-3 text-slate-700 font-semibold transition-colors"><i class="fa-solid fa-link text-slate-400 w-4"></i> Salin Tautan</button>
+    <div id="context-menu" class="fixed z-[90] bg-white rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15),0_10px_15px_-5px_rgba(0,0,0,0.1)] border border-slate-100 p-2 w-[220px] text-[15px] hidden-view opacity-0" style="left:0; top:0; transform: scale(0.95); transition: opacity 0.15s, transform 0.15s;">
+        <button id="ctx-preview" class="w-full text-left px-4 py-3 hover:bg-slate-50 flex items-center gap-3.5 text-slate-700 font-bold rounded-xl transition-colors"><i class="fa-solid fa-eye text-slate-400 w-5"></i> Pratinjau</button>
+        <button id="ctx-download" class="w-full text-left px-4 py-3 hover:bg-slate-50 flex items-center gap-3.5 text-slate-700 font-bold rounded-xl transition-colors"><i class="fa-solid fa-download text-slate-400 w-5"></i> Download PDF</button>
+        <button id="ctx-share" class="w-full text-left px-4 py-3 hover:bg-slate-50 flex items-center gap-3.5 text-slate-700 font-bold rounded-xl transition-colors"><i class="fa-solid fa-link text-slate-400 w-5"></i> Salin Tautan</button>
         
         <!-- Rendered dynamically if user is Admin -->
         <div id="ctx-admin-actions" class="hidden">
-            <div class="border-t border-slate-100 my-1"></div>
-            <button id="ctx-delete" class="w-full text-left px-4 py-2.5 hover:bg-red-50 text-red-600 flex items-center gap-3 font-semibold transition-colors"><i class="fa-solid fa-trash-can w-4"></i> Hapus Berkas</button>
+            <div class="border-t border-slate-100 my-1 mx-2"></div>
+            <button id="ctx-delete" class="w-full text-left px-4 py-3 hover:bg-red-50 text-red-600 flex items-center gap-3.5 font-bold rounded-xl transition-colors"><i class="fa-solid fa-trash-can w-5"></i> Hapus Berkas</button>
         </div>
     </div>
 
@@ -876,7 +875,6 @@
             version: '2.0.0 Enterprise'
         };
 
-        // --- STATE MANAGEMENT ---
         const State = {
             userToken: localStorage.getItem('ad_auth_token') || null, 
             files: [], 
@@ -891,7 +889,6 @@
             currentPdfName: null
         };
 
-        // --- API SERVICE ---
         const API = {
             async executeAction(action, payload = {}) {
                 if (CONFIG.gasUrl) {
@@ -910,7 +907,6 @@
                 }
             },
             
-            // Mock backend logic to allow testing without real GAS URL
             mockAction(action, payload) {
                 return new Promise((resolve) => {
                     setTimeout(() => {
@@ -937,7 +933,7 @@
                             localStorage.setItem('ad_files', JSON.stringify(files));
                             resolve({ status: 'success' });
                         }
-                    }, 800); // Simulate network latency
+                    }, 800);
                 });
             },
 
@@ -950,24 +946,17 @@
                     if(!response.ok) throw new Error("Catbox gagal.");
                     return (await response.text()).trim();
                 } catch(e) {
-                    console.warn("Upload diblokir CORS. Menggunakan dummy file.");
                     return "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
                 }
             }
         };
 
-        // --- MAIN APP LOGIC ---
         const app = {
             init() {
                 this.initMockDataIfNeeded();
-                
-                // Router Listener
                 window.addEventListener('hashchange', () => this.router.handleHash());
-                
-                // Init routing
                 this.router.handleHash();
                 
-                // Context Menu Outside Click Listener
                 document.addEventListener('click', (e) => {
                     if(!e.target.closest('#context-menu')) {
                         const menu = document.getElementById('context-menu');
@@ -977,7 +966,6 @@
                     }
                 });
 
-                // Public & Admin Search listeners
                 document.getElementById('public-search').addEventListener('input', (e) => this.public.renderFiles(e.target.value));
                 document.getElementById('admin-search').addEventListener('input', (e) => this.admin.renderFiles(e.target.value));
             },
@@ -994,65 +982,42 @@
                 }
             },
 
-            // --- ROUTER (SPA LOGIC) ---
             router: {
-                navigate(route) {
-                    window.location.hash = route;
-                },
-                
+                navigate(route) { window.location.hash = route; },
                 async handleHash() {
                     const hash = window.location.hash.replace('#', '').replace('/', '') || 'landing';
                     
-                    // Hide all views first
                     ['landing', 'login', 'admin', 'public'].forEach(v => {
                         document.getElementById(`view-${v}`).classList.add('hidden-view');
                     });
                     
-                    // Toggle Background
                     const bg = document.getElementById('global-bg');
-                    if(hash === 'landing' || hash === 'login') {
-                        bg.classList.remove('hidden-view');
-                    } else {
-                        bg.classList.add('hidden-view');
-                    }
+                    if(hash === 'landing' || hash === 'login') bg.classList.remove('hidden-view');
+                    else bg.classList.add('hidden-view');
 
-                    // View Switch Logic
                     if (hash === 'landing') {
-                        if(State.userToken) {
-                            this.navigate('admin');
-                            return;
-                        }
+                        if(State.userToken) { this.navigate('admin'); return; }
                         document.getElementById('view-landing').classList.remove('hidden-view');
                     } 
                     else if (hash === 'login') {
-                        if(State.userToken) {
-                            this.navigate('admin');
-                            return;
-                        }
+                        if(State.userToken) { this.navigate('admin'); return; }
                         document.getElementById('view-login').classList.remove('hidden-view');
                     } 
                     else if (hash === 'publik' || hash === 'public') {
                         document.getElementById('view-public').classList.remove('hidden-view');
-                        await app.loadData();
-                        State.currentPath = '/';
-                        app.public.renderFolders();
-                        app.public.renderFiles();
+                        await app.loadData(); State.currentPath = '/';
+                        app.public.renderFolders(); app.public.renderFiles();
                     } 
                     else if (hash === 'admin') {
                         if(!State.userToken) {
                             Toastify({text: "Akses Ditolak. Harap login.", backgroundColor: "#ef4444"}).showToast();
-                            this.navigate('login');
-                            return;
+                            this.navigate('login'); return;
                         }
                         document.getElementById('view-admin').classList.remove('hidden-view');
                         await app.loadData();
-                        app.admin.setTab('dashboard');
-                        app.admin.updateFolderSelects();
-                        app.admin.renderHistory();
+                        app.admin.setTab('dashboard'); app.admin.updateFolderSelects(); app.admin.renderHistory();
                     }
-                    else {
-                        this.navigate('landing'); // fallback
-                    }
+                    else { this.navigate('landing'); }
                 }
             },
 
@@ -1060,16 +1025,12 @@
                 try {
                     const res = await API.executeAction('getFiles');
                     if (res.status === 'success') {
-                        State.files = res.files;
-                        State.folders = res.folders;
+                        State.files = res.files; State.folders = res.folders;
                         State.history = JSON.parse(localStorage.getItem('ad_history')) || [];
                     }
-                } catch(e) {
-                    console.error("Gagal memuat data", e);
-                }
+                } catch(e) {}
             },
 
-            // --- AUTHENTICATION ---
             auth: {
                 async handleLogin(e) {
                     e.preventDefault();
@@ -1085,44 +1046,35 @@
                         
                         if (res.status === 'success') {
                             State.userToken = res.token;
-                            if (rem) {
-                                localStorage.setItem('ad_auth_token', res.token);
-                            } else {
-                                sessionStorage.setItem('ad_auth_token', res.token); // temporary
-                            }
+                            if (rem) localStorage.setItem('ad_auth_token', res.token);
+                            else sessionStorage.setItem('ad_auth_token', res.token); 
                             
                             app.utils.logActivity('Administrator berhasil login');
                             Toastify({text: "Akses Diberikan. Memasuki Dashboard...", backgroundColor: "#10b981", gravity: "top"}).showToast();
                             
                             document.getElementById('login-form').reset();
-                            setTimeout(() => app.router.navigate('admin'), 500);
+                            setTimeout(() => app.router.navigate('admin'), 400);
                         } else {
                             Toastify({text: "Kredensial tidak valid!", backgroundColor: "#ef4444", gravity: "top"}).showToast();
                         }
-                    } catch (err) {
-                        Toastify({text: "Terjadi kesalahan server.", backgroundColor: "#ef4444"}).showToast();
-                    } finally {
-                        btn.innerHTML = `<span>Masuk ke Dashboard</span>`;
-                    }
+                    } catch (err) { Toastify({text: "Terjadi kesalahan server.", backgroundColor: "#ef4444"}).showToast();
+                    } finally { btn.innerHTML = `<span>Masuk Dashboard</span>`; }
                 },
                 
                 logout() {
                     State.userToken = null;
-                    localStorage.removeItem('ad_auth_token');
-                    sessionStorage.removeItem('ad_auth_token');
+                    localStorage.removeItem('ad_auth_token'); sessionStorage.removeItem('ad_auth_token');
                     app.utils.logActivity('Administrator logout');
                     app.router.navigate('landing');
                 },
 
                 togglePassword() {
-                    const p = document.getElementById('login-password');
-                    const i = document.getElementById('eye-icon');
+                    const p = document.getElementById('login-password'); const i = document.getElementById('eye-icon');
                     if(p.type === 'password') { p.type = 'text'; i.classList.replace('fa-eye', 'fa-eye-slash'); }
                     else { p.type = 'password'; i.classList.replace('fa-eye-slash', 'fa-eye'); }
                 }
             },
 
-            // --- PUBLIC VIEWER LOGIC ---
             public: {
                 renderFolders() {
                     const tree = document.getElementById('public-folder-tree');
@@ -1130,39 +1082,22 @@
                     
                     const renderNode = (path, name, icon) => {
                         const isActive = State.currentPath === path ? 'bg-primary/10 text-primary font-bold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900';
-                        return `
-                            <li>
-                                <button onclick="app.public.setPath('${path}')" class="w-full text-left px-3 py-2 rounded-lg flex items-center gap-3 transition ${isActive}">
-                                    <i class="${icon} ${State.currentPath === path ? 'text-primary' : 'text-amber-400'} w-4"></i>
-                                    <span class="truncate">${name}</span>
-                                </button>
-                            </li>
-                        `;
+                        return `<li><button onclick="app.public.setPath('${path}')" class="w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition ${isActive}"><i class="${icon} ${State.currentPath === path ? 'text-primary' : 'text-amber-400'} w-5 text-center"></i><span class="truncate">${name}</span></button></li>`;
                     };
 
                     tree.innerHTML += renderNode('/', 'Semua Dokumen', 'fa-solid fa-hard-drive');
                     
                     State.folders.filter(f => f !== '/').forEach(folder => {
-                        const depth = folder.split('/').length - 1;
-                        const padding = depth * 12;
+                        const depth = folder.split('/').length - 1; const padding = depth * 16;
                         const name = folder.split('/').pop();
-                        const html = `
-                            <li style="padding-left: ${padding}px">
-                                <button onclick="app.public.setPath('${folder}')" class="w-full text-left px-3 py-1.5 rounded-lg flex items-center gap-2 transition ${State.currentPath === folder ? 'bg-slate-100 text-primary font-bold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'} text-sm mt-0.5">
-                                    <i class="fa-solid fa-folder text-slate-300 w-4"></i>
-                                    <span class="truncate">${name}</span>
-                                </button>
-                            </li>
-                        `;
-                        tree.innerHTML += html;
+                        tree.innerHTML += `<li style="padding-left: ${padding}px"><button onclick="app.public.setPath('${folder}')" class="w-full text-left px-4 py-2.5 rounded-xl flex items-center gap-3 transition ${State.currentPath === folder ? 'bg-slate-100 text-primary font-bold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'} text-sm mt-0.5"><i class="fa-solid fa-folder text-slate-300 w-4 text-center"></i><span class="truncate">${name}</span></button></li>`;
                     });
                 },
 
                 setPath(path) {
                     State.currentPath = path;
                     document.getElementById('public-current-folder-title').innerHTML = `<i class="fa-solid fa-folder-open text-amber-500"></i> ${path}`;
-                    this.renderFolders();
-                    this.renderFiles();
+                    this.renderFolders(); this.renderFiles();
                 },
 
                 renderFiles(query = '') {
@@ -1170,12 +1105,8 @@
                     const empty = document.getElementById('public-empty-state');
                     const sortMethod = document.getElementById('public-sort').value;
                     
-                    grid.innerHTML = '';
-                    let filtered = State.files;
-                    
-                    if(State.currentPath !== '/') {
-                        filtered = filtered.filter(f => f.folder === State.currentPath || f.folder.startsWith(State.currentPath + '/'));
-                    }
+                    grid.innerHTML = ''; let filtered = State.files;
+                    if(State.currentPath !== '/') filtered = filtered.filter(f => f.folder === State.currentPath || f.folder.startsWith(State.currentPath + '/'));
                     if(query) {
                         const q = query.toLowerCase();
                         filtered = filtered.filter(f => f.nama.toLowerCase().includes(q) || f.kategori.toLowerCase().includes(q));
@@ -1188,58 +1119,47 @@
                     });
 
                     if(filtered.length === 0) {
-                        grid.classList.add('hidden');
-                        empty.classList.remove('hidden');
-                        return;
+                        grid.classList.add('hidden'); empty.classList.remove('hidden'); return;
                     }
-
-                    grid.classList.remove('hidden');
-                    empty.classList.add('hidden');
+                    grid.classList.remove('hidden'); empty.classList.add('hidden');
 
                     filtered.forEach(file => {
                         const badge = app.utils.getKategoriBadge(file.kategori);
-                        const html = `
-                            <div class="enterprise-card p-4 hover:-translate-y-1 transition-transform duration-300 cursor-context-menu group" oncontextmenu="app.utils.showContextMenu(event, '${file.id}', false)">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex justify-center items-center text-2xl shadow-sm text-red-500 group-hover:bg-red-50 group-hover:border-red-100 transition">
+                        grid.innerHTML += `
+                            <div class="enterprise-card p-5 hover:-translate-y-1 transition-transform duration-300 cursor-context-menu group" oncontextmenu="app.utils.showContextMenu(event, '${file.id}', false)">
+                                <div class="flex justify-between items-start mb-5">
+                                    <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex justify-center items-center text-2xl shadow-inner text-red-500 group-hover:bg-red-50 group-hover:border-red-100 transition">
                                         <i class="fa-solid fa-file-pdf"></i>
                                     </div>
-                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', false)" class="text-slate-400 hover:text-slate-800 w-8 h-8 rounded-lg hover:bg-slate-100 flex justify-center items-center transition">
-                                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', false)" class="text-slate-400 hover:text-slate-800 w-10 h-10 rounded-xl hover:bg-slate-100 flex justify-center items-center transition btn-active">
+                                        <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
                                     </button>
                                 </div>
-                                <h4 class="font-bold text-slate-800 text-sm leading-tight mb-2 line-clamp-2 h-10" title="${file.nama}">${file.nama}</h4>
-                                <div class="flex items-center justify-between mb-4">
-                                    <span class="text-xs font-semibold text-slate-500">${file.ukuran}</span>
-                                    <span class="${badge} text-[10px] px-2 py-0.5 rounded-md font-bold uppercase tracking-wider">${file.kategori}</span>
+                                <h4 class="font-bold text-slate-800 text-[15px] leading-tight mb-2.5 line-clamp-2 h-10" title="${file.nama}">${file.nama}</h4>
+                                <div class="flex items-center justify-between mb-5">
+                                    <span class="text-xs font-bold text-slate-500">${file.ukuran}</span>
+                                    <span class="${badge} text-[10px] px-2.5 py-1 rounded-lg font-extrabold uppercase tracking-wider">${file.kategori}</span>
                                 </div>
-                                
-                                <div class="flex gap-2 pt-3 border-t border-slate-100">
-                                    <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold py-2 rounded-lg transition border border-slate-200 shadow-sm flex items-center justify-center gap-1.5">
+                                <div class="flex gap-3 pt-4 border-t border-slate-100">
+                                    <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold py-2.5 rounded-xl transition border border-slate-200 shadow-sm flex items-center justify-center gap-2 btn-active">
                                         <i class="fa-solid fa-eye"></i> Lihat
                                     </button>
-                                    <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold py-2 rounded-lg transition shadow-sm flex items-center justify-center gap-1.5">
+                                    <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 btn-active">
                                         <i class="fa-solid fa-download"></i> Unduh
                                     </button>
                                 </div>
                             </div>
                         `;
-                        grid.innerHTML += html;
                     });
                 }
             },
 
-            // --- ADMIN LOGIC ---
             admin: {
                 setTab(tabId) {
                     document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden-view'));
                     document.querySelectorAll('.admin-nav-item').forEach(el => {
-                        el.classList.remove('active', 'bg-slate-50');
-                        el.classList.add('text-slate-600');
-                        if(el.dataset.tab === tabId) {
-                            el.classList.add('active', 'bg-slate-50');
-                            el.classList.remove('text-slate-600');
-                        }
+                        el.classList.remove('active', 'bg-slate-50'); el.classList.add('text-slate-600');
+                        if(el.dataset.tab === tabId) { el.classList.add('active', 'bg-slate-50'); el.classList.remove('text-slate-600'); }
                     });
                     
                     document.getElementById(`tab-${tabId}`).classList.remove('hidden-view');
@@ -1260,9 +1180,7 @@
                     document.getElementById('stat-total-files').innerText = State.files.length;
                     document.getElementById('stat-total-folders').innerText = State.folders.length - 1; 
                     
-                    let totalSize = 0, thisMonth = 0;
-                    const currentMonth = new Date().getMonth();
-                    
+                    let totalSize = 0, thisMonth = 0; const currentMonth = new Date().getMonth();
                     State.files.forEach(f => {
                         const sizeStr = f.ukuran.replace(' MB', '').replace(' KB', '');
                         totalSize += f.ukuran.includes('MB') ? parseFloat(sizeStr) : parseFloat(sizeStr)/1024;
@@ -1278,9 +1196,9 @@
                     sorted.forEach(f => {
                         tbody.innerHTML += `
                             <tr class="hover:bg-slate-50 transition border-b border-slate-50 last:border-0">
-                                <td class="px-6 py-3 font-semibold text-slate-800 truncate max-w-[200px]"><i class="fa-regular fa-file-pdf text-red-500 mr-2"></i> ${f.nama}</td>
-                                <td class="px-6 py-3"><span class="${app.utils.getKategoriBadge(f.kategori)} px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">${f.kategori}</span></td>
-                                <td class="px-6 py-3 text-xs font-semibold text-slate-500">${dayjs(f.timestamp).fromNow(true)} lalu</td>
+                                <td class="px-6 py-4 font-bold text-slate-800 truncate max-w-[200px]"><i class="fa-regular fa-file-pdf text-red-500 mr-2.5 text-lg align-middle"></i> ${f.nama}</td>
+                                <td class="px-6 py-4"><span class="${app.utils.getKategoriBadge(f.kategori)} px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider">${f.kategori}</span></td>
+                                <td class="px-6 py-4 text-xs font-bold text-slate-400 text-right">${dayjs(f.timestamp).fromNow(true)} lalu</td>
                             </tr>
                         `;
                     });
@@ -1300,9 +1218,9 @@
                     if(State.currentPath !== '/') {
                         const parent = State.currentPath.substring(0, State.currentPath.lastIndexOf('/')) || '/';
                         tbody.innerHTML += `
-                            <tr class="hover:bg-slate-50 cursor-pointer transition group" onclick="app.admin.setPath('${parent}')">
-                                <td class="px-6 py-3.5"><i class="fa-solid fa-level-up-alt text-slate-400 group-hover:text-primary transition"></i></td>
-                                <td class="px-6 py-3.5 font-semibold text-slate-600 group-hover:text-primary transition">.. Kembali</td>
+                            <tr class="hover:bg-slate-50 cursor-pointer transition group border-b border-slate-100" onclick="app.admin.setPath('${parent}')">
+                                <td class="px-6 py-4"><i class="fa-solid fa-level-up-alt text-slate-400 group-hover:text-primary transition text-lg"></i></td>
+                                <td class="px-6 py-4 font-bold text-slate-600 group-hover:text-primary transition text-[15px]">.. Kembali</td>
                                 <td colspan="4"></td>
                             </tr>
                         `;
@@ -1312,12 +1230,12 @@
                         const name = sf.split('/').pop();
                         tbody.innerHTML += `
                             <tr class="hover:bg-slate-50 cursor-pointer transition group border-b border-slate-50" oncontextmenu="event.preventDefault()">
-                                <td class="px-6 py-3.5"><i class="fa-solid fa-folder text-amber-400 text-xl group-hover:scale-110 transition-transform"></i></td>
-                                <td class="px-6 py-3.5 font-semibold text-slate-800 group-hover:text-primary transition" onclick="app.admin.setPath('${sf}')">${name}</td>
-                                <td class="px-6 py-3.5 text-xs font-medium text-slate-500">Direktori Folder</td>
-                                <td class="px-6 py-3.5 text-slate-400">-</td>
-                                <td class="px-6 py-3.5 text-slate-400">-</td>
-                                <td class="px-6 py-3.5 text-right"></td>
+                                <td class="px-6 py-4"><i class="fa-solid fa-folder text-amber-400 text-2xl group-hover:scale-110 transition-transform"></i></td>
+                                <td class="px-6 py-4 font-bold text-slate-800 group-hover:text-primary transition text-[15px]" onclick="app.admin.setPath('${sf}')">${name}</td>
+                                <td class="px-6 py-4 text-xs font-bold text-slate-400">Direktori Folder</td>
+                                <td class="px-6 py-4 text-slate-400">-</td>
+                                <td class="px-6 py-4 text-slate-400">-</td>
+                                <td class="px-6 py-4 text-right"></td>
                             </tr>
                         `;
                     });
@@ -1325,16 +1243,16 @@
                     filtered.forEach(file => {
                         tbody.innerHTML += `
                             <tr class="hover:bg-slate-50 transition border-b border-slate-50 group">
-                                <td class="px-6 py-3.5"><i class="fa-solid fa-file-pdf text-red-500 text-xl group-hover:scale-110 transition-transform"></i></td>
-                                <td class="px-6 py-3.5 font-semibold text-slate-800 max-w-[250px] truncate" title="${file.nama}">${file.nama}</td>
-                                <td class="px-6 py-3.5"><span class="${app.utils.getKategoriBadge(file.kategori)} px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">${file.kategori}</span></td>
-                                <td class="px-6 py-3.5 text-slate-500 text-xs font-semibold">${file.ukuran}</td>
-                                <td class="px-6 py-3.5 text-slate-500 text-xs font-medium">${dayjs(file.tanggal).format('DD MMM YYYY')}</td>
-                                <td class="px-6 py-3.5 text-right">
-                                    <div class="flex justify-end gap-1.5 opacity-0 group-hover:opacity-100 transition duration-200">
-                                        <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="w-8 h-8 rounded-lg hover:bg-white border border-transparent hover:border-slate-200 text-slate-500 hover:text-blue-600 flex justify-center items-center shadow-sm transition" title="Preview"><i class="fa-solid fa-eye text-xs"></i></button>
-                                        <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="w-8 h-8 rounded-lg hover:bg-white border border-transparent hover:border-slate-200 text-slate-500 hover:text-green-600 flex justify-center items-center shadow-sm transition" title="Download"><i class="fa-solid fa-download text-xs"></i></button>
-                                        <button onclick="app.admin.deleteFile('${file.id}')" class="w-8 h-8 rounded-lg hover:bg-red-50 border border-transparent hover:border-red-100 text-slate-500 hover:text-red-600 flex justify-center items-center shadow-sm transition" title="Hapus"><i class="fa-solid fa-trash text-xs"></i></button>
+                                <td class="px-6 py-4"><i class="fa-solid fa-file-pdf text-red-500 text-2xl group-hover:scale-110 transition-transform"></i></td>
+                                <td class="px-6 py-4 font-bold text-slate-800 max-w-[200px] md:max-w-[300px] truncate text-[15px]" title="${file.nama}">${file.nama}</td>
+                                <td class="px-6 py-4"><span class="${app.utils.getKategoriBadge(file.kategori)} px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider">${file.kategori}</span></td>
+                                <td class="px-6 py-4 text-slate-500 text-xs font-bold">${file.ukuran}</td>
+                                <td class="px-6 py-4 text-slate-500 text-xs font-semibold">${dayjs(file.tanggal).format('DD MMM YYYY')}</td>
+                                <td class="px-6 py-4 text-right">
+                                    <div class="flex justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition duration-200">
+                                        <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="w-9 h-9 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 text-slate-500 hover:text-blue-600 flex justify-center items-center shadow-sm transition btn-active" title="Preview"><i class="fa-solid fa-eye"></i></button>
+                                        <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="w-9 h-9 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 text-slate-500 hover:text-green-600 flex justify-center items-center shadow-sm transition btn-active" title="Download"><i class="fa-solid fa-download"></i></button>
+                                        <button onclick="app.admin.deleteFile('${file.id}')" class="w-9 h-9 rounded-xl hover:bg-red-50 border border-transparent hover:border-red-100 text-slate-500 hover:text-red-600 flex justify-center items-center shadow-sm transition btn-active" title="Hapus"><i class="fa-solid fa-trash"></i></button>
                                     </div>
                                 </td>
                             </tr>
@@ -1350,7 +1268,7 @@
                             e.target.value = ''; return;
                         }
                         const nameDiv = document.getElementById('selected-file-name');
-                        nameDiv.innerHTML = `<i class="fa-solid fa-check-circle mr-1"></i> ${file.name}`;
+                        nameDiv.innerHTML = `<i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> ${file.name}`;
                         nameDiv.classList.remove('hidden');
                         if(!document.getElementById('up-judul').value) document.getElementById('up-judul').value = file.name.replace('.pdf', '');
                     }
@@ -1369,13 +1287,11 @@
                     const sText = document.getElementById('upload-status-text');
                     
                     btn.disabled = true; btn.classList.add('opacity-50');
-                    prog.classList.remove('hidden');
-                    bar.style.width = '10%'; pText.innerText = '10%';
+                    prog.classList.remove('hidden'); bar.style.width = '10%'; pText.innerText = '10%';
 
                     try {
                         sText.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-primary"></i> Mengunggah ke server Storage...';
                         bar.style.width = '40%'; pText.innerText = '40%';
-                        
                         const link = await API.uploadToCatbox(file);
                         
                         sText.innerHTML = '<i class="fa-solid fa-database text-primary"></i> Mengamankan Metadata...';
@@ -1387,15 +1303,11 @@
                         const metadata = {
                             id: 'DOC-' + new Date().getTime(),
                             nama: document.getElementById('up-judul').value,
-                            file: file.name,
-                            folder: document.getElementById('up-folder').value,
+                            file: file.name, folder: document.getElementById('up-folder').value,
                             kategori: document.getElementById('up-kategori').value,
                             tanggal: document.getElementById('up-tanggal').value,
                             deskripsi: document.getElementById('up-deskripsi').value,
-                            uploader: 'Hamimah (Admin)',
-                            ukuran: ukuran,
-                            link: link,
-                            timestamp: new Date().getTime()
+                            uploader: 'Hamimah (Admin)', ukuran: ukuran, link: link, timestamp: new Date().getTime()
                         };
 
                         await API.executeAction('saveFile', { data: metadata });
@@ -1405,7 +1317,7 @@
                         app.utils.logActivity(`Mengunggah dokumen baru: ${metadata.nama}`);
                         
                         setTimeout(() => {
-                            Swal.fire({ title: 'Berhasil!', text: 'Dokumen arsip berhasil diamankan dalam sistem.', icon: 'success', confirmButtonColor: '#0f172a', confirmButtonText: 'Lanjutkan' }).then(() => {
+                            Swal.fire({ title: 'Berhasil!', text: 'Dokumen arsip berhasil diamankan dalam sistem.', icon: 'success', confirmButtonColor: '#0f172a', confirmButtonText: 'Selesai' }).then(() => {
                                 document.getElementById('upload-form').reset();
                                 document.getElementById('selected-file-name').classList.add('hidden');
                                 prog.classList.add('hidden'); bar.style.width = '0%';
@@ -1415,8 +1327,7 @@
                         }, 600);
                     } catch(err) {
                         Swal.fire('Kegagalan Sistem', err.message, 'error');
-                        prog.classList.add('hidden');
-                        btn.disabled = false; btn.classList.remove('opacity-50');
+                        prog.classList.add('hidden'); btn.disabled = false; btn.classList.remove('opacity-50');
                     }
                 },
 
@@ -1425,17 +1336,13 @@
                         title: 'Konfirmasi Penghapusan',
                         text: "Dokumen ini akan dihapus permanen dari sistem metadata. Lanjutkan?",
                         icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#ef4444',
-                        cancelButtonColor: '#cbd5e1',
-                        confirmButtonText: 'Ya, Hapus Dokumen'
+                        showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#cbd5e1', confirmButtonText: 'Ya, Hapus'
                     }).then(async (result) => {
                         if (result.isConfirmed) {
                             const file = State.files.find(f => f.id === id);
                             await API.executeAction('deleteFile', { id: id });
                             app.utils.logActivity(`Menghapus arsip: ${file.nama}`);
-                            await app.loadData();
-                            this.renderFiles();
+                            await app.loadData(); this.renderFiles();
                             Toastify({text: "Berkas berhasil dihapus.", backgroundColor: "#ef4444"}).showToast();
                         }
                     })
@@ -1443,55 +1350,45 @@
 
                 async createFolderDialog() {
                     const { value: folderName } = await Swal.fire({
-                        title: 'Buat Direktori Baru',
-                        input: 'text',
-                        inputPlaceholder: 'Misal: 2026 atau Laporan/Bulanan',
-                        showCancelButton: true,
-                        confirmButtonColor: '#0f172a',
+                        title: 'Buat Direktori Baru', input: 'text', inputPlaceholder: 'Misal: 2026 atau Laporan/Bulanan',
+                        showCancelButton: true, confirmButtonColor: '#0f172a',
                         inputValidator: (value) => { if (!value) return 'Nama direktori wajib diisi.' }
                     });
 
                     if (folderName) {
                         let newPath = folderName.startsWith('/') ? folderName : `/${folderName}`;
                         if(State.currentPath !== '/' && !folderName.includes('/')) newPath = `${State.currentPath}/${folderName}`;
-
                         if(!State.folders.includes(newPath)) {
                             State.folders.push(newPath);
                             localStorage.setItem('ad_folders', JSON.stringify(State.folders));
                             app.utils.logActivity(`Membuat direktori baru: ${newPath}`);
                             Toastify({text: "Direktori berhasil dibuat", backgroundColor: "#10b981"}).showToast();
-                            this.updateFolderSelects();
-                            this.renderFiles();
+                            this.updateFolderSelects(); this.renderFiles();
                         }
                     }
                 },
 
                 updateFolderSelects() {
-                    const select = document.getElementById('up-folder');
-                    if(!select) return;
+                    const select = document.getElementById('up-folder'); if(!select) return;
                     select.innerHTML = '<option value="/">/ (Root)</option>';
-                    State.folders.filter(f => f !== '/').sort().forEach(f => {
-                        select.innerHTML += `<option value="${f}">${f}</option>`;
-                    });
+                    State.folders.filter(f => f !== '/').sort().forEach(f => { select.innerHTML += `<option value="${f}">${f}</option>`; });
                 },
 
                 exportJSON() {
                     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({files: State.files, folders: State.folders}));
-                    const a = document.createElement('a');
-                    a.href = dataStr; a.download = "arsip_metadata_db_backup.json"; a.click();
+                    const a = document.createElement('a'); a.href = dataStr; a.download = "arsip_metadata_db_backup.json"; a.click();
                     app.utils.logActivity("Melakukan Ekspor Database JSON");
                 },
 
                 renderHistory() {
-                    const ul = document.getElementById('history-list');
-                    ul.innerHTML = '';
+                    const ul = document.getElementById('history-list'); ul.innerHTML = '';
                     State.history.forEach(h => {
                         ul.innerHTML += `
-                            <li class="relative flex gap-4">
-                                <div class="absolute -left-2.5 md:left-auto md:relative w-5 h-5 rounded-full bg-white border-4 border-slate-100 flex items-center justify-center shadow-sm z-10"><div class="w-1.5 h-1.5 bg-primary rounded-full"></div></div>
-                                <div class="flex-1 bg-slate-50/50 p-4 rounded-xl border border-slate-100 ml-6 md:ml-0">
-                                    <p class="text-sm font-semibold text-slate-800">${h.action}</p>
-                                    <p class="text-[11px] text-slate-400 font-bold mt-1 uppercase tracking-wider">${dayjs(h.time).format('DD MMM YYYY, HH:mm')}</p>
+                            <li class="relative flex gap-5">
+                                <div class="absolute -left-3 md:left-auto md:relative w-6 h-6 rounded-full bg-white border-[5px] border-slate-100 flex items-center justify-center shadow-sm z-10"><div class="w-2 h-2 bg-primary rounded-full"></div></div>
+                                <div class="flex-1 bg-slate-50/50 p-5 rounded-2xl border border-slate-100 ml-6 md:ml-0 shadow-sm">
+                                    <p class="text-[15px] font-bold text-slate-800">${h.action}</p>
+                                    <p class="text-[11px] text-slate-400 font-extrabold mt-1.5 uppercase tracking-wider">${dayjs(h.time).format('DD MMM YYYY, HH:mm')}</p>
                                 </div>
                             </li>
                         `;
@@ -1500,21 +1397,16 @@
                 
                 clearHistory() {
                     State.history = [{action: 'Log aktivitas dibersihkan secara manual', time: new Date().getTime()}];
-                    localStorage.setItem('ad_history', JSON.stringify(State.history));
-                    this.renderHistory();
+                    localStorage.setItem('ad_history', JSON.stringify(State.history)); this.renderHistory();
                 }
             },
 
-            // --- UTILITIES ---
             utils: {
                 getKategoriBadge(kat) {
                     const map = {
-                        'Surat Masuk': 'bg-blue-100 text-blue-700',
-                        'Surat Keluar': 'bg-indigo-100 text-indigo-700',
-                        'SK': 'bg-rose-100 text-rose-700',
-                        'Laporan': 'bg-emerald-100 text-emerald-700',
-                        'Dokumentasi': 'bg-amber-100 text-amber-700',
-                        'Lainnya': 'bg-slate-200 text-slate-700'
+                        'Surat Masuk': 'bg-blue-100 text-blue-700', 'Surat Keluar': 'bg-indigo-100 text-indigo-700',
+                        'SK': 'bg-rose-100 text-rose-700', 'Laporan': 'bg-emerald-100 text-emerald-700',
+                        'Dokumentasi': 'bg-amber-100 text-amber-700', 'Lainnya': 'bg-slate-200 text-slate-700'
                     };
                     return map[kat] || map['Lainnya'];
                 },
@@ -1522,50 +1414,37 @@
                 showContextMenu(e, id, isAdminView) {
                     e.preventDefault();
                     const menu = document.getElementById('context-menu');
-                    const file = State.files.find(f => f.id === id);
-                    if(!file) return;
+                    const file = State.files.find(f => f.id === id); if(!file) return;
 
-                    menu.style.left = e.pageX + 'px';
-                    menu.style.top = e.pageY + 'px';
+                    // Bound checks for mobile screens
+                    let left = e.pageX; let top = e.pageY;
+                    if(left + 220 > window.innerWidth) left = window.innerWidth - 230;
+                    if(top + 200 > window.innerHeight) top = window.innerHeight - 210;
+                    
+                    menu.style.left = left + 'px'; menu.style.top = top + 'px';
                     menu.classList.remove('hidden-view');
                     
-                    // Simple animation trick
-                    setTimeout(() => {
-                        menu.style.opacity = '1';
-                        menu.style.transform = 'scale(1)';
-                    }, 10);
+                    setTimeout(() => { menu.style.opacity = '1'; menu.style.transform = 'scale(1)'; }, 10);
 
-                    // Setup Admin permissions
                     const adminEls = document.getElementById('ctx-admin-actions');
                     if(State.userToken) {
-                        adminEls.classList.remove('hidden');
-                        document.getElementById('ctx-delete').onclick = () => app.admin.deleteFile(id);
-                    } else {
-                        adminEls.classList.add('hidden');
-                    }
+                        adminEls.classList.remove('hidden'); document.getElementById('ctx-delete').onclick = () => app.admin.deleteFile(id);
+                    } else { adminEls.classList.add('hidden'); }
 
-                    // Bind Actions
                     document.getElementById('ctx-preview').onclick = () => this.openPreview(file.link, file.nama);
                     document.getElementById('ctx-download').onclick = () => this.downloadFile(file.link, file.file);
-                    document.getElementById('ctx-share').onclick = () => {
-                        navigator.clipboard.writeText(file.link);
-                        Toastify({text: "Tautan disalin ke clipboard", backgroundColor: "#10b981"}).showToast();
-                    };
+                    document.getElementById('ctx-share').onclick = () => { navigator.clipboard.writeText(file.link); Toastify({text: "Tautan disalin ke clipboard", backgroundColor: "#10b981"}).showToast(); };
                 },
 
-                // PDF Viewer
                 async openPreview(url, name) {
                     State.currentPdfUrl = url; State.currentPdfName = name;
                     document.getElementById('pdf-modal-title').innerText = name;
                     const modal = document.getElementById('pdf-modal');
                     modal.classList.remove('hidden');
-                    // Add slight delay for animation
                     setTimeout(() => modal.classList.add('opacity-100'), 10);
                     
                     document.getElementById('pdf-loading').classList.remove('hidden');
-                    document.getElementById('pdf-canvas').classList.add('hidden');
-                    document.getElementById('pdf-error').classList.add('hidden');
-                    
+                    document.getElementById('pdf-canvas').classList.add('hidden'); document.getElementById('pdf-error').classList.add('hidden');
                     State.pdfPageNum = 1; State.pdfScale = 1.2;
 
                     try {
@@ -1575,22 +1454,18 @@
                         document.getElementById('pdf-page-count').textContent = State.pdfDoc.numPages;
                         this.renderPdfPage(State.pdfPageNum);
                     } catch(err) {
-                        document.getElementById('pdf-loading').classList.add('hidden');
-                        document.getElementById('pdf-error').classList.remove('hidden');
+                        document.getElementById('pdf-loading').classList.add('hidden'); document.getElementById('pdf-error').classList.remove('hidden');
                     }
                 },
 
                 async renderPdfPage(num) {
                     if(!State.pdfDoc) return;
                     const page = await State.pdfDoc.getPage(num);
-                    const canvas = document.getElementById('pdf-canvas');
-                    const ctx = canvas.getContext('2d');
-
+                    const canvas = document.getElementById('pdf-canvas'); const ctx = canvas.getContext('2d');
                     const viewport = page.getViewport({ scale: State.pdfScale });
                     canvas.height = viewport.height; canvas.width = viewport.width;
 
                     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-                    
                     document.getElementById('pdf-loading').classList.add('hidden');
                     canvas.classList.remove('hidden');
                     document.getElementById('pdf-page-num').textContent = num;
@@ -1603,19 +1478,15 @@
                 pdfZoomOut() { if(State.pdfScale > 0.4) { State.pdfScale -= 0.2; this.renderPdfPage(State.pdfPageNum); } },
                 
                 closePreview() { 
-                    const modal = document.getElementById('pdf-modal');
-                    modal.classList.remove('opacity-100');
-                    setTimeout(() => modal.classList.add('hidden'), 300);
-                    State.pdfDoc = null; 
+                    const modal = document.getElementById('pdf-modal'); modal.classList.remove('opacity-100');
+                    setTimeout(() => modal.classList.add('hidden'), 300); State.pdfDoc = null; 
                 },
 
                 downloadCurrentPreview() { this.downloadFile(State.currentPdfUrl, State.currentPdfName + '.pdf'); },
                 downloadFile(url, filename) { saveAs(url, filename); Toastify({text: "Mengunduh dokumen...", backgroundColor: "#0f172a"}).showToast(); },
 
                 async downloadAllAsZip() {
-                    const zip = new JSZip();
-                    Toastify({text: "Kompilasi ZIP dimulai...", backgroundColor: "#2563EB"}).showToast();
-                    
+                    const zip = new JSZip(); Toastify({text: "Kompilasi ZIP dimulai...", backgroundColor: "#2563EB"}).showToast();
                     const rootFolder = zip.folder("Arsip Digital WAKASEK HUMAS");
                     rootFolder.file("info.txt", "Arsip Digital diunduh pada " + dayjs().format('DD/MM/YYYY HH:mm'));
 
@@ -1643,7 +1514,6 @@
             }
         };
 
-        // DayJS config
         dayjs.locale('id', {
             months: "Januari_Februari_Maret_April_Mei_Juni_Juli_Agustus_September_Oktober_November_Desember".split("_"),
             relativeTime: { future: "dalam %s", past: "%s", s: "Beberapa detik", m: "1 menit", mm: "%d menit", h: "1 jam", hh: "%d jam", d: "1 hari", dd: "%d hari" }
@@ -1659,7 +1529,6 @@
         });
 
         window.onload = () => app.init();
-
     </script>
 </body>
 </html>
