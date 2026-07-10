@@ -387,21 +387,18 @@
             <!-- File Grid (Public) -->
             <main class="flex-1 p-5 md:p-8 overflow-y-auto relative bg-slate-50/50">
                 <!-- Toolbar -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 mb-6 lg:mb-8 pb-4 lg:pb-6 border-b border-slate-200">
-                    <div class="w-full md:w-auto">
-                        <div class="text-xs font-bold text-slate-400 mb-1.5 uppercase tracking-wider">Direktori Saat Ini</div>
-                        <h2 class="text-xl lg:text-2xl font-display font-bold text-slate-800 flex items-center gap-3 truncate w-full" id="public-current-folder-title">
-                            <i class="fa-solid fa-folder text-amber-400"></i> / Root
-                        </h2>
-                    </div>
-                    <div class="flex flex-row gap-3 w-full sm:w-auto mt-2 sm:mt-0">
+                <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6 lg:mb-8">
+                    <h2 class="text-2xl font-display font-bold text-slate-800 flex items-center truncate w-full" id="public-current-folder-title">
+                        <span class="text-primary mr-2">/</span> Root
+                    </h2>
+                    <div class="flex flex-row gap-3 w-full sm:w-auto">
                         <select id="public-sort" class="flex-1 sm:flex-none text-sm border border-slate-200 rounded-xl px-4 py-2.5 bg-white text-slate-700 outline-none hover:border-slate-300 shadow-sm font-semibold" onchange="app.public.renderFiles()">
                             <option value="date-desc">Terbaru</option>
                             <option value="date-asc">Terlama</option>
                             <option value="name-asc">A-Z</option>
                         </select>
                         <button onclick="app.utils.downloadAllAsZip()" class="flex-1 sm:flex-none bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition shadow-md flex items-center justify-center gap-2 btn-active">
-                            <i class="fa-solid fa-file-zipper text-slate-300"></i> Unduh ZIP
+                            <i class="fa-solid fa-file-zipper text-slate-300"></i> Download ZIP
                         </button>
                     </div>
                 </div>
@@ -585,44 +582,32 @@
 
                 <!-- TAB: FILE MANAGER -->
                 <div id="tab-files" class="admin-tab animate-fade-in hidden-view flex flex-col flex-1 h-full min-h-[500px]">
-                    <div class="flex flex-col xl:flex-row xl:justify-between items-start xl:items-center gap-4 mb-5">
-                        <div class="flex items-center gap-2 bg-white px-4 py-2.5 rounded-xl shadow-sm border border-slate-200 text-sm font-bold text-slate-700 w-full xl:w-auto truncate" id="admin-breadcrumb">
+                    <div class="flex flex-col xl:flex-row xl:justify-between items-start xl:items-center gap-4 mb-6">
+                        <div class="flex items-center gap-2.5 bg-white px-5 py-3 rounded-2xl shadow-sm border border-slate-200 text-sm font-bold text-slate-700 w-full xl:w-auto truncate transition-all duration-[250ms] hover:shadow-md" id="admin-breadcrumb">
                             <i class="fa-solid fa-hard-drive text-primary"></i> / Root
                         </div>
                         <div class="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
                             <div class="relative w-full sm:w-auto">
-                                <i class="fa-solid fa-search absolute left-4 top-3 text-slate-400 text-sm"></i>
-                                <input type="text" id="admin-search" placeholder="Cari di folder ini..." class="w-full sm:w-72 pl-10 pr-4 py-2.5 text-sm rounded-xl border border-slate-200 outline-none focus:border-primary shadow-sm font-semibold">
+                                <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-400 text-sm"></i>
+                                <input type="text" id="admin-search" placeholder="Cari di folder ini..." class="w-full sm:w-80 pl-11 pr-4 py-3 text-sm rounded-2xl border border-slate-200 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm font-semibold transition-all duration-[250ms] bg-white">
                             </div>
                             <div class="flex gap-2 w-full sm:w-auto">
-                                <button onclick="app.admin.createFolderDialog()" class="flex-1 sm:flex-none bg-white border border-slate-200 text-slate-700 px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-slate-50 transition flex items-center justify-center gap-2 shadow-sm btn-active">
+                                <button onclick="app.admin.createFolderDialog()" class="flex-1 sm:flex-none bg-white border border-slate-200 text-slate-700 px-5 py-3 rounded-2xl text-sm font-bold hover:bg-slate-50 hover:shadow-md transition-all duration-[250ms] flex items-center justify-center gap-2 shadow-sm btn-active">
                                     <i class="fa-solid fa-folder-plus text-amber-500"></i> Folder
                                 </button>
-                                <button onclick="app.admin.setTab('upload')" class="flex-1 sm:flex-none bg-primary hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl text-sm font-bold transition shadow-sm flex items-center justify-center gap-2 btn-active">
+                                <button onclick="app.admin.setTab('upload')" class="flex-1 sm:flex-none bg-gradient-to-r from-primary to-blue-600 hover:shadow-lg text-white px-5 py-3 rounded-2xl text-sm font-bold transition-all duration-[250ms] shadow-sm flex items-center justify-center gap-2 btn-active">
                                     <i class="fa-solid fa-upload"></i> Upload
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Data Table -->
-                    <div class="flex-1 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col relative min-h-[400px]">
-                        <div class="overflow-y-auto overflow-x-auto flex-1 absolute inset-0">
-                            <table class="w-full text-sm text-left whitespace-nowrap">
-                                <thead class="bg-slate-50 text-slate-500 font-bold text-[11px] uppercase tracking-wider sticky top-0 z-10 shadow-sm border-b border-slate-200">
-                                    <tr>
-                                        <th class="px-6 py-4 w-12"></th>
-                                        <th class="px-6 py-4">Nama Dokumen</th>
-                                        <th class="px-6 py-4">Kategori</th>
-                                        <th class="px-6 py-4">Ukuran</th>
-                                        <th class="px-6 py-4">Tanggal Diunggah</th>
-                                        <th class="px-6 py-4 text-right">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="admin-file-table" class="divide-y divide-slate-100">
-                                    <!-- Rendered via JS -->
-                                </tbody>
-                            </table>
+                    <!-- File Grid -->
+                    <div class="flex-1 relative min-h-[400px]">
+                        <div class="overflow-y-auto absolute inset-0 pr-1 pb-2">
+                            <div id="admin-file-table" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                                <!-- Rendered via JS -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -631,22 +616,11 @@
                 <div id="tab-upload" class="admin-tab animate-fade-in hidden-view">
                     <div class="max-w-3xl mx-auto enterprise-card p-6 md:p-8">
                         <div class="mb-8 border-b border-slate-100 pb-5">
-                            <h3 class="text-xl font-display font-extrabold text-slate-800">Formulir Upload Arsip</h3>
-                            <p class="text-sm text-slate-500 mt-1.5 font-medium">Lengkapi metadata dan unggah file PDF dokumen Anda.</p>
+                            <h3 class="text-xl font-display font-extrabold text-slate-800">Formulir Penyimpanan Arsip</h3>
+                            <p class="text-sm text-slate-500 mt-1.5 font-medium">Lengkapi metadata dan masukkan link PDF dari Catbox.moe.</p>
                         </div>
                         
                         <form id="upload-form" onsubmit="app.admin.handleUpload(event)">
-                            <!-- Drag & Drop Area -->
-                            <div id="drop-zone" class="border-2 border-dashed border-slate-300 rounded-2xl p-8 md:p-12 text-center bg-slate-50/50 hover:bg-blue-50/50 hover:border-primary/50 transition cursor-pointer mb-8 relative group">
-                                <input type="file" id="file-input" accept=".pdf" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="app.admin.handleFileSelect(event)">
-                                <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-sm mx-auto mb-5 group-hover:scale-110 transition-transform">
-                                    <i class="fa-regular fa-file-pdf text-4xl text-red-500"></i>
-                                </div>
-                                <h4 class="font-extrabold text-slate-800 text-lg">Ketuk atau Drag & Drop PDF</h4>
-                                <p class="text-sm text-slate-500 mt-2 font-medium">Ukuran maksimal file: 50MB</p>
-                                <div id="selected-file-name" class="mt-5 inline-block px-4 py-2 bg-white rounded-xl border border-slate-200 font-bold text-primary text-sm shadow-sm hidden"></div>
-                            </div>
-
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                                 <div>
                                     <label class="block text-sm font-bold text-slate-700 mb-2">Judul Arsip <span class="text-red-500">*</span></label>
@@ -677,25 +651,27 @@
                             </div>
 
                             <div class="mb-8">
+                                <div class="mb-4">
+                                    <label class="block text-sm font-bold text-slate-700">Lampiran Arsip <span class="text-red-500">*</span></label>
+                                    <p class="text-xs text-slate-500 font-medium mt-1">Tambahkan satu atau lebih tautan dari Catbox.moe. Urutkan dengan menahan dan menggeser lampiran.</p>
+                                </div>
+                                <div id="attachments-list" class="space-y-4">
+                                    <!-- Rendered via JS -->
+                                </div>
+                                <button type="button" onclick="app.admin.addAttachment()" class="mt-4 w-full sm:w-auto px-5 py-3 bg-white border-2 border-dashed border-slate-300 text-slate-600 rounded-2xl text-sm font-bold hover:border-primary hover:text-primary hover:bg-blue-50/30 transition flex items-center justify-center gap-2 btn-active">
+                                    <i class="fa-solid fa-plus"></i> Tambah Lampiran
+                                </button>
+                            </div>
+
+                            <div class="mb-8">
                                 <label class="block text-sm font-bold text-slate-700 mb-2">Deskripsi Singkat (Opsional)</label>
                                 <textarea id="up-deskripsi" rows="3" placeholder="Tambahkan catatan singkat mengenai arsip ini..." class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm resize-none bg-white"></textarea>
                             </div>
 
-                            <!-- Progress Bar -->
-                            <div id="upload-progress-container" class="hidden mb-8 p-5 bg-slate-50 rounded-2xl border border-slate-200 shadow-inner">
-                                <div class="flex justify-between text-xs mb-3 font-bold text-slate-700">
-                                    <span id="upload-status-text" class="flex items-center gap-2"><i class="fa-solid fa-spinner fa-spin text-primary"></i> Memproses unggahan...</span>
-                                    <span id="upload-percent">0%</span>
-                                </div>
-                                <div class="w-full bg-slate-200 rounded-full h-3 overflow-hidden">
-                                    <div id="upload-bar" class="bg-primary h-full rounded-full transition-all duration-300 ease-out shadow-sm" style="width: 0%"></div>
-                                </div>
-                            </div>
-
                             <div class="flex flex-col sm:flex-row justify-end gap-3 pt-6 border-t border-slate-100">
-                                <button type="button" onclick="app.admin.setTab('files')" class="w-full sm:w-auto px-8 h-[56px] text-slate-600 bg-white border border-slate-200 rounded-[18px] hover:bg-slate-50 font-bold transition text-[15px] btn-active">Batal</button>
+                                <button type="button" onclick="app.admin.setTab('files')" class="w-full sm:w-auto px-8 h-[56px] text-slate-600 bg-white border border-slate-200 rounded-[18px] hover:bg-slate-50 font-bold transition shadow-sm text-[15px] btn-active">Batal</button>
                                 <button type="submit" id="btn-submit-upload" class="w-full sm:w-auto bg-slate-900 hover:bg-slate-800 text-white font-bold h-[56px] px-8 rounded-[18px] transition shadow-md flex justify-center items-center gap-2 text-[15px] btn-active">
-                                    <i class="fa-solid fa-cloud-arrow-up"></i> Simpan Arsip
+                                    <i class="fa-solid fa-floppy-disk"></i> Simpan Arsip
                                 </button>
                             </div>
                         </form>
@@ -1085,18 +1061,21 @@
                         return `<li><button onclick="app.public.setPath('${path}')" class="w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition ${isActive}"><i class="${icon} ${State.currentPath === path ? 'text-primary' : 'text-amber-400'} w-5 text-center"></i><span class="truncate">${name}</span></button></li>`;
                     };
 
-                    tree.innerHTML += renderNode('/', 'Semua Dokumen', 'fa-solid fa-hard-drive');
+                    tree.innerHTML += renderNode('/', 'Semua Arsip (Root)', 'fa-solid fa-folder-open');
                     
                     State.folders.filter(f => f !== '/').forEach(folder => {
                         const depth = folder.split('/').length - 1; const padding = depth * 16;
                         const name = folder.split('/').pop();
-                        tree.innerHTML += `<li style="padding-left: ${padding}px"><button onclick="app.public.setPath('${folder}')" class="w-full text-left px-4 py-2.5 rounded-xl flex items-center gap-3 transition ${State.currentPath === folder ? 'bg-slate-100 text-primary font-bold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'} text-sm mt-0.5"><i class="fa-solid fa-folder text-slate-300 w-4 text-center"></i><span class="truncate">${name}</span></button></li>`;
+                        const isActive = State.currentPath === folder ? 'bg-primary/10 text-primary font-bold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900';
+                        const iconColor = State.currentPath === folder ? 'text-primary' : 'text-amber-400';
+                        tree.innerHTML += `<li style="padding-left: ${padding}px"><button onclick="app.public.setPath('${folder}')" class="w-full text-left px-4 py-2.5 rounded-xl flex items-center gap-3 transition ${isActive} text-sm mt-0.5"><i class="fa-solid fa-folder ${iconColor} w-4 text-center"></i><span class="truncate">${name}</span></button></li>`;
                     });
                 },
 
                 setPath(path) {
                     State.currentPath = path;
-                    document.getElementById('public-current-folder-title').innerHTML = `<i class="fa-solid fa-folder-open text-amber-500"></i> ${path}`;
+                    const pathName = path === '/' ? 'Root' : path.split('/').pop();
+                    document.getElementById('public-current-folder-title').innerHTML = `<span class="text-primary mr-2">/</span> ${pathName}`;
                     this.renderFolders(); this.renderFiles();
                 },
 
@@ -1124,28 +1103,33 @@
                     grid.classList.remove('hidden'); empty.classList.add('hidden');
 
                     filtered.forEach(file => {
-                        const badge = app.utils.getKategoriBadge(file.kategori);
+                        // Menentukan warna icon berdasarkan kategori (seperti di gambar)
+                        let iconColor = 'bg-slate-100 text-slate-500';
+                        const kat = file.kategori.toLowerCase();
+                        if (kat.includes('sk')) iconColor = 'bg-red-100 text-red-500';
+                        else if (kat.includes('surat')) iconColor = 'bg-indigo-100 text-indigo-500';
+                        else if (kat.includes('laporan')) iconColor = 'bg-emerald-100 text-emerald-500';
+
                         grid.innerHTML += `
-                            <div class="enterprise-card p-5 hover:-translate-y-1 transition-transform duration-300 cursor-context-menu group" oncontextmenu="app.utils.showContextMenu(event, '${file.id}', false)">
-                                <div class="flex justify-between items-start mb-5">
-                                    <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex justify-center items-center text-2xl shadow-inner text-red-500 group-hover:bg-red-50 group-hover:border-red-100 transition">
+                            <div class="bg-white p-5 hover:-translate-y-1 transition-transform duration-300 cursor-context-menu group rounded-2xl border border-slate-100 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)]" oncontextmenu="app.utils.showContextMenu(event, '${file.id}', false)">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="w-10 h-10 rounded-xl ${iconColor} flex justify-center items-center text-xl">
                                         <i class="fa-solid fa-file-pdf"></i>
                                     </div>
-                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', false)" class="text-slate-400 hover:text-slate-800 w-10 h-10 rounded-xl hover:bg-slate-100 flex justify-center items-center transition btn-active">
+                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', false)" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full hover:bg-slate-50 flex justify-center items-center transition btn-active">
                                         <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
                                     </button>
                                 </div>
-                                <h4 class="font-bold text-slate-800 text-[15px] leading-tight mb-2.5 line-clamp-2 h-10" title="${file.nama}">${file.nama}</h4>
-                                <div class="flex items-center justify-between mb-5">
-                                    <span class="text-xs font-bold text-slate-500">${file.ukuran}</span>
-                                    <span class="${badge} text-[10px] px-2.5 py-1 rounded-lg font-extrabold uppercase tracking-wider">${file.kategori}</span>
+                                <h4 class="font-bold text-slate-800 text-[15px] leading-snug mb-1.5 line-clamp-2 min-h-[44px]" title="${file.nama}">${file.nama}</h4>
+                                <div class="text-xs font-medium text-slate-500 mb-5">
+                                    ${file.ukuran} &bull; ${file.kategori}
                                 </div>
-                                <div class="flex gap-3 pt-4 border-t border-slate-100">
-                                    <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold py-2.5 rounded-xl transition border border-slate-200 shadow-sm flex items-center justify-center gap-2 btn-active">
-                                        <i class="fa-solid fa-eye"></i> Lihat
+                                <div class="flex gap-2">
+                                    <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-600 text-[13px] font-bold py-2.5 rounded-xl transition border border-slate-200 text-center btn-active">
+                                        Preview
                                     </button>
-                                    <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 btn-active">
-                                        <i class="fa-solid fa-download"></i> Unduh
+                                    <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-600 text-[13px] font-bold py-2.5 rounded-xl transition border border-slate-200 text-center btn-active">
+                                        Unduh
                                     </button>
                                 </div>
                             </div>
@@ -1168,6 +1152,7 @@
 
                     if(tabId === 'dashboard') this.renderDashboard();
                     if(tabId === 'files') { State.currentPath = '/'; this.renderFiles(); }
+                    if(tabId === 'upload') { this.resetAttachments(); }
                 },
 
                 setPath(path) {
@@ -1205,8 +1190,8 @@
                 },
 
                 renderFiles(query = '') {
-                    const tbody = document.getElementById('admin-file-table');
-                    tbody.innerHTML = '';
+                    const grid = document.getElementById('admin-file-table');
+                    grid.innerHTML = '';
                     
                     let filtered = State.files;
                     if(State.currentPath !== '/') filtered = filtered.filter(f => f.folder === State.currentPath || f.folder.startsWith(State.currentPath + '/'));
@@ -1217,47 +1202,75 @@
 
                     if(State.currentPath !== '/') {
                         const parent = State.currentPath.substring(0, State.currentPath.lastIndexOf('/')) || '/';
-                        tbody.innerHTML += `
-                            <tr class="hover:bg-slate-50 cursor-pointer transition group border-b border-slate-100" onclick="app.admin.setPath('${parent}')">
-                                <td class="px-6 py-4"><i class="fa-solid fa-level-up-alt text-slate-400 group-hover:text-primary transition text-lg"></i></td>
-                                <td class="px-6 py-4 font-bold text-slate-600 group-hover:text-primary transition text-[15px]">.. Kembali</td>
-                                <td colspan="4"></td>
-                            </tr>
+                        grid.innerHTML += `
+                            <div onclick="app.admin.setPath('${parent}')" class="enterprise-card p-5 flex flex-col items-center justify-center gap-3 cursor-pointer hover:-translate-y-1 transition-transform duration-[250ms] group text-center min-h-[170px] rounded-[18px]">
+                                <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 group-hover:text-primary group-hover:bg-blue-50 transition text-2xl">
+                                    <i class="fa-solid fa-turn-up"></i>
+                                </div>
+                                <span class="font-bold text-slate-600 group-hover:text-primary transition text-sm">.. Kembali</span>
+                            </div>
                         `;
                     }
 
                     subfolders.forEach(sf => {
                         const name = sf.split('/').pop();
-                        tbody.innerHTML += `
-                            <tr class="hover:bg-slate-50 cursor-pointer transition group border-b border-slate-50" oncontextmenu="event.preventDefault()">
-                                <td class="px-6 py-4"><i class="fa-solid fa-folder text-amber-400 text-2xl group-hover:scale-110 transition-transform"></i></td>
-                                <td class="px-6 py-4 font-bold text-slate-800 group-hover:text-primary transition text-[15px]" onclick="app.admin.setPath('${sf}')">${name}</td>
-                                <td class="px-6 py-4 text-xs font-bold text-slate-400">Direktori Folder</td>
-                                <td class="px-6 py-4 text-slate-400">-</td>
-                                <td class="px-6 py-4 text-slate-400">-</td>
-                                <td class="px-6 py-4 text-right"></td>
-                            </tr>
+                        grid.innerHTML += `
+                            <div onclick="app.admin.setPath('${sf}')" oncontextmenu="event.preventDefault()" class="enterprise-card p-5 flex flex-col items-center justify-center gap-3 cursor-pointer hover:-translate-y-1 transition-transform duration-[250ms] group text-center min-h-[170px] rounded-[18px]">
+                                <div class="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform text-3xl shadow-inner">
+                                    <i class="fa-solid fa-folder"></i>
+                                </div>
+                                <span class="font-bold text-slate-800 group-hover:text-primary transition text-sm truncate w-full px-2" title="${name}">${name}</span>
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Direktori</span>
+                            </div>
                         `;
                     });
 
                     filtered.forEach(file => {
-                        tbody.innerHTML += `
-                            <tr class="hover:bg-slate-50 transition border-b border-slate-50 group">
-                                <td class="px-6 py-4"><i class="fa-solid fa-file-pdf text-red-500 text-2xl group-hover:scale-110 transition-transform"></i></td>
-                                <td class="px-6 py-4 font-bold text-slate-800 max-w-[200px] md:max-w-[300px] truncate text-[15px]" title="${file.nama}">${file.nama}</td>
-                                <td class="px-6 py-4"><span class="${app.utils.getKategoriBadge(file.kategori)} px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider">${file.kategori}</span></td>
-                                <td class="px-6 py-4 text-slate-500 text-xs font-bold">${file.ukuran}</td>
-                                <td class="px-6 py-4 text-slate-500 text-xs font-semibold">${dayjs(file.tanggal).format('DD MMM YYYY')}</td>
-                                <td class="px-6 py-4 text-right">
-                                    <div class="flex justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition duration-200">
-                                        <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="w-9 h-9 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 text-slate-500 hover:text-blue-600 flex justify-center items-center shadow-sm transition btn-active" title="Preview"><i class="fa-solid fa-eye"></i></button>
-                                        <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="w-9 h-9 rounded-xl hover:bg-white border border-transparent hover:border-slate-200 text-slate-500 hover:text-green-600 flex justify-center items-center shadow-sm transition btn-active" title="Download"><i class="fa-solid fa-download"></i></button>
-                                        <button onclick="app.admin.deleteFile('${file.id}')" class="w-9 h-9 rounded-xl hover:bg-red-50 border border-transparent hover:border-red-100 text-slate-500 hover:text-red-600 flex justify-center items-center shadow-sm transition btn-active" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                        const badge = app.utils.getKategoriBadge(file.kategori);
+                        grid.innerHTML += `
+                            <div class="enterprise-card p-5 flex flex-col hover:-translate-y-1 transition-transform duration-[250ms] group relative rounded-[18px]" oncontextmenu="app.utils.showContextMenu(event, '${file.id}', true)">
+                                <div class="flex justify-between items-start mb-4">
+                                    <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex justify-center items-center text-2xl shadow-inner text-red-500 group-hover:bg-red-50 group-hover:border-red-100 transition">
+                                        <i class="fa-solid fa-file-pdf"></i>
                                     </div>
-                                </td>
-                            </tr>
+                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', true)" class="text-slate-400 hover:text-slate-800 w-9 h-9 rounded-xl hover:bg-slate-100 flex justify-center items-center transition btn-active" title="Menu">
+                                        <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
+                                    </button>
+                                </div>
+                                <h4 class="font-bold text-slate-800 text-[14px] leading-tight mb-2.5 line-clamp-2 h-10" title="${file.nama}">${file.nama}</h4>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-[11px] font-bold text-slate-400">${file.ukuran}</span>
+                                    <span class="${badge} text-[10px] px-2.5 py-1 rounded-lg font-extrabold uppercase tracking-wider">${file.kategori}</span>
+                                </div>
+                                <div class="text-[11px] text-slate-400 font-semibold mb-4">
+                                    <i class="fa-regular fa-calendar mr-1"></i> ${dayjs(file.tanggal).format('DD MMM YYYY')}
+                                </div>
+                                <div class="flex gap-2 pt-4 border-t border-slate-100 mt-auto">
+                                    <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold py-2.5 rounded-xl transition border border-slate-200 shadow-sm flex items-center justify-center gap-2 btn-active">
+                                        <i class="fa-solid fa-eye"></i> Lihat
+                                    </button>
+                                    <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 btn-active">
+                                        <i class="fa-solid fa-download"></i> Unduh
+                                    </button>
+                                    <button onclick="app.admin.deleteFile('${file.id}')" class="w-10 flex-none bg-white hover:bg-red-50 text-slate-400 hover:text-red-500 py-2.5 rounded-xl transition border border-slate-200 shadow-sm flex items-center justify-center btn-active" title="Hapus">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
                         `;
                     });
+
+                    if(filtered.length === 0 && subfolders.length === 0 && State.currentPath === '/') {
+                        grid.innerHTML += `
+                            <div class="col-span-full flex flex-col items-center justify-center h-64 text-slate-400">
+                                <div class="w-20 h-20 bg-slate-100 rounded-2xl flex justify-center items-center mb-5 shadow-inner">
+                                    <i class="fa-regular fa-folder-open text-3xl text-slate-300"></i>
+                                </div>
+                                <p class="font-bold text-slate-500 text-lg">Direktori ini kosong.</p>
+                                <p class="text-sm mt-1.5 font-medium">Tidak ada dokumen yang ditemukan.</p>
+                            </div>
+                        `;
+                    }
                 },
 
                 handleFileSelect(e) {
@@ -1372,6 +1385,283 @@
                     const select = document.getElementById('up-folder'); if(!select) return;
                     select.innerHTML = '<option value="/">/ (Root)</option>';
                     State.folders.filter(f => f !== '/').sort().forEach(f => { select.innerHTML += `<option value="${f}">${f}</option>`; });
+                },
+
+                getFileTypeInfo(url) {
+                    const clean = (url || '').split('?')[0].split('#')[0];
+                    const ext = clean.substring(clean.lastIndexOf('.') + 1).toLowerCase();
+                    const map = {
+                        // Dokumen
+                        pdf: { category: 'pdf', label: 'PDF', icon: 'fa-file-pdf', badge: 'bg-red-100 text-red-600' },
+                        doc: { category: 'word', label: 'Word', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' },
+                        docx:{ category: 'word', label: 'Word', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' },
+                        xls: { category: 'excel', label: 'Excel', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' },
+                        xlsx:{ category: 'excel', label: 'Excel', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' },
+                        csv: { category: 'excel', label: 'CSV', icon: 'fa-file-csv', badge: 'bg-emerald-100 text-emerald-600' },
+                        ppt: { category: 'powerpoint', label: 'PowerPoint', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' },
+                        pptx:{ category: 'powerpoint', label: 'PowerPoint', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' },
+                        txt: { category: 'document', label: 'Text', icon: 'fa-file-lines', badge: 'bg-slate-100 text-slate-600' },
+                        rtf: { category: 'document', label: 'RTF', icon: 'fa-file-lines', badge: 'bg-slate-100 text-slate-600' },
+                        odt: { category: 'word', label: 'ODT', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' },
+                        ods: { category: 'excel', label: 'ODS', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' },
+                        odp: { category: 'powerpoint', label: 'ODP', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' },
+                        // Gambar
+                        jpg: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        jpeg:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        png: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        webp:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        gif: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        svg: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        bmp: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        ico: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        heic:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        // Video
+                        mp4: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
+                        webm:{ category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
+                        mov: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
+                        avi: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
+                        mkv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
+                        wmv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
+                        flv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
+                        // Audio
+                        mp3: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
+                        wav: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
+                        aac: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
+                        ogg: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
+                        m4a: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
+                        flac:{ category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
+                        // Arsip
+                        zip: { category: 'archive', label: 'ZIP', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
+                        rar: { category: 'archive', label: 'RAR', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
+                        '7z':{ category: 'archive', label: '7Z', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
+                        tar: { category: 'archive', label: 'TAR', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
+                        gz:  { category: 'archive', label: 'GZ', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
+                        // Lainnya
+                        json:{ category: 'code', label: 'JSON', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
+                        xml: { category: 'code', label: 'XML', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
+                        html:{ category: 'code', label: 'HTML', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
+                        css: { category: 'code', label: 'CSS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
+                        js:  { category: 'code', label: 'JS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
+                        ts:  { category: 'code', label: 'TS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
+                        apk: { category: 'app', label: 'APK', icon: 'fa-android', badge: 'bg-emerald-100 text-emerald-700' },
+                        exe: { category: 'app', label: 'EXE', icon: 'fa-windows', badge: 'bg-blue-100 text-blue-700' },
+                        iso: { category: 'disk', label: 'ISO', icon: 'fa-compact-disc', badge: 'bg-slate-200 text-slate-700' }
+                    };
+                    return map[ext] || { category: 'unknown', label: ext ? ext.toUpperCase() : 'File', icon: 'fa-file', badge: 'bg-slate-100 text-slate-600' };
+                },
+
+                isValidCatboxLink(url) {
+                    return typeof url === 'string' && url.trim().indexOf('https://files.catbox.moe/') === 0;
+                },
+
+                resetAttachments() {
+                    this.attachments = [{ name: '', url: '' }];
+                    this.renderAttachments();
+                },
+
+                addAttachment() {
+                    if(!this.attachments) this.attachments = [];
+                    this.attachments.push({ name: '', url: '' });
+                    this.renderAttachments();
+                },
+
+                removeAttachment(idx) {
+                    if(this.attachments.length <= 1) {
+                        Toastify({text: "Minimal harus ada satu lampiran", backgroundColor: "#f59e0b"}).showToast();
+                        return;
+                    }
+                    this.attachments.splice(idx, 1);
+                    this.renderAttachments();
+                },
+
+                updateAttachment(idx, field, value) {
+                    if(!this.attachments[idx]) return;
+                    this.attachments[idx][field] = value;
+                    if(field === 'url') this.validateAttachmentRow(idx);
+                },
+
+                validateAttachmentRow(idx) {
+                    const att = this.attachments[idx]; if(!att) return;
+                    const url = (att.url || '').trim();
+                    const info = this.getFileTypeInfo(url);
+                    const valid = url.length > 0 && this.isValidCatboxLink(url);
+
+                    const badgeEl = document.getElementById(`att-badge-${idx}`);
+                    const errEl = document.getElementById(`att-error-${idx}`);
+                    const urlInput = document.getElementById(`att-url-${idx}`);
+                    const prevBtn = document.getElementById(`att-preview-btn-${idx}`);
+
+                    if(badgeEl) { badgeEl.className = `${info.badge} text-[10px] px-2.5 py-1 rounded-lg font-extrabold uppercase tracking-wider`; badgeEl.innerText = valid ? info.label : '???'; }
+                    if(errEl) errEl.classList.toggle('hidden', valid || url.length === 0);
+                    if(urlInput) { urlInput.classList.toggle('border-red-300', url.length > 0 && !valid); urlInput.classList.toggle('border-slate-200', valid || url.length === 0); }
+                    if(prevBtn) prevBtn.disabled = !valid;
+                    return valid;
+                },
+
+                dragStart(e) {
+                    this._dragIndex = parseInt(e.currentTarget.dataset.index, 10);
+                    e.currentTarget.classList.add('opacity-40');
+                },
+
+                dragOver(e) { e.preventDefault(); },
+
+                dragDrop(e) {
+                    e.preventDefault();
+                    const targetIndex = parseInt(e.currentTarget.dataset.index, 10);
+                    if(this._dragIndex === undefined || this._dragIndex === targetIndex) return;
+                    const moved = this.attachments.splice(this._dragIndex, 1)[0];
+                    this.attachments.splice(targetIndex, 0, moved);
+                    this._dragIndex = undefined;
+                    this.renderAttachments();
+                },
+
+                dragEnd(e) { e.currentTarget.classList.remove('opacity-40'); },
+
+                togglePreviewAttachment(idx) {
+                    const att = this.attachments[idx]; if(!att) return;
+                    const url = (att.url || '').trim();
+                    if(!this.isValidCatboxLink(url)) {
+                        Swal.fire('Link Tidak Valid', 'Masukkan URL Catbox yang valid terlebih dahulu.', 'warning');
+                        return;
+                    }
+                    const info = this.getFileTypeInfo(url);
+                    const container = document.getElementById(`attachment-preview-${idx}`);
+                    if(!container) return;
+
+                    if(info.category === 'pdf') {
+                        app.utils.openPreview(url, att.name || 'Preview Lampiran');
+                        return;
+                    }
+                    if(!container.classList.contains('hidden')) {
+                        container.classList.add('hidden'); container.innerHTML = ''; return;
+                    }
+                    container.classList.remove('hidden');
+                    if(info.category === 'image') {
+                        container.innerHTML = `<img src="${url}" class="max-h-64 rounded-xl border border-slate-200 shadow-sm mx-auto block">`;
+                    } else if(info.category === 'video') {
+                        container.innerHTML = `<video src="${url}" controls class="w-full rounded-xl border border-slate-200 shadow-sm max-h-64"></video>`;
+                    } else if(info.category === 'audio') {
+                        container.innerHTML = `<audio src="${url}" controls class="w-full outline-none"></audio>`;
+                    } else {
+                        container.innerHTML = `<div class="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200"><i class="fa-solid ${info.icon} text-2xl text-slate-400"></i><span class="text-sm font-semibold text-slate-600">Preview tidak tersedia untuk jenis file ini. Unduh tautan secara langsung untuk melihat isinya.</span></div>`;
+                    }
+                },
+
+                renderAttachments() {
+                    const list = document.getElementById('attachments-list');
+                    if(!list) return;
+                    if(!this.attachments || this.attachments.length === 0) this.attachments = [{ name: '', url: '' }];
+
+                    list.innerHTML = this.attachments.map((att, idx) => {
+                        const url = att.url || '';
+                        const info = this.getFileTypeInfo(url);
+                        const valid = url.trim().length > 0 && this.isValidCatboxLink(url);
+                        const showError = url.trim().length > 0 && !valid;
+                        return `
+                            <div id="att-card-${idx}" class="enterprise-card p-5 rounded-2xl" draggable="true" data-index="${idx}" ondragstart="app.admin.dragStart(event)" ondragover="app.admin.dragOver(event)" ondrop="app.admin.dragDrop(event)" ondragend="app.admin.dragEnd(event)">
+                                <div class="flex items-start gap-3">
+                                    <div class="cursor-move text-slate-300 hover:text-slate-500 pt-2" title="Geser untuk urutkan"><i class="fa-solid fa-grip-vertical"></i></div>
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <span class="text-xs font-extrabold text-slate-400 uppercase tracking-wider">Lampiran ${idx + 1}</span>
+                                            <div class="flex items-center gap-2">
+                                                <span id="att-badge-${idx}" class="${valid ? info.badge : 'bg-slate-200 text-slate-600'} text-[10px] px-2.5 py-1 rounded-lg font-extrabold uppercase tracking-wider">${valid ? info.label : '???'}</span>
+                                                <button type="button" onclick="app.admin.removeAttachment(${idx})" class="w-8 h-8 rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500 flex items-center justify-center transition btn-active" title="Hapus"><i class="fa-solid fa-trash"></i></button>
+                                            </div>
+                                        </div>
+                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
+                                            <div>
+                                                <label class="block text-xs font-bold text-slate-500 mb-1.5">Nama Lampiran (Opsional)</label>
+                                                <input type="text" value="${att.name || ''}" placeholder="Contoh: Lampiran 1" oninput="app.admin.updateAttachment(${idx}, 'name', this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 bg-white">
+                                            </div>
+                                            <div>
+                                                <label class="block text-xs font-bold text-slate-500 mb-1.5">URL Catbox *</label>
+                                                <div class="relative">
+                                                    <i class="fa-solid fa-link absolute left-3 top-3.5 text-slate-400 text-xs"></i>
+                                                    <input type="url" id="att-url-${idx}" value="${att.url || ''}" placeholder="https://files.catbox.moe/xxxx.pdf" oninput="app.admin.updateAttachment(${idx}, 'url', this.value)" class="w-full pl-8 pr-3 py-2.5 rounded-xl border ${showError ? 'border-red-300' : 'border-slate-200'} focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 bg-white">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p id="att-error-${idx}" class="${showError ? '' : 'hidden'} text-xs font-bold text-red-500 mb-3 flex items-center gap-1.5">
+                                            <i class="fa-solid fa-circle-exclamation"></i> URL harus berasal dari https://files.catbox.moe/
+                                        </p>
+                                        <button type="button" id="att-preview-btn-${idx}" onclick="app.admin.togglePreviewAttachment(${idx})" ${valid ? '' : 'disabled'} class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 hover:shadow-sm transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 btn-active">
+                                            <i class="fa-solid fa-eye"></i> Pratinjau Inline
+                                        </button>
+                                        <div id="attachment-preview-${idx}" class="mt-3 hidden transition-all"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                },
+
+                async handleUpload(e) {
+                    e.preventDefault();
+
+                    const judul = document.getElementById('up-judul').value.trim();
+                    const kategori = document.getElementById('up-kategori').value;
+                    const folder = document.getElementById('up-folder').value;
+                    const tanggal = document.getElementById('up-tanggal').value;
+                    const deskripsi = document.getElementById('up-deskripsi').value;
+
+                    if(!judul) return Swal.fire('Perhatian', 'Judul arsip wajib diisi.', 'warning');
+                    if(!kategori) return Swal.fire('Perhatian', 'Kategori wajib dipilih.', 'warning');
+                    if(!folder) return Swal.fire('Perhatian', 'Folder tujuan wajib dipilih.', 'warning');
+                    if(!tanggal) return Swal.fire('Perhatian', 'Tanggal dokumen wajib diisi.', 'warning');
+                    if(!this.attachments || this.attachments.length === 0) return Swal.fire('Perhatian', 'Tambahkan minimal satu lampiran.', 'warning');
+
+                    const cleanAttachments = [];
+                    for(let i = 0; i < this.attachments.length; i++) {
+                        const url = (this.attachments[i].url || '').trim();
+                        if(!this.isValidCatboxLink(url)) {
+                            this.validateAttachmentRow(i);
+                            return Swal.fire('Tautan Tidak Valid', `Lampiran ke-${i + 1}: URL harus valid dan diawali dengan https://files.catbox.moe/`, 'error');
+                        }
+                        const cleanUrl = url.split('?')[0].split('#')[0];
+                        const fileName = cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1);
+                        const type = fileName.includes('.') ? fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase() : '';
+                        cleanAttachments.push({
+                            name: (this.attachments[i].name || '').trim() || fileName,
+                            type: type,
+                            url: url
+                        });
+                    }
+
+                    const btn = document.getElementById('btn-submit-upload');
+                    btn.disabled = true; btn.classList.add('opacity-50');
+                    btn.innerHTML = '<div class="loader border-t-white"></div>';
+
+                    try {
+                        const metadata = {
+                            id: 'DOC-' + new Date().getTime(),
+                            nama: judul,
+                            file: cleanAttachments[0].url.split('/').pop(),
+                            folder: folder,
+                            kategori: kategori,
+                            tanggal: tanggal,
+                            deskripsi: deskripsi,
+                            uploader: 'Hamimah (Admin)', ukuran: '-', 
+                            link: cleanAttachments[0].url,
+                            attachments: cleanAttachments,
+                            timestamp: new Date().getTime()
+                        };
+
+                        await API.executeAction('saveFile', { data: metadata });
+                        app.utils.logActivity(`Mengamankan arsip: ${metadata.nama} (${cleanAttachments.length} lampiran)`);
+
+                        Swal.fire({ title: 'Berhasil!', text: 'Arsip dan semua lampirannya berhasil disimpan.', icon: 'success', confirmButtonColor: '#0f172a', confirmButtonText: 'Selesai' }).then(() => {
+                            document.getElementById('upload-form').reset();
+                            this.resetAttachments();
+                            btn.disabled = false; btn.classList.remove('opacity-50');
+                            btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Arsip';
+                            app.loadData().then(() => app.admin.setTab('files'));
+                        });
+                    } catch(err) {
+                        Swal.fire('Kegagalan Sistem', err.message, 'error');
+                        btn.disabled = false; btn.classList.remove('opacity-50');
+                        btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Arsip';
+                    }
                 },
 
                 exportJSON() {
