@@ -30,8 +30,8 @@
                         bglight: '#F8FAFC',
                     },
                     animation: {
-                        'fade-in': 'fadeIn 0.6s ease-out',
-                        'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'fade-in': 'fadeIn 0.4s ease-out',
+                        'slide-up': 'slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                         'blob': 'blob 10s infinite',
                         'float': 'float 6s ease-in-out infinite',
                         'float-delayed': 'float 6s ease-in-out 2s infinite',
@@ -76,13 +76,23 @@
         /* Enterprise Modern Styles */
         body { background-color: #F8FAFC; color: #0F172A; overscroll-behavior: none; }
         
-        /* Layout Wrappers untuk SPA Scroll */
+        /* Layout Wrappers untuk SPA Scroll - DIKUATKAN */
         .app-view {
             position: absolute;
-            inset: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%;
+            min-height: 100dvh;
             overflow-y: auto;
             overflow-x: hidden;
             -webkit-overflow-scrolling: touch;
+            z-index: 10;
+        }
+
+        .hidden-view { 
+            display: none !important; 
+            z-index: -10 !important; 
+            opacity: 0 !important; 
+            pointer-events: none !important; 
         }
 
         .glass-panel {
@@ -115,10 +125,8 @@
             border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .hidden-view { display: none !important; z-index: -10; opacity: 0; pointer-events: none; }
         
-        /* Safe area constraints (Notch / Home Indicator support) */
+        /* Safe area constraints */
         .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
         .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
         .pl-safe { padding-left: env(safe-area-inset-left, 0px); }
@@ -132,10 +140,7 @@
 
     <!-- ==================== BACKGROUND ELEMENTS ==================== -->
     <div id="global-bg" class="absolute inset-0 z-0 bg-[#F8FAFC] overflow-hidden transition-opacity duration-1000 pointer-events-none">
-        <!-- Elegant Grid Pattern -->
         <div class="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-        
-        <!-- Premium Glow Orbs -->
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] lg:w-[1000px] h-[300px] lg:h-[500px] bg-blue-500/10 blur-[100px] rounded-[100%] pointer-events-none"></div>
         <div class="absolute top-[20%] right-[-10%] w-[400px] lg:w-[600px] h-[400px] lg:h-[600px] bg-indigo-500/5 blur-[100px] rounded-full pointer-events-none animate-blob"></div>
         <div class="absolute bottom-[-10%] left-[10%] w-[300px] lg:w-[500px] h-[300px] lg:h-[500px] bg-emerald-500/5 blur-[100px] rounded-full pointer-events-none animate-blob" style="animation-delay: 4s;"></div>
@@ -144,9 +149,7 @@
     <!-- ==================== 1. LANDING PAGE VIEW ==================== -->
     <div id="view-landing" class="app-view flex flex-col z-10 animate-fade-in pl-safe pr-safe pt-safe">
         
-        <!-- Enterprise Navbar -->
         <nav class="sticky top-0 z-50 w-full h-[64px] lg:h-[72px] flex-none flex items-center justify-between px-5 md:px-8 lg:px-12 backdrop-blur-2xl bg-white/60 border-b border-white shadow-sm transition-all">
-            <!-- Left: Logo -->
             <div class="flex items-center gap-3">
                 <div class="w-[48px] h-[48px] rounded-xl lg:rounded-2xl bg-gradient-to-br from-primary to-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-500/20 text-lg transition-transform hover:scale-105">
                     <i class="fa-solid fa-layer-group"></i>
@@ -157,7 +160,6 @@
                 </div>
             </div>
             
-            <!-- Right: Links & Action -->
             <div class="flex items-center gap-6 lg:gap-10 text-sm font-semibold text-slate-600">
                 <a href="#" class="hidden lg:block hover:text-primary transition-colors">Tentang</a>
                 <a href="#" class="hidden lg:block hover:text-primary transition-colors">Dokumentasi</a>
@@ -167,10 +169,9 @@
             </div>
         </nav>
 
-        <!-- Main Content Area -->
         <main class="flex-1 w-full max-w-[1280px] mx-auto flex flex-col lg:flex-row items-center justify-start lg:justify-between px-5 md:px-8 lg:px-12 py-8 lg:py-16 gap-6 lg:gap-12 relative z-10">
             
-            <!-- 1. ILLUSTRATION (Mobile Version) -->
+            <!-- Mobile Illustration -->
             <div class="lg:hidden w-full max-w-[220px] mx-auto flex-none flex items-center justify-center relative">
                 <div class="relative w-full aspect-square animate-float flex items-center justify-center">
                     <div class="absolute inset-0 bg-blue-500/15 blur-[35px] rounded-full"></div>
@@ -188,10 +189,8 @@
                 </div>
             </div>
 
-            <!-- 2. TEXT SECTION -->
+            <!-- Text Content -->
             <div class="w-full lg:max-w-[520px] flex flex-col items-center lg:items-start text-center lg:text-left flex-none animate-slide-up">
-                
-                <!-- Badge -->
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur-md border border-blue-100 shadow-sm text-blue-700 text-xs md:text-sm font-bold tracking-wide mb-4 lg:mb-6">
                     <span class="relative flex h-2 w-2">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -200,24 +199,20 @@
                     Sistem Enterprise V.2
                 </div>
 
-                <!-- Title -->
                 <h1 class="text-[34px] lg:text-[56px] font-display font-extrabold text-slate-900 leading-[1.2] lg:leading-[1.1] tracking-tight mb-2 lg:mb-4">
                     Pusat Arsip <br class="hidden lg:block">
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-indigo-500">Digital Modern</span>
                 </h1>
                 
-                <!-- Subtitle -->
                 <h2 class="text-[20px] lg:text-[24px] font-display font-semibold text-slate-700 mb-3 lg:mb-5">
                     Bu Hamimah, S.Pd., M.Pd.
                 </h2>
                 
-                <!-- Description -->
                 <p class="text-[16px] text-slate-500 font-medium leading-[1.6] mb-8 lg:mb-10 max-w-[480px]">
                     Sistem pengelolaan arsip digital untuk memudahkan penyimpanan, pencarian, serta distribusi dokumen sekolah secara cepat, aman, dan terstruktur.
                 </p>
 
-                <!-- Buttons -->
-                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start w-full sm:w-auto gap-4 w-full px-1 lg:px-0">
+                <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start w-full sm:w-auto gap-4 px-1 lg:px-0">
                     <button onclick="app.router.navigate('login')" class="w-full sm:w-auto h-[56px] px-8 bg-gradient-to-r from-primary to-blue-600 text-white rounded-[18px] font-semibold transition-all shadow-[0_8px_20px_-6px_rgba(37,99,235,0.4)] hover:shadow-[0_12px_25px_-6px_rgba(37,99,235,0.6)] flex items-center justify-center gap-3 text-[15px] btn-active">
                         <i class="fa-solid fa-shield-halved text-blue-200 text-lg"></i>
                         Login Admin
@@ -229,13 +224,10 @@
                 </div>
             </div>
 
-            <!-- 3. ILLUSTRATION (Desktop Version) -->
+            <!-- Desktop Illustration -->
             <div class="hidden lg:flex w-full max-w-[480px] items-center justify-center relative flex-none">
                 <div class="relative w-full aspect-square flex items-center justify-center">
-                    <!-- Glow Base -->
                     <div class="absolute inset-0 bg-gradient-to-tr from-blue-400/20 to-purple-400/20 blur-[80px] rounded-full mix-blend-multiply"></div>
-                    
-                    <!-- Main Dashboard Glass Window -->
                     <div class="relative w-[85%] h-[75%] glass-panel rounded-3xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] p-5 flex flex-col gap-4 transform -rotate-2 hover:rotate-0 transition-transform duration-700 ease-out animate-float">
                         <div class="w-full flex items-center justify-between pb-3 border-b border-slate-200/50">
                             <div class="flex gap-2">
@@ -245,7 +237,6 @@
                             </div>
                             <div class="w-24 h-2 rounded-full bg-slate-200/60"></div>
                         </div>
-                        
                         <div class="flex gap-4 items-center bg-white/50 p-3 rounded-xl border border-white shadow-sm">
                             <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center text-blue-500 text-xl"><i class="fa-solid fa-folder"></i></div>
                             <div class="flex-1 space-y-2.5">
@@ -260,32 +251,16 @@
                                 <div class="h-2 bg-slate-300/40 rounded w-2/3"></div>
                             </div>
                         </div>
-                        <div class="flex gap-4 items-center bg-white/50 p-3 rounded-xl border border-white shadow-sm opacity-70">
-                            <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-500 text-xl"><i class="fa-solid fa-file-excel"></i></div>
-                            <div class="flex-1 space-y-2.5">
-                                <div class="h-2.5 bg-slate-400/40 rounded w-5/6"></div>
-                                <div class="h-2 bg-slate-300/40 rounded w-1/3"></div>
-                            </div>
-                        </div>
                     </div>
-
-                    <!-- Security Shield -->
                     <div class="absolute -right-4 top-1/4 w-20 h-20 bg-white/90 backdrop-blur-xl rounded-2xl border border-white shadow-[0_15px_35px_-5px_rgba(0,0,0,0.12)] flex items-center justify-center transform rotate-6 animate-float-delayed">
                         <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-emerald-400 to-emerald-500 flex items-center justify-center text-white shadow-inner text-xl">
                             <i class="fa-solid fa-shield-check"></i>
                         </div>
                     </div>
-
-                    <!-- Cloud Sync -->
-                    <div class="absolute -left-6 bottom-1/4 w-20 h-20 bg-white/90 backdrop-blur-xl rounded-2xl border border-white shadow-[0_15px_35px_-5px_rgba(0,0,0,0.12)] flex flex-col items-center justify-center transform -rotate-6 animate-float-slow">
-                        <i class="fa-solid fa-cloud-arrow-up text-blue-500 text-3xl mb-1.5 drop-shadow-sm"></i>
-                        <div class="h-1.5 w-8 bg-blue-100 rounded-full"></div>
-                    </div>
                 </div>
             </div>
         </main>
 
-        <!-- Enterprise Footer -->
         <footer class="flex-none w-full text-center py-6 mt-[40px] opacity-70 font-medium px-5 pb-safe">
             <p class="text-[11px] lg:text-xs text-slate-500 tracking-wide leading-relaxed">
                 © 2026 WAKASEK HUMAS <br class="md:hidden">
@@ -297,8 +272,6 @@
 
     <!-- ==================== 2. LOGIN ADMIN VIEW ==================== -->
     <div id="view-login" class="app-view flex items-center justify-center z-10 w-full animate-fade-in px-5 pb-safe pt-safe hidden-view">
-        
-        <!-- Back Button -->
         <button onclick="app.router.navigate('landing')" class="absolute top-6 left-6 lg:top-8 lg:left-8 text-slate-500 hover:text-slate-800 transition flex items-center gap-2 bg-white/60 backdrop-blur-md px-4 py-2.5 rounded-[12px] border border-white shadow-sm font-semibold text-sm btn-active z-50">
             <i class="fa-solid fa-arrow-left"></i> Kembali
         </button>
@@ -348,8 +321,6 @@
 
     <!-- ==================== 3. PUBLIC VIEWER ==================== -->
     <div id="view-public" class="app-view flex flex-col bg-slate-50 w-full animate-fade-in hidden-view pb-safe pt-safe pl-safe pr-safe">
-        
-        <!-- Public Navbar -->
         <nav class="bg-white border-b border-slate-200 sticky top-0 z-40 px-5 lg:px-8 py-3 lg:py-4 flex justify-between items-center shadow-sm">
             <div class="flex items-center gap-3 cursor-pointer btn-active" onclick="app.router.navigate('landing')">
                 <div class="w-10 h-10 bg-primary text-white rounded-xl flex items-center justify-center text-lg shadow-sm">
@@ -372,21 +343,16 @@
         </nav>
 
         <div class="flex-1 flex overflow-hidden">
-            <!-- Sidebar Folders (Public) -->
             <aside class="w-64 bg-white border-r border-slate-200 overflow-y-auto hidden md:flex flex-col">
                 <div class="p-5 border-b border-slate-100 bg-slate-50/50">
                     <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Navigasi Direktori</h3>
                 </div>
                 <div class="p-3">
-                    <ul id="public-folder-tree" class="space-y-1 text-sm font-semibold">
-                        <!-- Rendered via JS -->
-                    </ul>
+                    <ul id="public-folder-tree" class="space-y-1 text-sm font-semibold"></ul>
                 </div>
             </aside>
             
-            <!-- File Grid (Public) -->
             <main class="flex-1 p-5 md:p-8 overflow-y-auto relative bg-slate-50/50">
-                <!-- Toolbar -->
                 <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6 lg:mb-8">
                     <h2 class="text-2xl font-display font-bold text-slate-800 flex items-center truncate w-full" id="public-current-folder-title">
                         <span class="text-primary mr-2">/</span> Root
@@ -403,12 +369,8 @@
                     </div>
                 </div>
 
-                <!-- Grid -->
-                <div id="public-file-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6">
-                    <!-- Files Rendered Here -->
-                </div>
+                <div id="public-file-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 lg:gap-6"></div>
                 
-                <!-- Empty State -->
                 <div id="public-empty-state" class="hidden flex flex-col items-center justify-center h-64 text-slate-400 mt-10">
                     <div class="w-20 h-20 bg-slate-100 rounded-2xl flex justify-center items-center mb-5 shadow-inner">
                         <i class="fa-regular fa-folder-open text-3xl text-slate-300"></i>
@@ -423,11 +385,11 @@
     <!-- ==================== 4. ADMIN DASHBOARD VIEW ==================== -->
     <div id="view-admin" class="app-view flex bg-slate-50 w-full animate-fade-in hidden-view pb-safe pt-safe pl-safe pr-safe">
         
-        <!-- Mobile Overlay -->
-        <div id="mobile-overlay" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-300 md:hidden" onclick="app.ui.closeMobileMenu()"></div>
+        <!-- Mobile Overlay (Diperbaiki Z-Index dan Logikanya) -->
+        <div id="mobile-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[50] hidden opacity-0 transition-opacity duration-300 md:hidden" onclick="app.ui.closeMobileMenu()"></div>
 
-        <!-- Admin Sidebar / Drawer -->
-        <aside id="admin-sidebar" class="fixed md:sticky top-0 left-0 h-[100dvh] w-[280px] md:w-64 bg-white border-r border-slate-200 flex-none flex flex-col z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-[300ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] overflow-hidden shadow-[10px_0_20px_-10px_rgba(0,0,0,0.1)] md:shadow-none pb-safe">
+        <!-- Admin Sidebar / Drawer (Diperbaiki transisinya) -->
+        <aside id="admin-sidebar" class="fixed md:sticky top-0 left-0 h-[100dvh] w-[280px] md:w-64 bg-white border-r border-slate-200 flex-none flex flex-col z-[60] transform -translate-x-full md:translate-x-0 transition-transform duration-[300ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] overflow-hidden shadow-[10px_0_20px_-10px_rgba(0,0,0,0.1)] md:shadow-none pb-safe">
             <div class="h-[72px] border-b border-slate-200 flex items-center justify-between px-6">
                 <div class="flex items-center gap-3 cursor-pointer btn-active" onclick="app.router.navigate('landing')">
                     <div class="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center shadow-sm">
@@ -446,7 +408,6 @@
             
             <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
                 <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3 px-3">Menu Utama</div>
-                
                 <a href="javascript:void(0)" onclick="app.admin.setTab('dashboard')" class="admin-nav-item active group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all" data-tab="dashboard">
                     <div class="flex items-center gap-3"><i class="fa-solid fa-chart-pie w-5 text-center text-slate-400 group-[.active]:text-primary transition-colors"></i> Dashboard</div>
                 </a>
@@ -458,7 +419,6 @@
                 </a>
                 
                 <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3 px-3 mt-8">Sistem</div>
-                
                 <a href="javascript:void(0)" onclick="app.admin.setTab('history')" class="admin-nav-item group flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all text-slate-600 hover:bg-slate-50" data-tab="history">
                     <div class="flex items-center gap-3"><i class="fa-solid fa-clock-rotate-left w-5 text-center text-slate-400 group-[.active]:text-primary transition-colors"></i> Riwayat</div>
                 </a>
@@ -475,6 +435,7 @@
                         <p class="text-[11px] text-slate-500 font-semibold truncate mt-0.5">Administrator</p>
                     </div>
                 </div>
+                <!-- Tombol Logout -->
                 <button onclick="app.auth.logout()" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-100 hover:text-red-600 transition shadow-sm btn-active">
                     <i class="fa-solid fa-right-from-bracket w-4"></i> Logout
                 </button>
@@ -505,84 +466,61 @@
                 
                 <!-- TAB: DASHBOARD -->
                 <div id="tab-dashboard" class="admin-tab animate-fade-in">
-                    <!-- Stats Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 lg:gap-6 mb-8 lg:mb-10">
-                        <!-- Card 1 -->
-                        <div class="bg-white rounded-[20px] p-5 sm:p-6 border border-slate-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.08)] transition-all">
+                        <!-- Cards ... (Kode tetap) -->
+                        <div class="bg-white rounded-[20px] p-5 sm:p-6 border border-slate-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.03)] transition-all">
                             <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-1.5">Total Dokumen</p>
-                                    <h3 class="text-[32px] font-display font-extrabold text-slate-800 tracking-tight leading-none" id="stat-total-files">0</h3>
-                                </div>
-                                <div class="w-[46px] h-[46px] rounded-[14px] bg-blue-50 flex items-center justify-center text-primary shadow-sm">
-                                    <i class="fa-regular fa-file-pdf text-xl"></i>
-                                </div>
+                                <div><p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-1.5">Total Dokumen</p><h3 class="text-[32px] font-display font-extrabold text-slate-800 tracking-tight leading-none" id="stat-total-files">0</h3></div>
+                                <div class="w-[46px] h-[46px] rounded-[14px] bg-blue-50 flex items-center justify-center text-primary shadow-sm"><i class="fa-regular fa-file-pdf text-xl"></i></div>
                             </div>
                         </div>
-                        <!-- Card 2 -->
-                        <div class="bg-white rounded-[20px] p-5 sm:p-6 border border-slate-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.08)] transition-all">
+                        <div class="bg-white rounded-[20px] p-5 sm:p-6 border border-slate-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.03)] transition-all">
                             <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-1.5">Total Folder</p>
-                                    <h3 class="text-[32px] font-display font-extrabold text-slate-800 tracking-tight leading-none" id="stat-total-folders">0</h3>
-                                </div>
-                                <div class="w-[46px] h-[46px] rounded-[14px] bg-amber-50 flex items-center justify-center text-amber-500 shadow-sm">
-                                    <i class="fa-regular fa-folder-open text-xl"></i>
-                                </div>
+                                <div><p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-1.5">Total Folder</p><h3 class="text-[32px] font-display font-extrabold text-slate-800 tracking-tight leading-none" id="stat-total-folders">0</h3></div>
+                                <div class="w-[46px] h-[46px] rounded-[14px] bg-amber-50 flex items-center justify-center text-amber-500 shadow-sm"><i class="fa-regular fa-folder-open text-xl"></i></div>
                             </div>
                         </div>
-                        <!-- Card 3 -->
-                        <div class="bg-white rounded-[20px] p-5 sm:p-6 border border-slate-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.08)] transition-all">
+                        <div class="bg-white rounded-[20px] p-5 sm:p-6 border border-slate-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.03)] transition-all">
                             <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-1.5">Bulan Ini</p>
-                                    <h3 class="text-[32px] font-display font-extrabold text-slate-800 tracking-tight leading-none" id="stat-monthly">0</h3>
-                                </div>
-                                <div class="w-[46px] h-[46px] rounded-[14px] bg-emerald-50 flex items-center justify-center text-emerald-500 shadow-sm">
-                                    <i class="fa-solid fa-arrow-trend-up text-xl"></i>
-                                </div>
+                                <div><p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-1.5">Bulan Ini</p><h3 class="text-[32px] font-display font-extrabold text-slate-800 tracking-tight leading-none" id="stat-monthly">0</h3></div>
+                                <div class="w-[46px] h-[46px] rounded-[14px] bg-emerald-50 flex items-center justify-center text-emerald-500 shadow-sm"><i class="fa-solid fa-arrow-trend-up text-xl"></i></div>
                             </div>
                         </div>
-                        <!-- Card 4 -->
-                        <div class="bg-white rounded-[20px] p-5 sm:p-6 border border-slate-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.08)] transition-all">
+                        <div class="bg-white rounded-[20px] p-5 sm:p-6 border border-slate-100 shadow-[0_4px_12px_-4px_rgba(0,0,0,0.03)] transition-all">
                             <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-1.5">Kapasitas</p>
-                                    <h3 class="text-[32px] font-display font-extrabold text-slate-800 tracking-tight leading-none" id="stat-size">0 MB</h3>
-                                </div>
-                                <div class="w-[46px] h-[46px] rounded-[14px] bg-purple-50 flex items-center justify-center text-purple-500 shadow-sm">
-                                    <i class="fa-solid fa-hard-drive text-xl"></i>
-                                </div>
+                                <div><p class="text-slate-500 text-[11px] font-bold uppercase tracking-widest mb-1.5">Kapasitas</p><h3 class="text-[32px] font-display font-extrabold text-slate-800 tracking-tight leading-none" id="stat-size">0 MB</h3></div>
+                                <div class="w-[46px] h-[46px] rounded-[14px] bg-purple-50 flex items-center justify-center text-purple-500 shadow-sm"><i class="fa-solid fa-hard-drive text-xl"></i></div>
                             </div>
                         </div>
                     </div>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 lg:gap-8">
-                                            <th class="px-6 py-4 text-right">Waktu</th>
-                                        </tr>
+                        <div class="lg:col-span-2 enterprise-card overflow-hidden">
+                            <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-white">
+                                <h3 class="font-extrabold text-slate-800 text-lg">Dokumen Terkini</h3>
+                                <button onclick="app.admin.setTab('files')" class="text-sm font-bold text-primary hover:text-blue-700 transition">Lihat Semua</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-sm text-left">
+                                    <thead class="text-xs text-slate-400 bg-slate-50 uppercase font-bold tracking-wider">
+                                        <tr><th class="px-6 py-4">Nama Dokumen</th><th class="px-6 py-4">Kategori</th><th class="px-6 py-4 text-right">Waktu</th></tr>
                                     </thead>
-                                    <tbody id="recent-uploads-table" class="divide-y divide-slate-100 bg-white">
-                                        <!-- Injected by JS -->
-                                    </tbody>
+                                    <tbody id="recent-uploads-table" class="divide-y divide-slate-100 bg-white"></tbody>
                                 </table>
                             </div>
                         </div>
                         
-                        <!-- Quick Actions -->
                         <div class="enterprise-card p-6">
                             <h3 class="font-bold text-slate-800 mb-5">Tindakan Cepat</h3>
                             <div class="space-y-3">
                                 <button onclick="app.admin.setTab('upload')" class="w-full flex items-center gap-3 bg-slate-900 hover:bg-slate-800 text-white p-4 rounded-xl font-bold transition-all shadow-md btn-active">
-                                    <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center"><i class="fa-solid fa-cloud-arrow-up text-lg"></i></div> 
-                                    Upload PDF Baru
+                                    <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center"><i class="fa-solid fa-cloud-arrow-up text-lg"></i></div> Upload PDF Baru
                                 </button>
                                 <button onclick="app.admin.createFolderDialog()" class="w-full flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-700 p-4 rounded-xl font-bold transition-all border border-slate-200 shadow-sm btn-active">
-                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-folder-plus text-slate-500 text-lg"></i></div>
-                                    Buat Folder Baru
+                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-folder-plus text-slate-500 text-lg"></i></div> Buat Folder Baru
                                 </button>
                                 <button onclick="app.utils.downloadAllAsZip()" class="w-full flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-700 p-4 rounded-xl font-bold transition-all border border-slate-200 shadow-sm btn-active">
-                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-download text-slate-500 text-lg"></i></div>
-                                    Backup Arsip (ZIP)
+                                    <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-download text-slate-500 text-lg"></i></div> Backup Arsip (ZIP)
                                 </button>
                             </div>
                         </div>
@@ -591,32 +529,29 @@
 
                 <!-- TAB: FILE MANAGER -->
                 <div id="tab-files" class="admin-tab animate-fade-in hidden-view flex flex-col flex-1 h-full min-h-[500px]">
-                    <div class="flex flex-col xl:flex-row xl:justify-between items-start xl:items-center gap-4 mb-6">
-                        <div class="flex items-center gap-2.5 bg-white px-5 py-3 rounded-2xl shadow-sm border border-slate-200 text-sm font-bold text-slate-700 w-full xl:w-auto truncate transition-all duration-[250ms] hover:shadow-md" id="admin-breadcrumb">
+                    <div class="flex flex-col md:flex-row md:justify-between items-start md:items-center gap-3 mb-4">
+                        <div class="flex items-center gap-2 bg-white px-4 py-2.5 rounded-[14px] shadow-sm border border-slate-200 text-[13px] sm:text-sm font-bold text-slate-700 w-full md:w-auto truncate transition-all duration-[250ms]" id="admin-breadcrumb">
                             <i class="fa-solid fa-hard-drive text-primary"></i> / Root
                         </div>
-                        <div class="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
+                        <div class="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto">
                             <div class="relative w-full sm:w-auto">
-                                <i class="fa-solid fa-search absolute left-4 top-3.5 text-slate-400 text-sm"></i>
-                                <input type="text" id="admin-search" placeholder="Cari di folder ini..." class="w-full sm:w-80 pl-11 pr-4 py-3 text-sm rounded-2xl border border-slate-200 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm font-semibold transition-all duration-[250ms] bg-white">
+                                <i class="fa-solid fa-search absolute left-3.5 top-3 text-slate-400 text-sm"></i>
+                                <input type="text" id="admin-search" placeholder="Cari di folder ini..." class="w-full sm:w-64 pl-9 pr-4 py-2.5 text-[13px] sm:text-sm rounded-[14px] border border-slate-200 outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 shadow-sm font-semibold transition-all duration-[250ms] bg-white">
                             </div>
                             <div class="flex gap-2 w-full sm:w-auto">
-                                <button onclick="app.admin.createFolderDialog()" class="flex-1 sm:flex-none bg-white border border-slate-200 text-slate-700 px-5 py-3 rounded-2xl text-sm font-bold hover:bg-slate-50 hover:shadow-md transition-all duration-[250ms] flex items-center justify-center gap-2 shadow-sm btn-active">
-                                    <i class="fa-solid fa-folder-plus text-amber-500"></i> Folder
+                                <button onclick="app.admin.createFolderDialog()" class="flex-1 sm:flex-none bg-white border border-slate-200 text-slate-700 px-4 py-2.5 rounded-[14px] text-[13px] sm:text-sm font-bold hover:bg-slate-50 transition-all duration-[250ms] flex items-center justify-center gap-2 shadow-sm btn-active">
+                                    <i class="fa-solid fa-folder-plus text-amber-500"></i> <span class="hidden sm:inline">Folder</span>
                                 </button>
-                                <button onclick="app.admin.setTab('upload')" class="flex-1 sm:flex-none bg-gradient-to-r from-primary to-blue-600 hover:shadow-lg text-white px-5 py-3 rounded-2xl text-sm font-bold transition-all duration-[250ms] shadow-sm flex items-center justify-center gap-2 btn-active">
-                                    <i class="fa-solid fa-upload"></i> Upload
+                                <button onclick="app.admin.setTab('upload')" class="flex-1 sm:flex-none bg-gradient-to-r from-primary to-blue-600 text-white px-4 py-2.5 rounded-[14px] text-[13px] sm:text-sm font-bold transition-all duration-[250ms] shadow-sm flex items-center justify-center gap-2 btn-active">
+                                    <i class="fa-solid fa-upload"></i> <span class="hidden sm:inline">Upload</span>
                                 </button>
                             </div>
                         </div>
                     </div>
 
-                    <!-- File Grid -->
                     <div class="flex-1 relative min-h-[400px]">
-                        <div class="overflow-y-auto absolute inset-0 pr-1 pb-2">
-                            <div id="admin-file-table" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                                <!-- Rendered via JS -->
-                            </div>
+                        <div class="overflow-y-auto absolute inset-0 pr-1 pb-4">
+                            <div id="admin-file-table" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"></div>
                         </div>
                     </div>
                 </div>
@@ -650,7 +585,6 @@
                                     <label class="block text-sm font-bold text-slate-700 mb-2">Direktori Tujuan <span class="text-red-500">*</span></label>
                                     <select id="up-folder" required class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 shadow-sm bg-white">
                                         <option value="/">/ (Root)</option>
-                                        <!-- Injected by JS -->
                                     </select>
                                 </div>
                                 <div>
@@ -662,11 +596,9 @@
                             <div class="mb-8">
                                 <div class="mb-4">
                                     <label class="block text-sm font-bold text-slate-700">Lampiran Arsip <span class="text-red-500">*</span></label>
-                                    <p class="text-xs text-slate-500 font-medium mt-1">Tambahkan satu atau lebih tautan dari Catbox.moe. Urutkan dengan menahan dan menggeser lampiran.</p>
+                                    <p class="text-xs text-slate-500 font-medium mt-1">Tambahkan satu atau lebih tautan dari Catbox.moe.</p>
                                 </div>
-                                <div id="attachments-list" class="space-y-4">
-                                    <!-- Rendered via JS -->
-                                </div>
+                                <div id="attachments-list" class="space-y-4"></div>
                                 <button type="button" onclick="app.admin.addAttachment()" class="mt-4 w-full sm:w-auto px-5 py-3 bg-white border-2 border-dashed border-slate-300 text-slate-600 rounded-2xl text-sm font-bold hover:border-primary hover:text-primary hover:bg-blue-50/30 transition flex items-center justify-center gap-2 btn-active">
                                     <i class="fa-solid fa-plus"></i> Tambah Lampiran
                                 </button>
@@ -697,11 +629,7 @@
                             </div>
                             <button onclick="app.admin.clearHistory()" class="w-full sm:w-auto text-sm font-bold text-red-500 hover:bg-red-50 px-5 py-2.5 rounded-xl transition border border-red-100 btn-active">Bersihkan Log</button>
                         </div>
-                        <div class="p-6 md:p-8">
-                            <ul id="history-list" class="space-y-5 relative before:absolute before:inset-0 before:ml-[11px] md:before:mx-auto md:before:translate-x-0 before:h-full before:w-[2px] before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent">
-                                <!-- Injected by JS -->
-                            </ul>
-                        </div>
+                        <div class="p-6 md:p-8"><ul id="history-list" class="space-y-5 relative before:absolute before:inset-0 before:ml-[11px] md:before:mx-auto md:before:translate-x-0 before:h-full before:w-[2px] before:bg-gradient-to-b before:from-transparent before:via-slate-200 before:to-transparent"></ul></div>
                     </div>
                 </div>
                 
@@ -709,124 +637,69 @@
                 <div id="tab-backup" class="admin-tab animate-fade-in hidden-view">
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
                         <div class="enterprise-card p-6 md:p-8">
-                            <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary text-2xl mb-5 shadow-inner">
-                                <i class="fa-solid fa-download"></i>
-                            </div>
+                            <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-primary text-2xl mb-5 shadow-inner"><i class="fa-solid fa-download"></i></div>
                             <h3 class="font-display font-extrabold text-xl text-slate-800 mb-2">Export Data (Backup)</h3>
                             <p class="text-[15px] text-slate-500 font-medium mb-8 leading-relaxed">Unduh seluruh berkas PDF beserta struktur foldernya, atau unduh metadata database untuk keperluan pemulihan.</p>
-                            
                             <div class="space-y-4">
                                 <button onclick="app.utils.downloadAllAsZip()" class="w-full flex items-center gap-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-2xl font-bold transition shadow-sm group btn-active">
-                                    <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-file-zipper text-xl"></i>
-                                    </div>
-                                    <div class="text-left flex-1">
-                                        <div class="block text-slate-800 group-hover:text-primary transition text-[15px]">Download Semua (ZIP)</div>
-                                        <div class="text-xs text-slate-500 font-semibold mt-1">Termasuk PDF & direktori utuh</div>
-                                    </div>
+                                    <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition shadow-sm"><i class="fa-solid fa-file-zipper text-xl"></i></div>
+                                    <div class="text-left flex-1"><div class="block text-slate-800 group-hover:text-primary transition text-[15px]">Download Semua (ZIP)</div><div class="text-xs text-slate-500 font-semibold mt-1">Termasuk PDF & direktori utuh</div></div>
                                     <i class="fa-solid fa-chevron-right text-slate-300 pr-2"></i>
                                 </button>
                                 <button onclick="app.admin.exportJSON()" class="w-full flex items-center gap-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 p-4 rounded-2xl font-bold transition shadow-sm group btn-active">
-                                    <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition shadow-sm">
-                                        <i class="fa-solid fa-file-code text-xl"></i>
-                                    </div>
-                                    <div class="text-left flex-1">
-                                        <div class="block text-slate-800 group-hover:text-amber-600 transition text-[15px]">Export Database (JSON)</div>
-                                        <div class="text-xs text-slate-500 font-semibold mt-1">Ekspor khusus tabel metadata</div>
-                                    </div>
+                                    <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition shadow-sm"><i class="fa-solid fa-file-code text-xl"></i></div>
+                                    <div class="text-left flex-1"><div class="block text-slate-800 group-hover:text-amber-600 transition text-[15px]">Export Database (JSON)</div><div class="text-xs text-slate-500 font-semibold mt-1">Ekspor khusus tabel metadata</div></div>
                                     <i class="fa-solid fa-chevron-right text-slate-300 pr-2"></i>
                                 </button>
                             </div>
                         </div>
 
                         <div class="enterprise-card p-6 md:p-8">
-                            <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-700 text-2xl mb-5 shadow-inner">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </div>
+                            <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center text-slate-700 text-2xl mb-5 shadow-inner"><i class="fa-solid fa-circle-info"></i></div>
                             <h3 class="font-display font-extrabold text-xl text-slate-800 mb-2">Informasi Sistem</h3>
                             <p class="text-[15px] text-slate-500 font-medium mb-8">Detail spesifikasi infrastruktur aplikasi.</p>
-                            
                             <ul class="space-y-0 text-[15px] text-slate-600 bg-slate-50/80 rounded-2xl p-5 border border-slate-100 font-medium">
-                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
-                                    <span class="text-slate-500">Versi Aplikasi</span> 
-                                    <span class="font-extrabold text-slate-800 bg-white px-3 py-1 rounded-md border border-slate-200 text-[11px] uppercase tracking-wider shadow-sm">v2.0 Enterprise</span>
-                                </li>
-                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
-                                    <span class="text-slate-500">Arsitektur</span> 
-                                    <span class="font-bold text-slate-800">SPA (App-like)</span>
-                                </li>
-                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
-                                    <span class="text-slate-500">Database Core</span> 
-                                    <span class="font-bold text-slate-800">Google Apps Script</span>
-                                </li>
-                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4">
-                                    <span class="text-slate-500">Storage Unit</span> 
-                                    <span class="font-bold text-slate-800">Catbox API</span>
-                                </li>
-                                <li class="flex justify-between items-center pt-1">
-                                    <span class="text-slate-500">Status API</span> 
-                                    <span class="text-emerald-600 font-bold flex items-center gap-2 bg-emerald-50 px-3 py-1 rounded-md text-[13px]"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Terhubung</span>
-                                </li>
+                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4"><span class="text-slate-500">Versi Aplikasi</span> <span class="font-extrabold text-slate-800 bg-white px-3 py-1 rounded-md border border-slate-200 text-[11px] uppercase tracking-wider shadow-sm">v2.0 Enterprise</span></li>
+                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4"><span class="text-slate-500">Arsitektur</span> <span class="font-bold text-slate-800">SPA (App-like)</span></li>
+                                <li class="flex justify-between items-center border-b border-slate-200 pb-4 mb-4"><span class="text-slate-500">Database Core</span> <span class="font-bold text-slate-800">Google Apps Script</span></li>
+                                <li class="flex justify-between items-center pt-1"><span class="text-slate-500">Status API</span> <span class="text-emerald-600 font-bold flex items-center gap-2 bg-emerald-50 px-3 py-1 rounded-md text-[13px]"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Terhubung</span></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-
             </div>
         </main>
     </div>
 
     <!-- ==================== MODALS & OVERLAYS ==================== -->
-    
-    <!-- PDF Preview Modal -->
     <div id="pdf-modal" class="fixed inset-0 bg-slate-900/95 z-[100] hidden flex flex-col backdrop-blur-md transition-opacity duration-300 pb-safe pt-safe">
         <div class="h-[64px] lg:h-[72px] bg-slate-900/80 border-b border-slate-800 flex justify-between items-center px-4 md:px-6 text-white shadow-sm flex-none">
             <div class="flex items-center gap-3 md:gap-4 flex-1 overflow-hidden">
-                <div class="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center text-red-500 flex-none">
-                    <i class="fa-regular fa-file-pdf text-xl"></i>
-                </div>
-                <div class="overflow-hidden pr-4">
-                    <h3 id="pdf-modal-title" class="font-bold truncate text-sm md:text-base">Dokumen.pdf</h3>
-                    <p class="text-[10px] md:text-[11px] text-slate-400 font-semibold truncate uppercase tracking-wider mt-0.5">Mode Pratinjau Terenkripsi</p>
-                </div>
+                <div class="w-10 h-10 bg-red-500/20 rounded-xl flex items-center justify-center text-red-500 flex-none"><i class="fa-regular fa-file-pdf text-xl"></i></div>
+                <div class="overflow-hidden pr-4"><h3 id="pdf-modal-title" class="font-bold truncate text-sm md:text-base">Dokumen.pdf</h3><p class="text-[10px] md:text-[11px] text-slate-400 font-semibold truncate uppercase tracking-wider mt-0.5">Mode Pratinjau Terenkripsi</p></div>
             </div>
             <div class="flex items-center gap-2 md:gap-3 flex-none">
-                <button onclick="app.utils.downloadCurrentPreview()" class="px-3 md:px-4 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition flex justify-center items-center gap-2 text-xs md:text-sm font-bold border border-white/10 btn-active" title="Download Asli">
-                    <i class="fa-solid fa-download"></i> <span class="hidden md:inline">Unduh PDF</span>
-                </button>
+                <button onclick="app.utils.downloadCurrentPreview()" class="px-3 md:px-4 py-2.5 bg-white/10 hover:bg-white/20 rounded-xl transition flex justify-center items-center gap-2 text-xs md:text-sm font-bold border border-white/10 btn-active"><i class="fa-solid fa-download"></i> <span class="hidden md:inline">Unduh PDF</span></button>
                 <div class="w-px h-6 bg-slate-700 mx-1 md:mx-2"></div>
-                <button onclick="app.utils.closePreview()" class="w-10 h-10 bg-red-500/10 hover:bg-red-500 hover:text-white text-red-400 rounded-xl transition flex justify-center items-center border border-red-500/20 btn-active" title="Tutup">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
+                <button onclick="app.utils.closePreview()" class="w-10 h-10 bg-red-500/10 hover:bg-red-500 hover:text-white text-red-400 rounded-xl transition flex justify-center items-center border border-red-500/20 btn-active"><i class="fa-solid fa-xmark text-lg"></i></button>
             </div>
         </div>
-        
         <div class="flex-1 overflow-auto flex justify-center items-center relative p-4 md:p-6 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PGNpcmNsZSBjeD0iMiIgY3k9IjIiIHI9IjIiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')]">
-            <div id="pdf-loading" class="absolute inset-0 flex flex-col items-center justify-center text-white/70 bg-slate-900/50 backdrop-blur-sm z-10">
-                <div class="loader mb-4 border-t-white"></div>
-                <p class="font-bold text-sm tracking-wide">Memuat dokumen...</p>
-            </div>
+            <div id="pdf-loading" class="absolute inset-0 flex flex-col items-center justify-center text-white/70 bg-slate-900/50 backdrop-blur-sm z-10"><div class="loader mb-4 border-t-white"></div><p class="font-bold text-sm tracking-wide">Memuat dokumen...</p></div>
             <canvas id="pdf-canvas" class="shadow-2xl max-w-full hidden bg-white rounded-lg"></canvas>
-            
             <div id="pdf-error" class="hidden flex-col items-center justify-center text-slate-300 text-center max-w-md bg-slate-800/80 p-6 md:p-8 rounded-3xl border border-slate-700 mx-5 shadow-2xl">
-                <div class="w-16 h-16 bg-amber-500/20 text-amber-500 rounded-2xl flex items-center justify-center text-3xl mb-5 mx-auto">
-                    <i class="fa-solid fa-shield-cat"></i>
-                </div>
+                <div class="w-16 h-16 bg-amber-500/20 text-amber-500 rounded-2xl flex items-center justify-center text-3xl mb-5 mx-auto"><i class="fa-solid fa-shield-cat"></i></div>
                 <h4 class="text-xl font-extrabold text-white mb-2">Pratinjau Dibatasi</h4>
                 <p class="mb-8 text-sm leading-relaxed font-medium">Sistem browser mencegah pratinjau langsung karena kebijakan keamanan (CORS) server eksternal penyimpanan.</p>
-                <button onclick="app.utils.downloadCurrentPreview()" class="w-full h-[56px] bg-primary hover:bg-blue-600 rounded-[18px] text-[15px] font-bold text-white transition flex justify-center items-center gap-3 btn-active shadow-lg">
-                    <i class="fa-solid fa-download"></i> Unduh File Secara Aman
-                </button>
+                <button onclick="app.utils.downloadCurrentPreview()" class="w-full h-[56px] bg-primary hover:bg-blue-600 rounded-[18px] text-[15px] font-bold text-white transition flex justify-center items-center gap-3 btn-active shadow-lg"><i class="fa-solid fa-download"></i> Unduh File Secara Aman</button>
             </div>
         </div>
-        
         <div class="h-[64px] bg-slate-900/90 border-t border-slate-800 flex justify-center items-center px-4 text-slate-300 gap-3 md:gap-6 backdrop-blur-md shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] flex-none" id="pdf-controls">
             <div class="flex items-center gap-1 bg-slate-800 p-1.5 rounded-xl border border-slate-700">
                 <button onclick="app.utils.pdfPrevPage()" class="w-9 h-9 rounded-lg hover:bg-slate-700 hover:text-white transition flex justify-center items-center btn-active"><i class="fa-solid fa-chevron-left"></i></button>
                 <span class="text-xs md:text-sm font-bold w-16 md:w-24 text-center">Hal <span id="pdf-page-num" class="text-white">1</span> / <span id="pdf-page-count">?</span></span>
                 <button onclick="app.utils.pdfNextPage()" class="w-9 h-9 rounded-lg hover:bg-slate-700 hover:text-white transition flex justify-center items-center btn-active"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
-            
             <div class="flex items-center gap-1 bg-slate-800 p-1.5 rounded-xl border border-slate-700">
                 <button onclick="app.utils.pdfZoomOut()" class="w-9 h-9 rounded-lg hover:bg-slate-700 hover:text-white transition flex justify-center items-center btn-active"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
                 <span class="text-xs md:text-sm font-bold w-12 md:w-16 text-center text-white" id="pdf-zoom-val">100%</span>
@@ -835,13 +708,10 @@
         </div>
     </div>
 
-    <!-- Context Menu -->
     <div id="context-menu" class="fixed z-[90] bg-white rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15),0_10px_15px_-5px_rgba(0,0,0,0.1)] border border-slate-100 p-2 w-[220px] text-[15px] hidden-view opacity-0" style="left:0; top:0; transform: scale(0.95); transition: opacity 0.15s, transform 0.15s;">
         <button id="ctx-preview" class="w-full text-left px-4 py-3 hover:bg-slate-50 flex items-center gap-3.5 text-slate-700 font-bold rounded-xl transition-colors"><i class="fa-solid fa-eye text-slate-400 w-5"></i> Pratinjau</button>
-        <button id="ctx-download" class="w-full text-left px-4 py-3 hover:bg-slate-50 flex items-center gap-3.5 text-slate-700 font-bold rounded-xl transition-colors"><i class="fa-solid fa-download text-slate-400 w-5"></i> Download PDF</button>
+        <button id="ctx-download" class="w-full text-left px-4 py-3 hover:bg-slate-50 flex items-center gap-3.5 text-slate-700 font-bold rounded-xl transition-colors"><i class="fa-solid fa-download text-slate-400 w-5"></i> Download File</button>
         <button id="ctx-share" class="w-full text-left px-4 py-3 hover:bg-slate-50 flex items-center gap-3.5 text-slate-700 font-bold rounded-xl transition-colors"><i class="fa-solid fa-link text-slate-400 w-5"></i> Salin Tautan</button>
-        
-        <!-- Rendered dynamically if user is Admin -->
         <div id="ctx-admin-actions" class="hidden">
             <div class="border-t border-slate-100 my-1 mx-2"></div>
             <button id="ctx-delete" class="w-full text-left px-4 py-3 hover:bg-red-50 text-red-600 flex items-center gap-3.5 font-bold rounded-xl transition-colors"><i class="fa-solid fa-trash-can w-5"></i> Hapus Berkas</button>
@@ -850,10 +720,6 @@
 
     <!-- ==================== CORE JAVASCRIPT ==================== -->
     <script>
-        /**
-         * CONFIGURATION
-         * Ganti gasUrl dengan Web App URL dari Google Apps Script Anda.
-         */
         const CONFIG = {
             gasUrl: '', // Kosong = Gunakan Mock Lokal
             catboxApi: 'https://catbox.moe/user/api.php',
@@ -862,77 +728,49 @@
 
         const State = {
             userToken: localStorage.getItem('ad_auth_token') || null, 
-            files: [], 
-            folders: ['/'], 
-            currentPath: '/',
-            history: [],
-            
-            pdfDoc: null,
-            pdfPageNum: 1,
-            pdfScale: 1.0,
-            currentPdfUrl: null,
-            currentPdfName: null
+            files: [], folders: ['/'], currentPath: '/', history: [],
+            pdfDoc: null, pdfPageNum: 1, pdfScale: 1.0, currentPdfUrl: null, currentPdfName: null
         };
 
         const API = {
             async executeAction(action, payload = {}) {
                 if (CONFIG.gasUrl) {
                     try {
-                        const response = await fetch(CONFIG.gasUrl, {
-                            method: 'POST',
-                            body: JSON.stringify({ action: action, ...payload })
-                        });
+                        const response = await fetch(CONFIG.gasUrl, { method: 'POST', body: JSON.stringify({ action: action, ...payload }) });
                         return await response.json();
-                    } catch (e) {
-                        console.error('GAS Error', e);
-                        throw new Error("Gagal terhubung ke server.");
-                    }
-                } else {
-                    return this.mockAction(action, payload);
-                }
+                    } catch (e) { throw new Error("Gagal terhubung ke server."); }
+                } else { return this.mockAction(action, payload); }
             },
             
             mockAction(action, payload) {
                 return new Promise((resolve) => {
                     setTimeout(() => {
                         let files = JSON.parse(localStorage.getItem('ad_files')) || [];
-                        
                         if (action === 'login') {
-                            if (payload.username === 'hamimah' && payload.password === 'uranusfazry123') {
-                                resolve({ status: 'success', token: 'valid_admin_token_xyz' });
-                            } else {
-                                resolve({ status: 'error', message: 'Kredensial tidak valid' });
-                            }
+                            if (payload.username === 'hamimah' && payload.password === 'uranusfazry123') { resolve({ status: 'success', token: 'valid_admin_token_xyz' }); } 
+                            else { resolve({ status: 'error', message: 'Kredensial tidak valid' }); }
                         } 
                         else if (action === 'getFiles') {
-                            const folders = JSON.parse(localStorage.getItem('ad_folders')) || ['/', '/2026', '/2026/SK', '/2026/Surat Masuk', '/2026/Surat Keluar'];
+                            const folders = JSON.parse(localStorage.getItem('ad_folders')) || ['/', '/2025', '/2026', '/2026/SK', '/2026/Surat Masuk', '/2026/Surat Keluar'];
                             resolve({ status: 'success', files: files, folders: folders });
                         }
                         else if (action === 'saveFile') {
-                            files.unshift(payload.data);
-                            localStorage.setItem('ad_files', JSON.stringify(files));
-                            resolve({ status: 'success' });
+                            files.unshift(payload.data); localStorage.setItem('ad_files', JSON.stringify(files)); resolve({ status: 'success' });
                         }
                         else if (action === 'deleteFile') {
-                            files = files.filter(f => f.id !== payload.id);
-                            localStorage.setItem('ad_files', JSON.stringify(files));
-                            resolve({ status: 'success' });
+                            files = files.filter(f => f.id !== payload.id); localStorage.setItem('ad_files', JSON.stringify(files)); resolve({ status: 'success' });
                         }
                     }, 800);
                 });
             },
 
             async uploadToCatbox(file) {
-                const formData = new FormData();
-                formData.append('reqtype', 'fileupload');
-                formData.append('fileToUpload', file);
+                const formData = new FormData(); formData.append('reqtype', 'fileupload'); formData.append('fileToUpload', file);
                 try {
                     const response = await fetch(CONFIG.catboxApi, { method: 'POST', body: formData });
                     if(!response.ok) throw new Error("Catbox gagal.");
                     return (await response.text()).trim();
-                } catch(e) {
-                    return "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf";
-                }
+                } catch(e) { return "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"; }
             }
         };
 
@@ -946,8 +784,7 @@
                 document.addEventListener('click', (e) => {
                     if(!e.target.closest('#context-menu')) {
                         const menu = document.getElementById('context-menu');
-                        menu.style.opacity = '0';
-                        menu.style.transform = 'scale(0.95)';
+                        menu.style.opacity = '0'; menu.style.transform = 'scale(0.95)';
                         setTimeout(() => menu.classList.add('hidden-view'), 150);
                     }
                 });
@@ -961,9 +798,10 @@
                     const mockFiles = [
                         { id: '1', nama: 'SK Pembagian Tugas Mengajar 2026', file: 'sk-tugas-2026.pdf', folder: '/2026/SK', kategori: 'SK', ukuran: '2.4 MB', uploader: 'Hamimah', tanggal: '2026-07-01', link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', deskripsi: 'SK untuk semester ganjil', timestamp: new Date().getTime() },
                         { id: '2', nama: 'Undangan Rapat Wali Murid', file: 'undangan-rapat.pdf', folder: '/2026/Surat Keluar', kategori: 'Surat Keluar', ukuran: '1.1 MB', uploader: 'Hamimah', tanggal: '2026-07-10', link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', deskripsi: '', timestamp: new Date().getTime() - 86400000 },
+                        { id: '3', nama: 'Laporan BOS Tahap 1 2025', file: 'laporan-bos.pdf', folder: '/2025', kategori: 'Laporan', ukuran: '5.2 MB', uploader: 'Hamimah', tanggal: '2025-05-15', link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', deskripsi: '', timestamp: new Date().getTime() - (86400000 * 300) },
                     ];
                     localStorage.setItem('ad_files', JSON.stringify(mockFiles));
-                    localStorage.setItem('ad_folders', JSON.stringify(['/', '/2026', '/2026/SK', '/2026/Surat Masuk', '/2026/Surat Keluar', '/2026/Laporan']));
+                    localStorage.setItem('ad_folders', JSON.stringify(['/', '/2025', '/2026', '/2026/SK', '/2026/Surat Masuk', '/2026/Surat Keluar', '/2026/Laporan']));
                     localStorage.setItem('ad_history', JSON.stringify([{ action: 'Sistem diinisialisasi', time: new Date().getTime() }]));
                 }
             },
@@ -973,8 +811,20 @@
                 async handleHash() {
                     const hash = window.location.hash.replace('#', '').replace('/', '') || 'landing';
                     
+                    // PERBAIKAN: Pastikan menu mobile tertutup rapat sebelum berganti halaman
+                    if (app.ui && app.ui.menuOpen) {
+                        app.ui.closeMobileMenu();
+                        const sidebar = document.getElementById('admin-sidebar');
+                        if (sidebar) sidebar.classList.add('-translate-x-full');
+                    }
+
+                    // PERBAIKAN: Tutup semua view secara paksa dan reset scroll
                     ['landing', 'login', 'admin', 'public'].forEach(v => {
-                        document.getElementById(`view-${v}`).classList.add('hidden-view');
+                        const el = document.getElementById(`view-${v}`);
+                        if (el) {
+                            el.classList.add('hidden-view');
+                            el.scrollTop = 0; // Kembalikan posisi scroll
+                        }
                     });
                     
                     const bg = document.getElementById('global-bg');
@@ -1010,10 +860,7 @@
             async loadData() {
                 try {
                     const res = await API.executeAction('getFiles');
-                    if (res.status === 'success') {
-                        State.files = res.files; State.folders = res.folders;
-                        State.history = JSON.parse(localStorage.getItem('ad_history')) || [];
-                    }
+                    if (res.status === 'success') { State.files = res.files; State.folders = res.folders; State.history = JSON.parse(localStorage.getItem('ad_history')) || []; }
                 } catch(e) {}
             },
 
@@ -1040,18 +887,43 @@
                             
                             document.getElementById('login-form').reset();
                             setTimeout(() => app.router.navigate('admin'), 400);
-                        } else {
-                            Toastify({text: "Kredensial tidak valid!", backgroundColor: "#ef4444", gravity: "top"}).showToast();
-                        }
-                    } catch (err) { Toastify({text: "Terjadi kesalahan server.", backgroundColor: "#ef4444"}).showToast();
-                    } finally { btn.innerHTML = `<span>Masuk Dashboard</span>`; }
+                        } else { Toastify({text: "Kredensial tidak valid!", backgroundColor: "#ef4444", gravity: "top"}).showToast(); }
+                    } catch (err) { Toastify({text: "Terjadi kesalahan server.", backgroundColor: "#ef4444"}).showToast(); } 
+                    finally { btn.innerHTML = `<span>Masuk Dashboard</span>`; }
                 },
                 
+                // PERBAIKAN LOGOUT: Pastikan sangat bersih dan drawer ditutup sempurna.
                 logout() {
+                    // Tutup menu secara instan agar tidak membekas di layar
+                    if (app.ui.menuOpen) {
+                        app.ui.menuOpen = false;
+                        const sidebar = document.getElementById('admin-sidebar');
+                        const overlay = document.getElementById('mobile-overlay');
+                        if (sidebar) {
+                            sidebar.style.transition = 'none'; 
+                            sidebar.classList.add('-translate-x-full');
+                            sidebar.classList.remove('translate-x-0');
+                            setTimeout(() => { sidebar.style.transition = ''; }, 50); // Nyalakan animasi kembali
+                        }
+                        if (overlay) {
+                            overlay.classList.add('hidden', 'opacity-0');
+                        }
+                    }
+
+                    // Kembalikan scroll pada Dashboard
+                    const adminView = document.getElementById('view-admin');
+                    if (adminView) adminView.style.overflowY = 'auto';
+
+                    // Hapus akses Token
                     State.userToken = null;
-                    localStorage.removeItem('ad_auth_token'); sessionStorage.removeItem('ad_auth_token');
+                    localStorage.removeItem('ad_auth_token'); 
+                    sessionStorage.removeItem('ad_auth_token');
                     app.utils.logActivity('Administrator logout');
-                    app.router.navigate('landing');
+                    
+                    // Route ke Landing dengan delay untuk memastikan layout aman
+                    setTimeout(() => {
+                        app.router.navigate('landing');
+                    }, 50);
                 },
 
                 togglePassword() {
@@ -1063,19 +935,15 @@
 
             public: {
                 renderFolders() {
-                    const tree = document.getElementById('public-folder-tree');
-                    tree.innerHTML = '';
-                    
+                    const tree = document.getElementById('public-folder-tree'); tree.innerHTML = '';
                     const renderNode = (path, name, icon) => {
                         const isActive = State.currentPath === path ? 'bg-primary/10 text-primary font-bold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900';
                         return `<li><button onclick="app.public.setPath('${path}')" class="w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 transition ${isActive}"><i class="${icon} ${State.currentPath === path ? 'text-primary' : 'text-amber-400'} w-5 text-center"></i><span class="truncate">${name}</span></button></li>`;
                     };
 
                     tree.innerHTML += renderNode('/', 'Semua Arsip (Root)', 'fa-solid fa-folder-open');
-                    
                     State.folders.filter(f => f !== '/').forEach(folder => {
-                        const depth = folder.split('/').length - 1; const padding = depth * 16;
-                        const name = folder.split('/').pop();
+                        const depth = folder.split('/').length - 1; const padding = depth * 16; const name = folder.split('/').pop();
                         const isActive = State.currentPath === folder ? 'bg-primary/10 text-primary font-bold' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900';
                         const iconColor = State.currentPath === folder ? 'text-primary' : 'text-amber-400';
                         tree.innerHTML += `<li style="padding-left: ${padding}px"><button onclick="app.public.setPath('${folder}')" class="w-full text-left px-4 py-2.5 rounded-xl flex items-center gap-3 transition ${isActive} text-sm mt-0.5"><i class="fa-solid fa-folder ${iconColor} w-4 text-center"></i><span class="truncate">${name}</span></button></li>`;
@@ -1090,15 +958,12 @@
                 },
 
                 renderFiles(query = '') {
-                    const grid = document.getElementById('public-file-grid');
-                    const empty = document.getElementById('public-empty-state');
+                    const grid = document.getElementById('public-file-grid'); const empty = document.getElementById('public-empty-state');
                     const sortMethod = document.getElementById('public-sort').value;
-                    
                     grid.innerHTML = ''; let filtered = State.files;
                     if(State.currentPath !== '/') filtered = filtered.filter(f => f.folder === State.currentPath || f.folder.startsWith(State.currentPath + '/'));
                     if(query) {
-                        const q = query.toLowerCase();
-                        filtered = filtered.filter(f => f.nama.toLowerCase().includes(q) || f.kategori.toLowerCase().includes(q));
+                        const q = query.toLowerCase(); filtered = filtered.filter(f => f.nama.toLowerCase().includes(q) || f.kategori.toLowerCase().includes(q));
                     }
 
                     filtered.sort((a, b) => {
@@ -1107,40 +972,24 @@
                         if(sortMethod === 'name-asc') return a.nama.localeCompare(b.nama);
                     });
 
-                    if(filtered.length === 0) {
-                        grid.classList.add('hidden'); empty.classList.remove('hidden'); return;
-                    }
+                    if(filtered.length === 0) { grid.classList.add('hidden'); empty.classList.remove('hidden'); return; }
                     grid.classList.remove('hidden'); empty.classList.add('hidden');
 
                     filtered.forEach(file => {
-                        // Menentukan warna icon berdasarkan kategori (seperti di gambar)
-                        let iconColor = 'bg-slate-100 text-slate-500';
-                        const kat = file.kategori.toLowerCase();
-                        if (kat.includes('sk')) iconColor = 'bg-red-100 text-red-500';
-                        else if (kat.includes('surat')) iconColor = 'bg-indigo-100 text-indigo-500';
-                        else if (kat.includes('laporan')) iconColor = 'bg-emerald-100 text-emerald-500';
+                        let iconColor = 'bg-slate-100 text-slate-500'; const kat = file.kategori.toLowerCase();
+                        if (kat.includes('sk')) iconColor = 'bg-red-100 text-red-500'; else if (kat.includes('surat')) iconColor = 'bg-indigo-100 text-indigo-500'; else if (kat.includes('laporan')) iconColor = 'bg-emerald-100 text-emerald-500';
 
                         grid.innerHTML += `
                             <div class="bg-white p-5 hover:-translate-y-1 transition-transform duration-300 cursor-context-menu group rounded-2xl border border-slate-100 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)]" oncontextmenu="app.utils.showContextMenu(event, '${file.id}', false)">
                                 <div class="flex justify-between items-start mb-4">
-                                    <div class="w-10 h-10 rounded-xl ${iconColor} flex justify-center items-center text-xl">
-                                        <i class="fa-solid fa-file-pdf"></i>
-                                    </div>
-                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', false)" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full hover:bg-slate-50 flex justify-center items-center transition btn-active">
-                                        <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
-                                    </button>
+                                    <div class="w-10 h-10 rounded-xl ${iconColor} flex justify-center items-center text-xl"><i class="fa-solid fa-file-pdf"></i></div>
+                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', false)" class="text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full hover:bg-slate-50 flex justify-center items-center transition btn-active"><i class="fa-solid fa-ellipsis-vertical text-lg"></i></button>
                                 </div>
                                 <h4 class="font-bold text-slate-800 text-[15px] leading-snug mb-1.5 line-clamp-2 min-h-[44px]" title="${file.nama}">${file.nama}</h4>
-                                <div class="text-xs font-medium text-slate-500 mb-5">
-                                    ${file.ukuran} &bull; ${file.kategori}
-                                </div>
+                                <div class="text-xs font-medium text-slate-500 mb-5">${file.ukuran} &bull; ${file.kategori}</div>
                                 <div class="flex gap-2">
-                                    <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-600 text-[13px] font-bold py-2.5 rounded-xl transition border border-slate-200 text-center btn-active">
-                                        Preview
-                                    </button>
-                                    <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-600 text-[13px] font-bold py-2.5 rounded-xl transition border border-slate-200 text-center btn-active">
-                                        Unduh
-                                    </button>
+                                    <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-600 text-[13px] font-bold py-2.5 rounded-xl transition border border-slate-200 text-center btn-active">Preview</button>
+                                    <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-600 text-[13px] font-bold py-2.5 rounded-xl transition border border-slate-200 text-center btn-active">Unduh</button>
                                 </div>
                             </div>
                         `;
@@ -1202,9 +1051,7 @@
                 },
 
                 renderFiles(query = '') {
-                    const grid = document.getElementById('admin-file-table');
-                    grid.innerHTML = '';
-                    
+                    const grid = document.getElementById('admin-file-table'); grid.innerHTML = '';
                     let filtered = State.files;
                     if(State.currentPath !== '/') filtered = filtered.filter(f => f.folder === State.currentPath || f.folder.startsWith(State.currentPath + '/'));
                     if(query) filtered = filtered.filter(f => f.nama.toLowerCase().includes(query.toLowerCase()));
@@ -1215,24 +1062,20 @@
                     if(State.currentPath !== '/') {
                         const parent = State.currentPath.substring(0, State.currentPath.lastIndexOf('/')) || '/';
                         grid.innerHTML += `
-                            <div onclick="app.admin.setPath('${parent}')" class="enterprise-card p-5 flex flex-col items-center justify-center gap-3 cursor-pointer hover:-translate-y-1 transition-transform duration-[250ms] group text-center min-h-[170px] rounded-[18px]">
-                                <div class="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 group-hover:text-primary group-hover:bg-blue-50 transition text-2xl">
-                                    <i class="fa-solid fa-turn-up"></i>
-                                </div>
-                                <span class="font-bold text-slate-600 group-hover:text-primary transition text-sm">.. Kembali</span>
+                            <div onclick="app.admin.setPath('${parent}')" class="enterprise-card p-3 sm:p-4 flex flex-row items-center gap-3 sm:gap-4 cursor-pointer hover:bg-slate-50 active:scale-[0.98] transition-all duration-200 group rounded-[16px]">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-[14px] bg-slate-100 flex items-center justify-center text-slate-400 group-hover:text-primary group-hover:bg-blue-50 transition text-lg sm:text-xl flex-none"><i class="fa-solid fa-turn-up"></i></div>
+                                <span class="font-bold text-slate-600 group-hover:text-primary transition text-sm flex-1 truncate">.. Kembali ke atas</span>
                             </div>
                         `;
                     }
 
                     subfolders.forEach(sf => {
-                        const name = sf.split('/').pop();
+                        const name = sf.split('/').pop(); const itemCnt = State.files.filter(f => f.folder === sf || f.folder.startsWith(sf + '/')).length;
                         grid.innerHTML += `
-                            <div onclick="app.admin.setPath('${sf}')" oncontextmenu="event.preventDefault()" class="enterprise-card p-5 flex flex-col items-center justify-center gap-3 cursor-pointer hover:-translate-y-1 transition-transform duration-[250ms] group text-center min-h-[170px] rounded-[18px]">
-                                <div class="w-14 h-14 rounded-2xl bg-amber-50 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform text-3xl shadow-inner">
-                                    <i class="fa-solid fa-folder"></i>
-                                </div>
-                                <span class="font-bold text-slate-800 group-hover:text-primary transition text-sm truncate w-full px-2" title="${name}">${name}</span>
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Direktori</span>
+                            <div onclick="app.admin.setPath('${sf}')" oncontextmenu="event.preventDefault()" class="enterprise-card p-3 sm:p-4 flex flex-row items-center gap-3 sm:gap-4 cursor-pointer hover:bg-slate-50 active:scale-[0.98] transition-all duration-200 group rounded-[16px]">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-[14px] bg-amber-50 flex items-center justify-center text-amber-500 group-hover:scale-110 transition-transform text-xl sm:text-2xl flex-none shadow-inner"><i class="fa-solid fa-folder"></i></div>
+                                <div class="flex-1 min-w-0"><h4 class="font-bold text-slate-800 group-hover:text-primary transition text-[14px] truncate" title="${name}">${name}</h4><p class="text-[11px] font-semibold text-slate-400 mt-0.5 truncate">${itemCnt} Berkas</p></div>
+                                <div class="w-8 h-8 rounded-full flex items-center justify-center text-slate-300 group-hover:text-primary transition flex-none"><i class="fa-solid fa-chevron-right text-xs"></i></div>
                             </div>
                         `;
                     });
@@ -1240,33 +1083,14 @@
                     filtered.forEach(file => {
                         const badge = app.utils.getKategoriBadge(file.kategori);
                         grid.innerHTML += `
-                            <div class="enterprise-card p-5 flex flex-col hover:-translate-y-1 transition-transform duration-[250ms] group relative rounded-[18px]" oncontextmenu="app.utils.showContextMenu(event, '${file.id}', true)">
-                                <div class="flex justify-between items-start mb-4">
-                                    <div class="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex justify-center items-center text-2xl shadow-inner text-red-500 group-hover:bg-red-50 group-hover:border-red-100 transition">
-                                        <i class="fa-solid fa-file-pdf"></i>
-                                    </div>
-                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', true)" class="text-slate-400 hover:text-slate-800 w-9 h-9 rounded-xl hover:bg-slate-100 flex justify-center items-center transition btn-active" title="Menu">
-                                        <i class="fa-solid fa-ellipsis-vertical text-lg"></i>
-                                    </button>
+                            <div class="enterprise-card p-3 flex flex-row items-center gap-3 sm:gap-4 hover:bg-slate-50 active:scale-[0.98] transition-all duration-200 group rounded-[16px]" oncontextmenu="app.utils.showContextMenu(event, '${file.id}', true)">
+                                <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-[14px] bg-slate-50 border border-slate-100 flex justify-center items-center text-lg sm:text-2xl shadow-inner text-red-500 group-hover:bg-red-50 group-hover:border-red-100 transition flex-none cursor-pointer" onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')"><i class="fa-solid fa-file-pdf"></i></div>
+                                <div class="flex-1 min-w-0 cursor-pointer" onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')">
+                                    <h4 class="font-bold text-slate-800 text-[13px] sm:text-[14px] leading-tight truncate mb-1" title="${file.nama}">${file.nama}</h4>
+                                    <div class="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-semibold text-slate-400 truncate"><span class="text-primary font-bold">${file.ukuran}</span><span>•</span><span>${dayjs(file.tanggal).format('DD MMM YYYY')}</span></div>
                                 </div>
-                                <h4 class="font-bold text-slate-800 text-[14px] leading-tight mb-2.5 line-clamp-2 h-10" title="${file.nama}">${file.nama}</h4>
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-[11px] font-bold text-slate-400">${file.ukuran}</span>
-                                    <span class="${badge} text-[10px] px-2.5 py-1 rounded-lg font-extrabold uppercase tracking-wider">${file.kategori}</span>
-                                </div>
-                                <div class="text-[11px] text-slate-400 font-semibold mb-4">
-                                    <i class="fa-regular fa-calendar mr-1"></i> ${dayjs(file.tanggal).format('DD MMM YYYY')}
-                                </div>
-                                <div class="flex gap-2 pt-4 border-t border-slate-100 mt-auto">
-                                    <button onclick="app.utils.openPreview('${file.link}', '${file.nama.replace(/'/g, "\\'")}')" class="flex-1 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold py-2.5 rounded-xl transition border border-slate-200 shadow-sm flex items-center justify-center gap-2 btn-active">
-                                        <i class="fa-solid fa-eye"></i> Lihat
-                                    </button>
-                                    <button onclick="app.utils.downloadFile('${file.link}', '${file.file}')" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 btn-active">
-                                        <i class="fa-solid fa-download"></i> Unduh
-                                    </button>
-                                    <button onclick="app.admin.deleteFile('${file.id}')" class="w-10 flex-none bg-white hover:bg-red-50 text-slate-400 hover:text-red-500 py-2.5 rounded-xl transition border border-slate-200 shadow-sm flex items-center justify-center btn-active" title="Hapus">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
+                                <div class="flex items-center gap-1 flex-none">
+                                    <button onclick="app.utils.showContextMenu(event, '${file.id}', true)" class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-100 hover:text-slate-800 transition btn-active" title="Opsi"><i class="fa-solid fa-ellipsis-vertical"></i></button>
                                 </div>
                             </div>
                         `;
@@ -1274,12 +1098,9 @@
 
                     if(filtered.length === 0 && subfolders.length === 0 && State.currentPath === '/') {
                         grid.innerHTML += `
-                            <div class="col-span-full flex flex-col items-center justify-center h-64 text-slate-400">
-                                <div class="w-20 h-20 bg-slate-100 rounded-2xl flex justify-center items-center mb-5 shadow-inner">
-                                    <i class="fa-regular fa-folder-open text-3xl text-slate-300"></i>
-                                </div>
-                                <p class="font-bold text-slate-500 text-lg">Direktori ini kosong.</p>
-                                <p class="text-sm mt-1.5 font-medium">Tidak ada dokumen yang ditemukan.</p>
+                            <div class="col-span-full flex flex-col items-center justify-center h-[50vh] text-slate-400">
+                                <div class="w-16 h-16 sm:w-20 sm:h-20 bg-slate-100 rounded-[20px] flex justify-center items-center mb-4 shadow-inner"><i class="fa-regular fa-folder-open text-2xl sm:text-3xl text-slate-300"></i></div>
+                                <p class="font-bold text-slate-500 text-base sm:text-lg">Direktori ini kosong.</p><p class="text-[13px] sm:text-sm mt-1 font-medium">Tidak ada dokumen yang ditemukan.</p>
                             </div>
                         `;
                     }
@@ -1288,86 +1109,59 @@
                 handleFileSelect(e) {
                     const file = e.target.files[0];
                     if(file) {
-                        if(file.size > 50 * 1024 * 1024) {
-                            Swal.fire('Terlalu Besar', 'Maksimal ukuran file 50MB', 'error');
-                            e.target.value = ''; return;
-                        }
+                        if(file.size > 50 * 1024 * 1024) { Swal.fire('Terlalu Besar', 'Maksimal ukuran file 50MB', 'error'); e.target.value = ''; return; }
                         const nameDiv = document.getElementById('selected-file-name');
-                        nameDiv.innerHTML = `<i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> ${file.name}`;
-                        nameDiv.classList.remove('hidden');
+                        nameDiv.innerHTML = `<i class="fa-solid fa-check-circle mr-2 text-emerald-500"></i> ${file.name}`; nameDiv.classList.remove('hidden');
                         if(!document.getElementById('up-judul').value) document.getElementById('up-judul').value = file.name.replace('.pdf', '');
                     }
                 },
                 
                 async handleUpload(e) {
                     e.preventDefault();
-                    const fileInput = document.getElementById('file-input');
-                    const file = fileInput.files[0];
+                    const fileInput = document.getElementById('file-input'); const file = fileInput.files[0];
                     if(!file) return Swal.fire('Perhatian', 'Pilih file PDF terlebih dahulu.', 'warning');
 
-                    const btn = document.getElementById('btn-submit-upload');
-                    const prog = document.getElementById('upload-progress-container');
-                    const bar = document.getElementById('upload-bar');
-                    const pText = document.getElementById('upload-percent');
-                    const sText = document.getElementById('upload-status-text');
+                    const btn = document.getElementById('btn-submit-upload'); const prog = document.getElementById('upload-progress-container');
+                    const bar = document.getElementById('upload-bar'); const pText = document.getElementById('upload-percent'); const sText = document.getElementById('upload-status-text');
                     
-                    btn.disabled = true; btn.classList.add('opacity-50');
-                    prog.classList.remove('hidden'); bar.style.width = '10%'; pText.innerText = '10%';
+                    btn.disabled = true; btn.classList.add('opacity-50'); prog.classList.remove('hidden'); bar.style.width = '10%'; pText.innerText = '10%';
 
                     try {
-                        sText.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-primary"></i> Mengunggah ke server Storage...';
-                        bar.style.width = '40%'; pText.innerText = '40%';
+                        sText.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-primary"></i> Mengunggah ke server Storage...'; bar.style.width = '40%'; pText.innerText = '40%';
                         const link = await API.uploadToCatbox(file);
                         
-                        sText.innerHTML = '<i class="fa-solid fa-database text-primary"></i> Mengamankan Metadata...';
-                        bar.style.width = '80%'; pText.innerText = '80%';
-                        
-                        const sizeMB = (file.size / (1024*1024)).toFixed(2);
-                        const ukuran = sizeMB > 1 ? `${sizeMB} MB` : `${(file.size/1024).toFixed(0)} KB`;
-
+                        sText.innerHTML = '<i class="fa-solid fa-database text-primary"></i> Mengamankan Metadata...'; bar.style.width = '80%'; pText.innerText = '80%';
+                        const sizeMB = (file.size / (1024*1024)).toFixed(2); const ukuran = sizeMB > 1 ? `${sizeMB} MB` : `${(file.size/1024).toFixed(0)} KB`;
                         const metadata = {
-                            id: 'DOC-' + new Date().getTime(),
-                            nama: document.getElementById('up-judul').value,
-                            file: file.name, folder: document.getElementById('up-folder').value,
-                            kategori: document.getElementById('up-kategori').value,
-                            tanggal: document.getElementById('up-tanggal').value,
-                            deskripsi: document.getElementById('up-deskripsi').value,
+                            id: 'DOC-' + new Date().getTime(), nama: document.getElementById('up-judul').value, file: file.name, folder: document.getElementById('up-folder').value,
+                            kategori: document.getElementById('up-kategori').value, tanggal: document.getElementById('up-tanggal').value, deskripsi: document.getElementById('up-deskripsi').value,
                             uploader: 'Hamimah (Admin)', ukuran: ukuran, link: link, timestamp: new Date().getTime()
                         };
 
                         await API.executeAction('saveFile', { data: metadata });
-                        
-                        bar.style.width = '100%'; pText.innerText = '100%';
-                        sText.innerHTML = '<i class="fa-solid fa-check text-emerald-500"></i> Proses Selesai!';
+                        bar.style.width = '100%'; pText.innerText = '100%'; sText.innerHTML = '<i class="fa-solid fa-check text-emerald-500"></i> Proses Selesai!';
                         app.utils.logActivity(`Mengunggah dokumen baru: ${metadata.nama}`);
                         
                         setTimeout(() => {
                             Swal.fire({ title: 'Berhasil!', text: 'Dokumen arsip berhasil diamankan dalam sistem.', icon: 'success', confirmButtonColor: '#0f172a', confirmButtonText: 'Selesai' }).then(() => {
-                                document.getElementById('upload-form').reset();
-                                document.getElementById('selected-file-name').classList.add('hidden');
-                                prog.classList.add('hidden'); bar.style.width = '0%';
-                                btn.disabled = false; btn.classList.remove('opacity-50');
+                                document.getElementById('upload-form').reset(); document.getElementById('selected-file-name').classList.add('hidden');
+                                prog.classList.add('hidden'); bar.style.width = '0%'; btn.disabled = false; btn.classList.remove('opacity-50');
                                 app.loadData().then(() => app.admin.setTab('files'));
                             });
                         }, 600);
                     } catch(err) {
-                        Swal.fire('Kegagalan Sistem', err.message, 'error');
-                        prog.classList.add('hidden'); btn.disabled = false; btn.classList.remove('opacity-50');
+                        Swal.fire('Kegagalan Sistem', err.message, 'error'); prog.classList.add('hidden'); btn.disabled = false; btn.classList.remove('opacity-50');
                     }
                 },
 
                 deleteFile(id) {
                     Swal.fire({
-                        title: 'Konfirmasi Penghapusan',
-                        text: "Dokumen ini akan dihapus permanen dari sistem metadata. Lanjutkan?",
-                        icon: 'warning',
+                        title: 'Konfirmasi Penghapusan', text: "Dokumen ini akan dihapus permanen dari sistem metadata. Lanjutkan?", icon: 'warning',
                         showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#cbd5e1', confirmButtonText: 'Ya, Hapus'
                     }).then(async (result) => {
                         if (result.isConfirmed) {
-                            const file = State.files.find(f => f.id === id);
-                            await API.executeAction('deleteFile', { id: id });
-                            app.utils.logActivity(`Menghapus arsip: ${file.nama}`);
-                            await app.loadData(); this.renderFiles();
+                            const file = State.files.find(f => f.id === id); await API.executeAction('deleteFile', { id: id });
+                            app.utils.logActivity(`Menghapus arsip: ${file.nama}`); await app.loadData(); this.renderFiles();
                             Toastify({text: "Berkas berhasil dihapus.", backgroundColor: "#ef4444"}).showToast();
                         }
                     })
@@ -1376,18 +1170,15 @@
                 async createFolderDialog() {
                     const { value: folderName } = await Swal.fire({
                         title: 'Buat Direktori Baru', input: 'text', inputPlaceholder: 'Misal: 2026 atau Laporan/Bulanan',
-                        showCancelButton: true, confirmButtonColor: '#0f172a',
-                        inputValidator: (value) => { if (!value) return 'Nama direktori wajib diisi.' }
+                        showCancelButton: true, confirmButtonColor: '#0f172a', inputValidator: (value) => { if (!value) return 'Nama direktori wajib diisi.' }
                     });
 
                     if (folderName) {
                         let newPath = folderName.startsWith('/') ? folderName : `/${folderName}`;
                         if(State.currentPath !== '/' && !folderName.includes('/')) newPath = `${State.currentPath}/${folderName}`;
                         if(!State.folders.includes(newPath)) {
-                            State.folders.push(newPath);
-                            localStorage.setItem('ad_folders', JSON.stringify(State.folders));
-                            app.utils.logActivity(`Membuat direktori baru: ${newPath}`);
-                            Toastify({text: "Direktori berhasil dibuat", backgroundColor: "#10b981"}).showToast();
+                            State.folders.push(newPath); localStorage.setItem('ad_folders', JSON.stringify(State.folders));
+                            app.utils.logActivity(`Membuat direktori baru: ${newPath}`); Toastify({text: "Direktori berhasil dibuat", backgroundColor: "#10b981"}).showToast();
                             this.updateFolderSelects(); this.renderFiles();
                         }
                     }
@@ -1400,109 +1191,40 @@
                 },
 
                 getFileTypeInfo(url) {
-                    const clean = (url || '').split('?')[0].split('#')[0];
-                    const ext = clean.substring(clean.lastIndexOf('.') + 1).toLowerCase();
+                    const clean = (url || '').split('?')[0].split('#')[0]; const ext = clean.substring(clean.lastIndexOf('.') + 1).toLowerCase();
                     const map = {
-                        // Dokumen
                         pdf: { category: 'pdf', label: 'PDF', icon: 'fa-file-pdf', badge: 'bg-red-100 text-red-600' },
-                        doc: { category: 'word', label: 'Word', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' },
-                        docx:{ category: 'word', label: 'Word', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' },
-                        xls: { category: 'excel', label: 'Excel', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' },
-                        xlsx:{ category: 'excel', label: 'Excel', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' },
+                        doc: { category: 'word', label: 'Word', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' }, docx:{ category: 'word', label: 'Word', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' },
+                        xls: { category: 'excel', label: 'Excel', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' }, xlsx:{ category: 'excel', label: 'Excel', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' },
                         csv: { category: 'excel', label: 'CSV', icon: 'fa-file-csv', badge: 'bg-emerald-100 text-emerald-600' },
-                        ppt: { category: 'powerpoint', label: 'PowerPoint', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' },
-                        pptx:{ category: 'powerpoint', label: 'PowerPoint', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' },
-                        txt: { category: 'document', label: 'Text', icon: 'fa-file-lines', badge: 'bg-slate-100 text-slate-600' },
-                        rtf: { category: 'document', label: 'RTF', icon: 'fa-file-lines', badge: 'bg-slate-100 text-slate-600' },
-                        odt: { category: 'word', label: 'ODT', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' },
-                        ods: { category: 'excel', label: 'ODS', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' },
-                        odp: { category: 'powerpoint', label: 'ODP', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' },
-                        // Gambar
-                        jpg: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        jpeg:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        png: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        webp:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        gif: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        svg: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        bmp: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        ico: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        heic:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
-                        // Video
-                        mp4: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
-                        webm:{ category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
-                        mov: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
-                        avi: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
-                        mkv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
-                        wmv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
-                        flv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
-                        // Audio
-                        mp3: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
-                        wav: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
-                        aac: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
-                        ogg: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
-                        m4a: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
-                        flac:{ category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
-                        // Arsip
-                        zip: { category: 'archive', label: 'ZIP', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
-                        rar: { category: 'archive', label: 'RAR', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
-                        '7z':{ category: 'archive', label: '7Z', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
-                        tar: { category: 'archive', label: 'TAR', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
-                        gz:  { category: 'archive', label: 'GZ', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
-                        // Lainnya
-                        json:{ category: 'code', label: 'JSON', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
-                        xml: { category: 'code', label: 'XML', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
-                        html:{ category: 'code', label: 'HTML', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
-                        css: { category: 'code', label: 'CSS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
-                        js:  { category: 'code', label: 'JS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
-                        ts:  { category: 'code', label: 'TS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
-                        apk: { category: 'app', label: 'APK', icon: 'fa-android', badge: 'bg-emerald-100 text-emerald-700' },
-                        exe: { category: 'app', label: 'EXE', icon: 'fa-windows', badge: 'bg-blue-100 text-blue-700' },
-                        iso: { category: 'disk', label: 'ISO', icon: 'fa-compact-disc', badge: 'bg-slate-200 text-slate-700' }
+                        ppt: { category: 'powerpoint', label: 'PowerPoint', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' }, pptx:{ category: 'powerpoint', label: 'PowerPoint', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' },
+                        txt: { category: 'document', label: 'Text', icon: 'fa-file-lines', badge: 'bg-slate-100 text-slate-600' }, rtf: { category: 'document', label: 'RTF', icon: 'fa-file-lines', badge: 'bg-slate-100 text-slate-600' },
+                        odt: { category: 'word', label: 'ODT', icon: 'fa-file-word', badge: 'bg-blue-100 text-blue-600' }, ods: { category: 'excel', label: 'ODS', icon: 'fa-file-excel', badge: 'bg-emerald-100 text-emerald-600' }, odp: { category: 'powerpoint', label: 'ODP', icon: 'fa-file-powerpoint', badge: 'bg-orange-100 text-orange-600' },
+                        jpg: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' }, jpeg:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' }, png: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' }, webp:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' }, gif: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' }, svg: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' }, bmp: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' }, ico: { category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' }, heic:{ category: 'image', label: 'Image', icon: 'fa-file-image', badge: 'bg-purple-100 text-purple-600' },
+                        mp4: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' }, webm:{ category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' }, mov: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' }, avi: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' }, mkv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' }, wmv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' }, flv: { category: 'video', label: 'Video', icon: 'fa-file-video', badge: 'bg-rose-100 text-rose-700' },
+                        mp3: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' }, wav: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' }, aac: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' }, ogg: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' }, m4a: { category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' }, flac:{ category: 'audio', label: 'Audio', icon: 'fa-file-audio', badge: 'bg-teal-100 text-teal-600' },
+                        zip: { category: 'archive', label: 'ZIP', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' }, rar: { category: 'archive', label: 'RAR', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' }, '7z':{ category: 'archive', label: '7Z', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' }, tar: { category: 'archive', label: 'TAR', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' }, gz:  { category: 'archive', label: 'GZ', icon: 'fa-file-zipper', badge: 'bg-amber-100 text-amber-700' },
+                        json:{ category: 'code', label: 'JSON', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' }, xml: { category: 'code', label: 'XML', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' }, html:{ category: 'code', label: 'HTML', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' }, css: { category: 'code', label: 'CSS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' }, js:  { category: 'code', label: 'JS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' }, ts:  { category: 'code', label: 'TS', icon: 'fa-file-code', badge: 'bg-slate-200 text-slate-700' },
+                        apk: { category: 'app', label: 'APK', icon: 'fa-android', badge: 'bg-emerald-100 text-emerald-700' }, exe: { category: 'app', label: 'EXE', icon: 'fa-windows', badge: 'bg-blue-100 text-blue-700' }, iso: { category: 'disk', label: 'ISO', icon: 'fa-compact-disc', badge: 'bg-slate-200 text-slate-700' }
                     };
                     return map[ext] || { category: 'unknown', label: ext ? ext.toUpperCase() : 'File', icon: 'fa-file', badge: 'bg-slate-100 text-slate-600' };
                 },
 
-                isValidCatboxLink(url) {
-                    return typeof url === 'string' && url.trim().indexOf('https://files.catbox.moe/') === 0;
-                },
+                isValidCatboxLink(url) { return typeof url === 'string' && url.trim().indexOf('https://files.catbox.moe/') === 0; },
 
-                resetAttachments() {
-                    this.attachments = [{ name: '', url: '' }];
-                    this.renderAttachments();
-                },
-
-                addAttachment() {
-                    if(!this.attachments) this.attachments = [];
-                    this.attachments.push({ name: '', url: '' });
-                    this.renderAttachments();
-                },
-
-                removeAttachment(idx) {
-                    if(this.attachments.length <= 1) {
-                        Toastify({text: "Minimal harus ada satu lampiran", backgroundColor: "#f59e0b"}).showToast();
-                        return;
-                    }
-                    this.attachments.splice(idx, 1);
-                    this.renderAttachments();
-                },
-
+                resetAttachments() { this.attachments = [{ name: '', url: '' }]; this.renderAttachments(); },
+                addAttachment() { if(!this.attachments) this.attachments = []; this.attachments.push({ name: '', url: '' }); this.renderAttachments(); },
+                removeAttachment(idx) { if(this.attachments.length <= 1) { Toastify({text: "Minimal harus ada satu lampiran", backgroundColor: "#f59e0b"}).showToast(); return; } this.attachments.splice(idx, 1); this.renderAttachments(); },
+                
                 updateAttachment(idx, field, value) {
-                    if(!this.attachments[idx]) return;
-                    this.attachments[idx][field] = value;
+                    if(!this.attachments[idx]) return; this.attachments[idx][field] = value;
                     if(field === 'url') this.validateAttachmentRow(idx);
                 },
 
                 validateAttachmentRow(idx) {
                     const att = this.attachments[idx]; if(!att) return;
-                    const url = (att.url || '').trim();
-                    const info = this.getFileTypeInfo(url);
-                    const valid = url.length > 0 && this.isValidCatboxLink(url);
-
-                    const badgeEl = document.getElementById(`att-badge-${idx}`);
-                    const errEl = document.getElementById(`att-error-${idx}`);
-                    const urlInput = document.getElementById(`att-url-${idx}`);
-                    const prevBtn = document.getElementById(`att-preview-btn-${idx}`);
-
+                    const url = (att.url || '').trim(); const info = this.getFileTypeInfo(url); const valid = url.length > 0 && this.isValidCatboxLink(url);
+                    const badgeEl = document.getElementById(`att-badge-${idx}`); const errEl = document.getElementById(`att-error-${idx}`); const urlInput = document.getElementById(`att-url-${idx}`); const prevBtn = document.getElementById(`att-preview-btn-${idx}`);
                     if(badgeEl) { badgeEl.className = `${info.badge} text-[10px] px-2.5 py-1 rounded-lg font-extrabold uppercase tracking-wider`; badgeEl.innerText = valid ? info.label : '???'; }
                     if(errEl) errEl.classList.toggle('hidden', valid || url.length === 0);
                     if(urlInput) { urlInput.classList.toggle('border-red-300', url.length > 0 && !valid); urlInput.classList.toggle('border-slate-200', valid || url.length === 0); }
@@ -1510,65 +1232,33 @@
                     return valid;
                 },
 
-                dragStart(e) {
-                    this._dragIndex = parseInt(e.currentTarget.dataset.index, 10);
-                    e.currentTarget.classList.add('opacity-40');
-                },
-
+                dragStart(e) { this._dragIndex = parseInt(e.currentTarget.dataset.index, 10); e.currentTarget.classList.add('opacity-40'); },
                 dragOver(e) { e.preventDefault(); },
-
                 dragDrop(e) {
-                    e.preventDefault();
-                    const targetIndex = parseInt(e.currentTarget.dataset.index, 10);
+                    e.preventDefault(); const targetIndex = parseInt(e.currentTarget.dataset.index, 10);
                     if(this._dragIndex === undefined || this._dragIndex === targetIndex) return;
-                    const moved = this.attachments.splice(this._dragIndex, 1)[0];
-                    this.attachments.splice(targetIndex, 0, moved);
-                    this._dragIndex = undefined;
-                    this.renderAttachments();
+                    const moved = this.attachments.splice(this._dragIndex, 1)[0]; this.attachments.splice(targetIndex, 0, moved); this._dragIndex = undefined; this.renderAttachments();
                 },
-
                 dragEnd(e) { e.currentTarget.classList.remove('opacity-40'); },
 
                 togglePreviewAttachment(idx) {
-                    const att = this.attachments[idx]; if(!att) return;
-                    const url = (att.url || '').trim();
-                    if(!this.isValidCatboxLink(url)) {
-                        Swal.fire('Link Tidak Valid', 'Masukkan URL Catbox yang valid terlebih dahulu.', 'warning');
-                        return;
-                    }
-                    const info = this.getFileTypeInfo(url);
-                    const container = document.getElementById(`attachment-preview-${idx}`);
-                    if(!container) return;
-
-                    if(info.category === 'pdf') {
-                        app.utils.openPreview(url, att.name || 'Preview Lampiran');
-                        return;
-                    }
-                    if(!container.classList.contains('hidden')) {
-                        container.classList.add('hidden'); container.innerHTML = ''; return;
-                    }
+                    const att = this.attachments[idx]; if(!att) return; const url = (att.url || '').trim();
+                    if(!this.isValidCatboxLink(url)) { Swal.fire('Link Tidak Valid', 'Masukkan URL Catbox yang valid terlebih dahulu.', 'warning'); return; }
+                    const info = this.getFileTypeInfo(url); const container = document.getElementById(`attachment-preview-${idx}`); if(!container) return;
+                    if(info.category === 'pdf') { app.utils.openPreview(url, att.name || 'Preview Lampiran'); return; }
+                    if(!container.classList.contains('hidden')) { container.classList.add('hidden'); container.innerHTML = ''; return; }
                     container.classList.remove('hidden');
-                    if(info.category === 'image') {
-                        container.innerHTML = `<img src="${url}" class="max-h-64 rounded-xl border border-slate-200 shadow-sm mx-auto block">`;
-                    } else if(info.category === 'video') {
-                        container.innerHTML = `<video src="${url}" controls class="w-full rounded-xl border border-slate-200 shadow-sm max-h-64"></video>`;
-                    } else if(info.category === 'audio') {
-                        container.innerHTML = `<audio src="${url}" controls class="w-full outline-none"></audio>`;
-                    } else {
-                        container.innerHTML = `<div class="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200"><i class="fa-solid ${info.icon} text-2xl text-slate-400"></i><span class="text-sm font-semibold text-slate-600">Preview tidak tersedia untuk jenis file ini. Unduh tautan secara langsung untuk melihat isinya.</span></div>`;
-                    }
+                    if(info.category === 'image') container.innerHTML = `<img src="${url}" class="max-h-64 rounded-xl border border-slate-200 shadow-sm mx-auto block">`;
+                    else if(info.category === 'video') container.innerHTML = `<video src="${url}" controls class="w-full rounded-xl border border-slate-200 shadow-sm max-h-64"></video>`;
+                    else if(info.category === 'audio') container.innerHTML = `<audio src="${url}" controls class="w-full outline-none"></audio>`;
+                    else container.innerHTML = `<div class="flex items-center gap-3 p-4 bg-slate-50 rounded-xl border border-slate-200"><i class="fa-solid ${info.icon} text-2xl text-slate-400"></i><span class="text-sm font-semibold text-slate-600">Preview tidak tersedia untuk jenis file ini. Unduh tautan secara langsung untuk melihat isinya.</span></div>`;
                 },
 
                 renderAttachments() {
-                    const list = document.getElementById('attachments-list');
-                    if(!list) return;
+                    const list = document.getElementById('attachments-list'); if(!list) return;
                     if(!this.attachments || this.attachments.length === 0) this.attachments = [{ name: '', url: '' }];
-
                     list.innerHTML = this.attachments.map((att, idx) => {
-                        const url = att.url || '';
-                        const info = this.getFileTypeInfo(url);
-                        const valid = url.trim().length > 0 && this.isValidCatboxLink(url);
-                        const showError = url.trim().length > 0 && !valid;
+                        const url = att.url || ''; const info = this.getFileTypeInfo(url); const valid = url.trim().length > 0 && this.isValidCatboxLink(url); const showError = url.trim().length > 0 && !valid;
                         return `
                             <div id="att-card-${idx}" class="enterprise-card p-5 rounded-2xl" draggable="true" data-index="${idx}" ondragstart="app.admin.dragStart(event)" ondragover="app.admin.dragOver(event)" ondrop="app.admin.dragDrop(event)" ondragend="app.admin.dragEnd(event)">
                                 <div class="flex items-start gap-3">
@@ -1582,24 +1272,14 @@
                                             </div>
                                         </div>
                                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
-                                            <div>
-                                                <label class="block text-xs font-bold text-slate-500 mb-1.5">Nama Lampiran (Opsional)</label>
-                                                <input type="text" value="${att.name || ''}" placeholder="Contoh: Lampiran 1" oninput="app.admin.updateAttachment(${idx}, 'name', this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 bg-white">
-                                            </div>
+                                            <div><label class="block text-xs font-bold text-slate-500 mb-1.5">Nama Lampiran (Opsional)</label><input type="text" value="${att.name || ''}" placeholder="Contoh: Lampiran 1" oninput="app.admin.updateAttachment(${idx}, 'name', this.value)" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 bg-white"></div>
                                             <div>
                                                 <label class="block text-xs font-bold text-slate-500 mb-1.5">URL Catbox *</label>
-                                                <div class="relative">
-                                                    <i class="fa-solid fa-link absolute left-3 top-3.5 text-slate-400 text-xs"></i>
-                                                    <input type="url" id="att-url-${idx}" value="${att.url || ''}" placeholder="https://files.catbox.moe/xxxx.pdf" oninput="app.admin.updateAttachment(${idx}, 'url', this.value)" class="w-full pl-8 pr-3 py-2.5 rounded-xl border ${showError ? 'border-red-300' : 'border-slate-200'} focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 bg-white">
-                                                </div>
+                                                <div class="relative"><i class="fa-solid fa-link absolute left-3 top-3.5 text-slate-400 text-xs"></i><input type="url" id="att-url-${idx}" value="${att.url || ''}" placeholder="https://files.catbox.moe/xxxx.pdf" oninput="app.admin.updateAttachment(${idx}, 'url', this.value)" class="w-full pl-8 pr-3 py-2.5 rounded-xl border ${showError ? 'border-red-300' : 'border-slate-200'} focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none text-sm font-semibold text-slate-800 bg-white"></div>
                                             </div>
                                         </div>
-                                        <p id="att-error-${idx}" class="${showError ? '' : 'hidden'} text-xs font-bold text-red-500 mb-3 flex items-center gap-1.5">
-                                            <i class="fa-solid fa-circle-exclamation"></i> URL harus berasal dari https://files.catbox.moe/
-                                        </p>
-                                        <button type="button" id="att-preview-btn-${idx}" onclick="app.admin.togglePreviewAttachment(${idx})" ${valid ? '' : 'disabled'} class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 hover:shadow-sm transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 btn-active">
-                                            <i class="fa-solid fa-eye"></i> Pratinjau Inline
-                                        </button>
+                                        <p id="att-error-${idx}" class="${showError ? '' : 'hidden'} text-xs font-bold text-red-500 mb-3 flex items-center gap-1.5"><i class="fa-solid fa-circle-exclamation"></i> URL harus berasal dari https://files.catbox.moe/</p>
+                                        <button type="button" id="att-preview-btn-${idx}" onclick="app.admin.togglePreviewAttachment(${idx})" ${valid ? '' : 'disabled'} class="px-4 py-2 bg-white border border-slate-200 text-slate-700 rounded-xl text-xs font-bold hover:bg-slate-50 hover:shadow-sm transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 btn-active"><i class="fa-solid fa-eye"></i> Pratinjau Inline</button>
                                         <div id="attachment-preview-${idx}" class="mt-3 hidden transition-all"></div>
                                     </div>
                                 </div>
@@ -1610,12 +1290,7 @@
 
                 async handleUpload(e) {
                     e.preventDefault();
-
-                    const judul = document.getElementById('up-judul').value.trim();
-                    const kategori = document.getElementById('up-kategori').value;
-                    const folder = document.getElementById('up-folder').value;
-                    const tanggal = document.getElementById('up-tanggal').value;
-                    const deskripsi = document.getElementById('up-deskripsi').value;
+                    const judul = document.getElementById('up-judul').value.trim(); const kategori = document.getElementById('up-kategori').value; const folder = document.getElementById('up-folder').value; const tanggal = document.getElementById('up-tanggal').value; const deskripsi = document.getElementById('up-deskripsi').value;
 
                     if(!judul) return Swal.fire('Perhatian', 'Judul arsip wajib diisi.', 'warning');
                     if(!kategori) return Swal.fire('Perhatian', 'Kategori wajib dipilih.', 'warning');
@@ -1626,60 +1301,36 @@
                     const cleanAttachments = [];
                     for(let i = 0; i < this.attachments.length; i++) {
                         const url = (this.attachments[i].url || '').trim();
-                        if(!this.isValidCatboxLink(url)) {
-                            this.validateAttachmentRow(i);
-                            return Swal.fire('Tautan Tidak Valid', `Lampiran ke-${i + 1}: URL harus valid dan diawali dengan https://files.catbox.moe/`, 'error');
-                        }
-                        const cleanUrl = url.split('?')[0].split('#')[0];
-                        const fileName = cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1);
-                        const type = fileName.includes('.') ? fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase() : '';
-                        cleanAttachments.push({
-                            name: (this.attachments[i].name || '').trim() || fileName,
-                            type: type,
-                            url: url
-                        });
+                        if(!this.isValidCatboxLink(url)) { this.validateAttachmentRow(i); return Swal.fire('Tautan Tidak Valid', `Lampiran ke-${i + 1}: URL harus valid dan diawali dengan https://files.catbox.moe/`, 'error'); }
+                        const cleanUrl = url.split('?')[0].split('#')[0]; const fileName = cleanUrl.substring(cleanUrl.lastIndexOf('/') + 1); const type = fileName.includes('.') ? fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase() : '';
+                        cleanAttachments.push({ name: (this.attachments[i].name || '').trim() || fileName, type: type, url: url });
                     }
 
                     const btn = document.getElementById('btn-submit-upload');
-                    btn.disabled = true; btn.classList.add('opacity-50');
-                    btn.innerHTML = '<div class="loader border-t-white"></div>';
+                    btn.disabled = true; btn.classList.add('opacity-50'); btn.innerHTML = '<div class="loader border-t-white"></div>';
 
                     try {
                         const metadata = {
-                            id: 'DOC-' + new Date().getTime(),
-                            nama: judul,
-                            file: cleanAttachments[0].url.split('/').pop(),
-                            folder: folder,
-                            kategori: kategori,
-                            tanggal: tanggal,
-                            deskripsi: deskripsi,
-                            uploader: 'Hamimah (Admin)', ukuran: '-', 
-                            link: cleanAttachments[0].url,
-                            attachments: cleanAttachments,
-                            timestamp: new Date().getTime()
+                            id: 'DOC-' + new Date().getTime(), nama: judul, file: cleanAttachments[0].url.split('/').pop(), folder: folder, kategori: kategori,
+                            tanggal: tanggal, deskripsi: deskripsi, uploader: 'Hamimah (Admin)', ukuran: '-', link: cleanAttachments[0].url, attachments: cleanAttachments, timestamp: new Date().getTime()
                         };
 
                         await API.executeAction('saveFile', { data: metadata });
                         app.utils.logActivity(`Mengamankan arsip: ${metadata.nama} (${cleanAttachments.length} lampiran)`);
 
                         Swal.fire({ title: 'Berhasil!', text: 'Arsip dan semua lampirannya berhasil disimpan.', icon: 'success', confirmButtonColor: '#0f172a', confirmButtonText: 'Selesai' }).then(() => {
-                            document.getElementById('upload-form').reset();
-                            this.resetAttachments();
-                            btn.disabled = false; btn.classList.remove('opacity-50');
-                            btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Arsip';
+                            document.getElementById('upload-form').reset(); this.resetAttachments();
+                            btn.disabled = false; btn.classList.remove('opacity-50'); btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Arsip';
                             app.loadData().then(() => app.admin.setTab('files'));
                         });
                     } catch(err) {
-                        Swal.fire('Kegagalan Sistem', err.message, 'error');
-                        btn.disabled = false; btn.classList.remove('opacity-50');
-                        btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Arsip';
+                        Swal.fire('Kegagalan Sistem', err.message, 'error'); btn.disabled = false; btn.classList.remove('opacity-50'); btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Arsip';
                     }
                 },
 
                 exportJSON() {
                     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({files: State.files, folders: State.folders}));
-                    const a = document.createElement('a'); a.href = dataStr; a.download = "arsip_metadata_db_backup.json"; a.click();
-                    app.utils.logActivity("Melakukan Ekspor Database JSON");
+                    const a = document.createElement('a'); a.href = dataStr; a.download = "arsip_metadata_db_backup.json"; a.click(); app.utils.logActivity("Melakukan Ekspor Database JSON");
                 },
 
                 renderHistory() {
@@ -1689,8 +1340,7 @@
                             <li class="relative flex gap-5">
                                 <div class="absolute -left-3 md:left-auto md:relative w-6 h-6 rounded-full bg-white border-[5px] border-slate-100 flex items-center justify-center shadow-sm z-10"><div class="w-2 h-2 bg-primary rounded-full"></div></div>
                                 <div class="flex-1 bg-slate-50/50 p-5 rounded-2xl border border-slate-100 ml-6 md:ml-0 shadow-sm">
-                                    <p class="text-[15px] font-bold text-slate-800">${h.action}</p>
-                                    <p class="text-[11px] text-slate-400 font-extrabold mt-1.5 uppercase tracking-wider">${dayjs(h.time).format('DD MMM YYYY, HH:mm')}</p>
+                                    <p class="text-[15px] font-bold text-slate-800">${h.action}</p><p class="text-[11px] text-slate-400 font-extrabold mt-1.5 uppercase tracking-wider">${dayjs(h.time).format('DD MMM YYYY, HH:mm')}</p>
                                 </div>
                             </li>
                         `;
@@ -1706,32 +1356,22 @@
             utils: {
                 getKategoriBadge(kat) {
                     const map = {
-                        'Surat Masuk': 'bg-blue-100 text-blue-700', 'Surat Keluar': 'bg-indigo-100 text-indigo-700',
-                        'SK': 'bg-rose-100 text-rose-700', 'Laporan': 'bg-emerald-100 text-emerald-700',
-                        'Dokumentasi': 'bg-amber-100 text-amber-700', 'Lainnya': 'bg-slate-200 text-slate-700'
-                    };
-                    return map[kat] || map['Lainnya'];
+                        'Surat Masuk': 'bg-blue-100 text-blue-700', 'Surat Keluar': 'bg-indigo-100 text-indigo-700', 'SK': 'bg-rose-100 text-rose-700', 
+                        'Laporan': 'bg-emerald-100 text-emerald-700', 'Dokumentasi': 'bg-amber-100 text-amber-700', 'Lainnya': 'bg-slate-200 text-slate-700'
+                    }; return map[kat] || map['Lainnya'];
                 },
 
                 showContextMenu(e, id, isAdminView) {
-                    e.preventDefault();
-                    const menu = document.getElementById('context-menu');
-                    const file = State.files.find(f => f.id === id); if(!file) return;
-
-                    // Bound checks for mobile screens
+                    e.preventDefault(); const menu = document.getElementById('context-menu'); const file = State.files.find(f => f.id === id); if(!file) return;
                     let left = e.pageX; let top = e.pageY;
-                    if(left + 220 > window.innerWidth) left = window.innerWidth - 230;
-                    if(top + 200 > window.innerHeight) top = window.innerHeight - 210;
+                    if(left + 220 > window.innerWidth) left = window.innerWidth - 230; if(top + 200 > window.innerHeight) top = window.innerHeight - 210;
                     
-                    menu.style.left = left + 'px'; menu.style.top = top + 'px';
-                    menu.classList.remove('hidden-view');
-                    
+                    menu.style.left = left + 'px'; menu.style.top = top + 'px'; menu.classList.remove('hidden-view');
                     setTimeout(() => { menu.style.opacity = '1'; menu.style.transform = 'scale(1)'; }, 10);
 
                     const adminEls = document.getElementById('ctx-admin-actions');
-                    if(State.userToken) {
-                        adminEls.classList.remove('hidden'); document.getElementById('ctx-delete').onclick = () => app.admin.deleteFile(id);
-                    } else { adminEls.classList.add('hidden'); }
+                    if(State.userToken) { adminEls.classList.remove('hidden'); document.getElementById('ctx-delete').onclick = () => app.admin.deleteFile(id); } 
+                    else { adminEls.classList.add('hidden'); }
 
                     document.getElementById('ctx-preview').onclick = () => this.openPreview(file.link, file.nama);
                     document.getElementById('ctx-download').onclick = () => this.downloadFile(file.link, file.file);
@@ -1739,39 +1379,25 @@
                 },
 
                 async openPreview(url, name) {
-                    State.currentPdfUrl = url; State.currentPdfName = name;
-                    document.getElementById('pdf-modal-title').innerText = name;
-                    const modal = document.getElementById('pdf-modal');
-                    modal.classList.remove('hidden');
+                    State.currentPdfUrl = url; State.currentPdfName = name; document.getElementById('pdf-modal-title').innerText = name;
+                    const modal = document.getElementById('pdf-modal'); modal.classList.remove('hidden');
                     setTimeout(() => modal.classList.add('opacity-100'), 10);
-                    
-                    document.getElementById('pdf-loading').classList.remove('hidden');
-                    document.getElementById('pdf-canvas').classList.add('hidden'); document.getElementById('pdf-error').classList.add('hidden');
+                    document.getElementById('pdf-loading').classList.remove('hidden'); document.getElementById('pdf-canvas').classList.add('hidden'); document.getElementById('pdf-error').classList.add('hidden');
                     State.pdfPageNum = 1; State.pdfScale = 1.2;
-
                     try {
                         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
-                        const loadingTask = pdfjsLib.getDocument(url);
-                        State.pdfDoc = await loadingTask.promise;
-                        document.getElementById('pdf-page-count').textContent = State.pdfDoc.numPages;
-                        this.renderPdfPage(State.pdfPageNum);
-                    } catch(err) {
-                        document.getElementById('pdf-loading').classList.add('hidden'); document.getElementById('pdf-error').classList.remove('hidden');
-                    }
+                        const loadingTask = pdfjsLib.getDocument(url); State.pdfDoc = await loadingTask.promise;
+                        document.getElementById('pdf-page-count').textContent = State.pdfDoc.numPages; this.renderPdfPage(State.pdfPageNum);
+                    } catch(err) { document.getElementById('pdf-loading').classList.add('hidden'); document.getElementById('pdf-error').classList.remove('hidden'); }
                 },
 
                 async renderPdfPage(num) {
                     if(!State.pdfDoc) return;
-                    const page = await State.pdfDoc.getPage(num);
-                    const canvas = document.getElementById('pdf-canvas'); const ctx = canvas.getContext('2d');
-                    const viewport = page.getViewport({ scale: State.pdfScale });
-                    canvas.height = viewport.height; canvas.width = viewport.width;
-
+                    const page = await State.pdfDoc.getPage(num); const canvas = document.getElementById('pdf-canvas'); const ctx = canvas.getContext('2d');
+                    const viewport = page.getViewport({ scale: State.pdfScale }); canvas.height = viewport.height; canvas.width = viewport.width;
                     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
-                    document.getElementById('pdf-loading').classList.add('hidden');
-                    canvas.classList.remove('hidden');
-                    document.getElementById('pdf-page-num').textContent = num;
-                    document.getElementById('pdf-zoom-val').textContent = Math.round(State.pdfScale * 100) + '%';
+                    document.getElementById('pdf-loading').classList.add('hidden'); canvas.classList.remove('hidden');
+                    document.getElementById('pdf-page-num').textContent = num; document.getElementById('pdf-zoom-val').textContent = Math.round(State.pdfScale * 100) + '%';
                 },
                 
                 pdfNextPage() { if(State.pdfDoc && State.pdfPageNum < State.pdfDoc.numPages) this.renderPdfPage(++State.pdfPageNum); },
@@ -1791,53 +1417,67 @@
                     const zip = new JSZip(); Toastify({text: "Kompilasi ZIP dimulai...", backgroundColor: "#2563EB"}).showToast();
                     const rootFolder = zip.folder("Arsip Digital WAKASEK HUMAS");
                     rootFolder.file("info.txt", "Arsip Digital diunduh pada " + dayjs().format('DD/MM/YYYY HH:mm'));
-
                     State.files.forEach(f => {
-                        const pathParts = f.folder.split('/').filter(p => p !== '');
-                        let currentZipFolder = rootFolder;
+                        const pathParts = f.folder.split('/').filter(p => p !== ''); let currentZipFolder = rootFolder;
                         pathParts.forEach(p => { currentZipFolder = currentZipFolder.folder(p); });
                         currentZipFolder.file(f.file, "Konten PDF (Simulasi ZIP Export dari Blob)");
                     });
-
-                    zip.generateAsync({type:"blob"}).then(function(content) {
-                        saveAs(content, "Arsip_Digital_Backup_V2.zip");
-                        Toastify({text: "ZIP Berhasil diunduh", backgroundColor: "#10b981"}).showToast();
-                    });
-                    
+                    zip.generateAsync({type:"blob"}).then(function(content) { saveAs(content, "Arsip_Digital_Backup_V2.zip"); Toastify({text: "ZIP Berhasil diunduh", backgroundColor: "#10b981"}).showToast(); });
                     if(State.userToken) this.logActivity("Melakukan Kompilasi & Download ZIP Arsip");
                 },
 
                 logActivity(msg) {
                     State.history.unshift({ action: msg, time: new Date().getTime() });
-                    if(State.history.length > 50) State.history.pop();
-                    localStorage.setItem('ad_history', JSON.stringify(State.history));
+                    if(State.history.length > 50) State.history.pop(); localStorage.setItem('ad_history', JSON.stringify(State.history));
                     if(State.userToken && !document.getElementById('tab-history').classList.contains('hidden-view')) app.admin.renderHistory();
                 }
             },
             
+            // PERBAIKAN LOGIKA DRAWER MOBILE (Kunci overflow hanya pada View)
             ui: {
                 menuOpen: false,
                 toggleMobileMenu() {
-                    if (this.menuOpen) this.closeMobileMenu();
-                    else this.openMobileMenu();
+                    if (this.menuOpen) this.closeMobileMenu(); else this.openMobileMenu();
                 },
                 openMobileMenu() {
                     this.menuOpen = true;
                     const sidebar = document.getElementById('admin-sidebar');
                     const overlay = document.getElementById('mobile-overlay');
-                    sidebar.classList.remove('-translate-x-full');
-                    overlay.classList.remove('hidden');
-                    // Force reflow
-                    void overlay.offsetWidth;
-                    overlay.classList.remove('opacity-0');
+                    const adminView = document.getElementById('view-admin');
+                    
+                    if (overlay) {
+                        overlay.classList.remove('hidden');
+                        void overlay.offsetWidth; // Force CSS Reflow agar animasi jalan
+                        overlay.classList.remove('opacity-0');
+                    }
+                    if (sidebar) {
+                        sidebar.classList.remove('-translate-x-full');
+                        sidebar.classList.add('translate-x-0');
+                    }
+                    if (adminView) {
+                        adminView.style.overflowY = 'hidden'; // Kunci scroll di belakangnya
+                    }
                 },
                 closeMobileMenu() {
+                    if (!this.menuOpen) return;
                     this.menuOpen = false;
                     const sidebar = document.getElementById('admin-sidebar');
                     const overlay = document.getElementById('mobile-overlay');
-                    sidebar.classList.add('-translate-x-full');
-                    overlay.classList.add('opacity-0');
-                    setTimeout(() => overlay.classList.add('hidden'), 300);
+                    const adminView = document.getElementById('view-admin');
+                    
+                    if(sidebar) {
+                        sidebar.classList.add('-translate-x-full');
+                        sidebar.classList.remove('translate-x-0');
+                    }
+                    if(overlay) {
+                        overlay.classList.add('opacity-0');
+                        setTimeout(() => { 
+                            if(!this.menuOpen) overlay.classList.add('hidden'); 
+                        }, 300);
+                    }
+                    if (adminView) {
+                        adminView.style.overflowY = 'auto'; // Kembalikan scroll normal
+                    }
                 },
                 initSwipe() {
                     const sidebar = document.getElementById('admin-sidebar');
@@ -1849,11 +1489,13 @@
                     }, {passive: true});
                     
                     sidebar.addEventListener('touchmove', (e) => {
+                        if (!this.menuOpen) return;
                         let currentX = e.touches[0].clientX;
                         let diff = startX - currentX;
                         // Tutup jika di-swipe ke kiri cukup jauh
-                        if (diff > 40 && this.menuOpen) {
+                        if (diff > 45) {
                             this.closeMobileMenu();
+                            startX = currentX; // Mencegah trigger ganda
                         }
                     }, {passive: true});
                 }
