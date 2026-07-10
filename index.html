@@ -721,7 +721,8 @@
     <!-- ==================== CORE JAVASCRIPT ==================== -->
     <script>
         const CONFIG = {
-            gasUrl: '', // Kosong = Gunakan Mock Lokal
+            // URL Web App Google Apps Script Anda dimasukkan ke sini
+            gasUrl: 'https://script.google.com/macros/s/AKfycbzRgqe6DlKnndaCaHHmcclaudZpkQSGlLxM5drlNk481JNJJ1tkxYp-8mKZ84N4DodB3g/exec',
             catboxApi: 'https://catbox.moe/user/api.php',
             version: '2.0.0 Enterprise'
         };
@@ -734,34 +735,25 @@
 
         const API = {
             async executeAction(action, payload = {}) {
-                if (CONFIG.gasUrl) {
-                    try {
-                        const response = await fetch(CONFIG.gasUrl, { method: 'POST', body: JSON.stringify({ action: action, ...payload }) });
-                        return await response.json();
-                    } catch (e) { throw new Error("Gagal terhubung ke server."); }
-                } else { return this.mockAction(action, payload); }
-            },
-            
-            mockAction(action, payload) {
-                return new Promise((resolve) => {
-                    setTimeout(() => {
-                        let files = JSON.parse(localStorage.getItem('ad_files')) || [];
-                        if (action === 'login') {
-                            if (payload.username === 'hamimah' && payload.password === 'uranusfazry123') { resolve({ status: 'success', token: 'valid_admin_token_xyz' }); } 
-                            else { resolve({ status: 'error', message: 'Kredensial tidak valid' }); }
-                        } 
-                        else if (action === 'getFiles') {
-                            const folders = JSON.parse(localStorage.getItem('ad_folders')) || ['/', '/2025', '/2026', '/2026/SK', '/2026/Surat Masuk', '/2026/Surat Keluar'];
-                            resolve({ status: 'success', files: files, folders: folders });
-                        }
-                        else if (action === 'saveFile') {
-                            files.unshift(payload.data); localStorage.setItem('ad_files', JSON.stringify(files)); resolve({ status: 'success' });
-                        }
-                        else if (action === 'deleteFile') {
-                            files = files.filter(f => f.id !== payload.id); localStorage.setItem('ad_files', JSON.stringify(files)); resolve({ status: 'success' });
-                        }
-                    }, 800);
-                });
+                if (!CONFIG.gasUrl) throw new Error("URL Backend belum dikonfigurasi.");
+                
+                try {
+                    // Fetch API tanpa Header Content-Type (application/json) 
+                    // Sangat penting untuk menghindari blokir CORS Preflight dari GAS
+                    const response = await fetch(CONFIG.gasUrl, {
+                        method: 'POST',
+                        body: JSON.stringify({ action: action, payload: payload })
+                    });
+                    
+                    const result = await response.json();
+                    if (!result.success) {
+                        throw new Error(result.message);
+                    }
+                    return result;
+                } catch (e) {
+                    console.error('API Error:', e);
+                    throw new Error("Koneksi API Gagal: " + e.message);
+                }
             },
 
             async uploadToCatbox(file) {
@@ -776,7 +768,6 @@
 
         const app = {
             init() {
-                this.initMockDataIfNeeded();
                 this.ui.initSwipe();
                 window.addEventListener('hashchange', () => this.router.handleHash());
                 this.router.handleHash();
@@ -793,37 +784,22 @@
                 document.getElementById('admin-search').addEventListener('input', (e) => this.admin.renderFiles(e.target.value));
             },
 
-            initMockDataIfNeeded() {
-                if(!localStorage.getItem('ad_files')) {
-                    const mockFiles = [
-                        { id: '1', nama: 'SK Pembagian Tugas Mengajar 2026', file: 'sk-tugas-2026.pdf', folder: '/2026/SK', kategori: 'SK', ukuran: '2.4 MB', uploader: 'Hamimah', tanggal: '2026-07-01', link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', deskripsi: 'SK untuk semester ganjil', timestamp: new Date().getTime() },
-                        { id: '2', nama: 'Undangan Rapat Wali Murid', file: 'undangan-rapat.pdf', folder: '/2026/Surat Keluar', kategori: 'Surat Keluar', ukuran: '1.1 MB', uploader: 'Hamimah', tanggal: '2026-07-10', link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', deskripsi: '', timestamp: new Date().getTime() - 86400000 },
-                        { id: '3', nama: 'Laporan BOS Tahap 1 2025', file: 'laporan-bos.pdf', folder: '/2025', kategori: 'Laporan', ukuran: '5.2 MB', uploader: 'Hamimah', tanggal: '2025-05-15', link: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf', deskripsi: '', timestamp: new Date().getTime() - (86400000 * 300) },
-                    ];
-                    localStorage.setItem('ad_files', JSON.stringify(mockFiles));
-                    localStorage.setItem('ad_folders', JSON.stringify(['/', '/2025', '/2026', '/2026/SK', '/2026/Surat Masuk', '/2026/Surat Keluar', '/2026/Laporan']));
-                    localStorage.setItem('ad_history', JSON.stringify([{ action: 'Sistem diinisialisasi', time: new Date().getTime() }]));
-                }
-            },
-
             router: {
                 navigate(route) { window.location.hash = route; },
                 async handleHash() {
                     const hash = window.location.hash.replace('#', '').replace('/', '') || 'landing';
                     
-                    // PERBAIKAN: Pastikan menu mobile tertutup rapat sebelum berganti halaman
                     if (app.ui && app.ui.menuOpen) {
                         app.ui.closeMobileMenu();
                         const sidebar = document.getElementById('admin-sidebar');
                         if (sidebar) sidebar.classList.add('-translate-x-full');
                     }
 
-                    // PERBAIKAN: Tutup semua view secara paksa dan reset scroll
                     ['landing', 'login', 'admin', 'public'].forEach(v => {
                         const el = document.getElementById(`view-${v}`);
                         if (el) {
                             el.classList.add('hidden-view');
-                            el.scrollTop = 0; // Kembalikan posisi scroll
+                            el.scrollTop = 0;
                         }
                     });
                     
@@ -859,9 +835,43 @@
 
             async loadData() {
                 try {
-                    const res = await API.executeAction('getFiles');
-                    if (res.status === 'success') { State.files = res.files; State.folders = res.folders; State.history = JSON.parse(localStorage.getItem('ad_history')) || []; }
-                } catch(e) {}
+                    // Memanggil Endpoints dari backend baru secara paralel
+                    const [resArc, resFld] = await Promise.all([
+                        API.executeAction('getArchives', {}),
+                        API.executeAction('getFolders', {})
+                    ]);
+                    
+                    if (resArc.success) {
+                        // Memetakan struktur backend ke kebutuhan State Frontend
+                        State.files = resArc.data.map(item => {
+                            let linkStr = '', fileStr = '';
+                            if (item.Lampiran && item.Lampiran.length > 0) {
+                                linkStr = item.Lampiran[0].url;
+                                fileStr = item.Lampiran[0].name;
+                            }
+                            return {
+                                id: item.ID,
+                                nama: item.Judul,
+                                file: fileStr,
+                                folder: item.Folder,
+                                kategori: item.Kategori,
+                                tanggal: item.Tanggal,
+                                deskripsi: item.Deskripsi,
+                                uploader: item.Uploader,
+                                ukuran: item.Ukuran,
+                                link: linkStr,
+                                timestamp: new Date(item.CreatedAt).getTime()
+                            };
+                        });
+                    }
+                    
+                    if (resFld.success) {
+                        State.folders = resFld.data;
+                        if (!State.folders.includes('/')) State.folders.unshift('/');
+                    }
+                } catch(e) {
+                    console.error("Gagal load data", e);
+                }
             },
 
             auth: {
@@ -877,10 +887,10 @@
                     try {
                         const res = await API.executeAction('login', { username: u, password: p });
                         
-                        if (res.status === 'success') {
-                            State.userToken = res.token;
-                            if (rem) localStorage.setItem('ad_auth_token', res.token);
-                            else sessionStorage.setItem('ad_auth_token', res.token); 
+                        if (res.success) { // Menggunakan res.success dari backend
+                            State.userToken = res.data.token;
+                            if (rem) localStorage.setItem('ad_auth_token', res.data.token);
+                            else sessionStorage.setItem('ad_auth_token', res.data.token); 
                             
                             app.utils.logActivity('Administrator berhasil login');
                             Toastify({text: "Akses Diberikan. Memasuki Dashboard...", backgroundColor: "#10b981", gravity: "top"}).showToast();
@@ -888,7 +898,7 @@
                             document.getElementById('login-form').reset();
                             setTimeout(() => app.router.navigate('admin'), 400);
                         } else { Toastify({text: "Kredensial tidak valid!", backgroundColor: "#ef4444", gravity: "top"}).showToast(); }
-                    } catch (err) { Toastify({text: "Terjadi kesalahan server.", backgroundColor: "#ef4444"}).showToast(); } 
+                    } catch (err) { Toastify({text: "Terjadi kesalahan: " + err.message, backgroundColor: "#ef4444"}).showToast(); } 
                     finally { btn.innerHTML = `<span>Masuk Dashboard</span>`; }
                 },
                 
@@ -1310,14 +1320,23 @@
                     btn.disabled = true; btn.classList.add('opacity-50'); btn.innerHTML = '<div class="loader border-t-white"></div>';
 
                     try {
+                        const sizeMB = 1.2; // Nilai dummy sbg contoh. Idealnya dapatkan dari catbox size.
+                        const ukuranStr = sizeMB > 1 ? `${sizeMB} MB` : `${(sizeMB * 1024).toFixed(0)} KB`;
+                        
+                        // Payload disesuaikan untuk API addArchive
                         const metadata = {
-                            id: 'DOC-' + new Date().getTime(), nama: judul, file: cleanAttachments[0].url.split('/').pop(), folder: folder, kategori: kategori,
-                            tanggal: tanggal, deskripsi: deskripsi, uploader: 'Hamimah (Admin)', ukuran: '-', link: cleanAttachments[0].url, attachments: cleanAttachments, timestamp: new Date().getTime()
+                            judul: judul, 
+                            folder: folder, 
+                            kategori: kategori,
+                            tanggal: tanggal, 
+                            deskripsi: deskripsi, 
+                            ukuran: ukuranStr, 
+                            uploader: 'Hamimah (Admin)', 
+                            lampiran: cleanAttachments
                         };
 
-                        await API.executeAction('saveFile', { data: metadata });
-                        app.utils.logActivity(`Mengamankan arsip: ${metadata.nama} (${cleanAttachments.length} lampiran)`);
-
+                        await API.executeAction('addArchive', metadata);
+                        
                         Swal.fire({ title: 'Berhasil!', text: 'Arsip dan semua lampirannya berhasil disimpan.', icon: 'success', confirmButtonColor: '#0f172a', confirmButtonText: 'Selesai' }).then(() => {
                             document.getElementById('upload-form').reset(); this.resetAttachments();
                             btn.disabled = false; btn.classList.remove('opacity-50'); btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Arsip';
@@ -1325,6 +1344,70 @@
                         });
                     } catch(err) {
                         Swal.fire('Kegagalan Sistem', err.message, 'error'); btn.disabled = false; btn.classList.remove('opacity-50'); btn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Simpan Arsip';
+                    }
+                },
+
+                exportJSON() {
+                    window.open(CONFIG.gasUrl + "?action=backup&format=json", "_blank");
+                },
+
+                async renderHistory() {
+                    try {
+                        const res = await API.executeAction('getHistory', {});
+                        const ul = document.getElementById('history-list'); 
+                        ul.innerHTML = '';
+                        if (res.success) {
+                            res.data.forEach(h => {
+                                ul.innerHTML += `
+                                    <li class="relative flex gap-5">
+                                        <div class="absolute -left-3 md:left-auto md:relative w-6 h-6 rounded-full bg-white border-[5px] border-slate-100 flex items-center justify-center shadow-sm z-10"><div class="w-2 h-2 bg-primary rounded-full"></div></div>
+                                        <div class="flex-1 bg-slate-50/50 p-5 rounded-2xl border border-slate-100 ml-6 md:ml-0 shadow-sm">
+                                            <p class="text-[15px] font-bold text-slate-800">${h.Action}</p>
+                                            <p class="text-[11px] text-slate-400 font-extrabold mt-1.5 uppercase tracking-wider">${dayjs(h.Timestamp).format('DD MMM YYYY, HH:mm')}</p>
+                                        </div>
+                                    </li>
+                                `;
+                            });
+                        }
+                    } catch(e) { console.error(e); }
+                },
+                
+                clearHistory() {
+                    Toastify({text: "Logs Backend hanya dapat dihapus melalui Google Sheets", backgroundColor: "#3b82f6"}).showToast();
+                },
+
+                deleteFile(id) {
+                    Swal.fire({
+                        title: 'Konfirmasi Penghapusan', text: "Dokumen ini akan dihapus permanen dari sistem metadata. Lanjutkan?", icon: 'warning',
+                        showCancelButton: true, confirmButtonColor: '#ef4444', cancelButtonColor: '#cbd5e1', confirmButtonText: 'Ya, Hapus'
+                    }).then(async (result) => {
+                        if (result.isConfirmed) {
+                            try {
+                                await API.executeAction('deleteArchive', { id: id, username: 'Hamimah (Admin)' });
+                                await app.loadData(); this.renderFiles();
+                                Toastify({text: "Berkas berhasil dihapus.", backgroundColor: "#ef4444"}).showToast();
+                            } catch(e) { Swal.fire('Gagal', e.message, 'error'); }
+                        }
+                    })
+                },
+
+                async createFolderDialog() {
+                    const { value: folderName } = await Swal.fire({
+                        title: 'Buat Direktori Baru', input: 'text', inputPlaceholder: 'Misal: 2026 atau Laporan/Bulanan',
+                        showCancelButton: true, confirmButtonColor: '#0f172a', inputValidator: (value) => { if (!value) return 'Nama direktori wajib diisi.' }
+                    });
+
+                    if (folderName) {
+                        let newPath = folderName.startsWith('/') ? folderName : `/${folderName}`;
+                        if(State.currentPath !== '/' && !folderName.includes('/')) newPath = `${State.currentPath}/${folderName}`;
+                        if(!State.folders.includes(newPath)) {
+                            try {
+                                await API.executeAction('createFolder', { path: newPath, username: 'Hamimah (Admin)' });
+                                State.folders.push(newPath); 
+                                Toastify({text: "Direktori berhasil dibuat", backgroundColor: "#10b981"}).showToast();
+                                this.updateFolderSelects(); this.renderFiles();
+                            } catch(e) { Swal.fire('Error', e.message, 'error'); }
+                        }
                     }
                 },
 
@@ -1427,9 +1510,10 @@
                 },
 
                 logActivity(msg) {
-                    State.history.unshift({ action: msg, time: new Date().getTime() });
-                    if(State.history.length > 50) State.history.pop(); localStorage.setItem('ad_history', JSON.stringify(State.history));
-                    if(State.userToken && !document.getElementById('tab-history').classList.contains('hidden-view')) app.admin.renderHistory();
+                    // API otomatis melog ke DB pada endpoint krusial. Frontend hanya mereload jika di tab history.
+                    if(State.userToken && !document.getElementById('tab-history').classList.contains('hidden-view')) {
+                        app.admin.renderHistory();
+                    }
                 }
             },
             
